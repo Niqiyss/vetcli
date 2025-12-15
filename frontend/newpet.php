@@ -19,7 +19,7 @@ include "../frontend/ownerheader.php";
                 <div class="col-lg-10">
                     <div class="card shadow-lg rounded-4 p-4">
 
-                        <!-- Errors -->
+                        <!-- error -->
                         <?php if (!empty($formErrors)): ?>
                             <div class="alert alert-danger">
                                 <ul>

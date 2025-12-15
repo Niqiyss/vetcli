@@ -1,4 +1,3 @@
-<!-- home.php -->
 
 <?php
 include "../frontend/header.php";
@@ -15,7 +14,7 @@ include "../frontend/header.php";
         font-family: 'Poppins', sans-serif !important;
     }
 
-    /* SECTION TITLE */
+
     .section-title {
         font-size: 42px;
         font-weight: 700;
@@ -28,7 +27,7 @@ include "../frontend/header.php";
         color: #F6B100;
     }
 
-    /* VET SECTION */
+
     .vet-section {
         padding: 60px 0;
         background: #fff;
@@ -47,7 +46,7 @@ include "../frontend/header.php";
         transition: transform 0.4s ease-in-out;
     }
 
-    /* CARD DESIGN LIKE KIMVETS */
+
     .vet-card {
         min-width: 31%;
         background: #ffffff;

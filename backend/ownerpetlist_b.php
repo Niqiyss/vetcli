@@ -1,5 +1,5 @@
 <?php
-// backend/ownerpetlist_b.php
+//ownerpetlist_b.php
 
 session_start();
 include "../backend/connection.php";
@@ -11,7 +11,7 @@ if (!isset($_SESSION['ownerID'])) {
 
 $ownerID = $_SESSION['ownerID'];
 
-// Fetch pets belonging to this owner
+//fetch table pet from ownerid
 $stmt = $conn->prepare("SELECT * FROM pet WHERE owner_id = :owner_id");
 $stmt->bindParam(':owner_id', $ownerID, PDO::PARAM_STR);
 $stmt->execute();

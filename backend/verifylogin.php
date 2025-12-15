@@ -1,5 +1,5 @@
 <?php
-//backend/verifylogin.php
+//verifylogin.php
 
 session_start();
 include "../backend/connection.php"; 
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password']);
 
     try {
-        // ---------- Admin ----------
+        // -------- Clinic_Administrator --------
         $sql = "SELECT admin_id, username, password 
                 FROM clinic_administrator 
                 WHERE username = :username AND password = :password";

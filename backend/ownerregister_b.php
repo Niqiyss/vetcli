@@ -1,5 +1,5 @@
 <?php
-// backend/ownerregister_b.php
+//ownerregister_b.php
 
 session_start();
 include "../backend/connection.php";
@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // insert db
     if (empty($formErrors)) {
         try {
+            //ownerid
             $stmt = $conn->query("SELECT MAX(CAST(SUBSTRING(owner_id FROM 3) AS INTEGER)) AS max_num FROM owner");
             $lastOwner = $stmt->fetch(PDO::FETCH_ASSOC);
             $num = $lastOwner['max_num'] ? intval($lastOwner['max_num']) + 1 : 1;
@@ -66,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ':password' => $password
             ]);
 
-            // Success popup message
+            //popup success
             $_SESSION['success_popup'] = "Your Owner ID: $owner_id";
             header("Location: ../frontend/ownerregister.php");
             exit();

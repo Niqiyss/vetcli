@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 if (!isset($_SESSION['adminID'])) {
     header("Location: ../frontend/userlogin.php");
@@ -7,14 +8,14 @@ if (!isset($_SESSION['adminID'])) {
 
 include "../backend/connection.php";
 
-/* ===== GET POST DATA ===== */
+//get data
 $availability_id = $_POST['id'] ?? '';
 $vet_id = $_POST['vet_id'] ?? '';
 $day = $_POST['day_of_week'] ?? '';
 $start = $_POST['start_time'] ?? '';
 $end = $_POST['end_time'] ?? '';
 
-/* ===== BASIC VALIDATION ===== */
+//validation
 if (!$availability_id || !$vet_id || !$day || !$start || !$end) {
     $_SESSION['error_popup'] = "All fields are required.";
     header("Location: ../frontend/vet_avail.php");
@@ -27,7 +28,7 @@ if ($start >= $end) {
     exit();
 }
 
-/* 🚫 OVERLAP CHECK (EXCLUDE CURRENT ROW) */
+//overlap check
 $sql = "
 SELECT COUNT(*) FROM vet_availability
 WHERE vet_id = :vet
@@ -50,7 +51,7 @@ if ($stmt->fetchColumn() > 0) {
     exit();
 }
 
-/* ✅ UPDATE */
+//update VA
 try {
     $sql = "
     UPDATE vet_availability

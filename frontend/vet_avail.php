@@ -10,7 +10,7 @@ $filterVet = $_GET['vet_id'] ?? '';
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <?php
-/* SUCCESS POPUP */
+/* success popup */
 if (isset($_SESSION['success_popup'])) {
     $msg = $_SESSION['success_popup'];
     echo "
@@ -25,7 +25,7 @@ if (isset($_SESSION['success_popup'])) {
     unset($_SESSION['success_popup']);
 }
 
-/* ERROR POPUP */
+/* error popup */
 if (isset($_SESSION['error_popup'])) {
     $msg = $_SESSION['error_popup'];
     echo "
@@ -58,7 +58,7 @@ if (isset($_SESSION['error_popup'])) {
 
 <main class="main">
 
-    <!-- PAGE TITLE -->
+
     <div class="page-title text-center mt-4">
         <h1>Veterinarian Availability</h1>
         <p class="text-muted">Weekly Schedule of Veterinarian</p>
@@ -67,7 +67,7 @@ if (isset($_SESSION['error_popup'])) {
     <section class="appointment section py-5">
         <div class="container">
 
-            <!-- FILTER + ADD -->
+            <!--filter, add avail -->
             <form method="GET" action="vet_avail.php" class="row align-items-end mb-4">
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Filter by Veterinarian</label>
@@ -100,7 +100,7 @@ if (isset($_SESSION['error_popup'])) {
                 </div>
             </form>
 
-            <!-- AVAILABILITY LIST -->
+            <!-- avail list -->
             <div class="card shadow-lg border-0 rounded-4 p-4">
                 <div class="table-responsive">
 
@@ -189,7 +189,7 @@ if (isset($_SESSION['error_popup'])) {
     </section>
 </main>
 
-<!-- ================= ADD MODAL ================= -->
+<!-- add avail modal -->
 <div class="modal fade" id="addAvailModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -245,7 +245,7 @@ if (isset($_SESSION['error_popup'])) {
     </div>
 </div>
 
-<!-- ================= EDIT MODAL ================= -->
+<!--edit-->
 <div class="modal fade" id="editAvailModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -285,7 +285,7 @@ if (isset($_SESSION['error_popup'])) {
     </div>
 </div>
 
-<!-- ================= SCRIPTS ================= -->
+
 <script>
     /* EDIT MODAL DATA */
     const editModal = document.getElementById('editAvailModal');

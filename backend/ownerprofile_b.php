@@ -1,5 +1,5 @@
 <?php
-// backend/ownerprofile_b.php
+//ownerprofile_b.php
 
 session_start();
 
@@ -13,7 +13,7 @@ if (!isset($_SESSION['ownerID'])) {
 $ownerID = $_SESSION['ownerID'];
 $formErrors = [];
 
-// Fetch current owner info
+//owner info
 $stmt = $conn->prepare("SELECT * FROM owner WHERE owner_id = :owner_id");
 $stmt->execute([':owner_id' => $ownerID]);
 $owner = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -33,7 +33,6 @@ include "../frontend/header.php";
 
 <main class="main">
 
-    <!-- Page Title -->
     <div class="page-title text-center mt-4">
         <div class="title-wrapper">
             <h1>About Us</h1>
@@ -41,13 +40,13 @@ include "../frontend/header.php";
         </div>
     </div>
 
-    <!-- About Section -->
+
     <section class="about section py-5">
         <div class="container">
 
             <div class="row gy-5 align-items-center">
 
-                <!-- Left Content -->
+                <!-- Left  -->
                 <div class="col-lg-6" data-aos="fade-right">
                     <h2 class="fw-bold mb-3">Your Trusted Veterinary Care Team</h2>
 
@@ -108,7 +107,7 @@ include "../frontend/header.php";
 
                 </div>
 
-                <!-- Right Image -->
+                <!-- Right -->
                 <div class="col-lg-6 d-flex justify-content-center" data-aos="fade-left">
                     <div class="image-frame">
                         <img src="../MediTrust/assets/img/health/aboutus.jpeg" 
@@ -121,7 +120,7 @@ include "../frontend/header.php";
         </div>
     </section>
 
-    <!-- Mission, Vision & Values -->
+    <!-- Mission, Vision -->
     <section class="mission section py-5 light-background">
         <div class="container">
             <div class="row text-center gy-4">
@@ -163,7 +162,7 @@ include "../frontend/header.php";
         </div>
     </section>
 
-    <!-- Why Choose Us -->
+    
     <section class="why-us section py-5">
         <div class="container">
 

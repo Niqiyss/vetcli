@@ -12,7 +12,7 @@ include "../frontend/adminheader.php";
         <p class="text-muted">Update your profile details</p>
     </div>
 
-    <!-- ERROR ALERT -->
+    <!-- error-->
     <?php if (!empty($formErrors)): ?>
         <script>
             Swal.fire({
@@ -24,7 +24,7 @@ include "../frontend/adminheader.php";
         </script>
     <?php endif; ?>
 
-    <!-- SUCCESS ALERT -->
+    <!-- success -->
     <?php if (isset($_SESSION['success_message'])): ?>
         <script>
             Swal.fire({

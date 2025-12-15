@@ -1,5 +1,5 @@
 <?php
-// backend/newpet_b.php
+//newpet_b.php
 
 session_start();
 include "../backend/connection.php";
@@ -11,7 +11,7 @@ if (!isset($_SESSION['ownerID'])) {
 
 $formErrors = [];
 
-// Initialize form variables
+//var
 $pet_name = "";
 $species = "";
 $other_species = "";
@@ -125,6 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 
+    //image validate
     $upload_dir = "../uploads/pets/";
 
     if (!is_dir($upload_dir)) {
@@ -162,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (empty($formErrors)) {
 
-        // Generate pet_id P0001
+        //petid
         $stmt = $conn->query("SELECT MAX(CAST(SUBSTRING(pet_id FROM 2) AS INTEGER)) AS max_num FROM pet");
         $last = $stmt->fetch(PDO::FETCH_ASSOC);
 

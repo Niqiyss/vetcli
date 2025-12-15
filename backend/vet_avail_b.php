@@ -24,7 +24,7 @@ if ($start >= $end) {
     exit();
 }
 
-/* 🚫 OVERLAP CHECK */
+//overlap check
 $sql = "
 SELECT COUNT(*) FROM vet_availability
 WHERE vet_id = :vet
@@ -45,7 +45,7 @@ if ($stmt->fetchColumn() > 0) {
     exit();
 }
 
-/* ✅ INSERT */
+//insert vet_avail
 try {
     $sql = "
     INSERT INTO vet_availability (vet_id, day_of_week, start_time, end_time)

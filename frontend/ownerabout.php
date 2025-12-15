@@ -41,13 +41,13 @@ include "../frontend/ownerheader.php";
         </div>
     </div>
 
-    <!-- About Section -->
+    <!-- About -->
     <section class="about section py-5">
         <div class="container">
 
             <div class="row gy-5 align-items-center">
 
-                <!-- Left Content -->
+                <!-- Left -->
                 <div class="col-lg-6" data-aos="fade-right">
                     <h2 class="fw-bold mb-3">Your Trusted Veterinary Care Team</h2>
 
@@ -108,7 +108,7 @@ include "../frontend/ownerheader.php";
 
                 </div>
 
-                <!-- Right Image -->
+                <!-- Right -->
                 <div class="col-lg-6 d-flex justify-content-center" data-aos="fade-left">
                     <div class="image-frame">
                         <img src="../MediTrust/assets/img/health/aboutus.jpeg" 
@@ -121,7 +121,7 @@ include "../frontend/ownerheader.php";
         </div>
     </section>
 
-    <!-- Mission, Vision & Values -->
+    <!-- Mission, Vision -->
     <section class="mission section py-5 light-background">
         <div class="container">
             <div class="row text-center gy-4">
@@ -163,7 +163,7 @@ include "../frontend/ownerheader.php";
         </div>
     </section>
 
-    <!-- Why Choose Us -->
+
     <section class="why-us section py-5">
         <div class="container">
 

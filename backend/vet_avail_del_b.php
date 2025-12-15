@@ -1,11 +1,12 @@
 <?php
+
 session_start();
 if (!isset($_SESSION['adminID'])) {
     header("Location: ../frontend/userlogin.php");
     exit();
 }
 
-require_once "../backend/connection.php";
+include "../backend/connection.php";
 
 $id = $_GET['id'] ?? '';
 $vet_id = $_GET['vet_id'] ?? '';
@@ -25,7 +26,7 @@ try {
     exit();
 
 } catch (PDOException $e) {
-    $_SESSION['error_popup'] = "Failed to delete availability.";
+    $_SESSION['error_popup'] = "Failed to delete vet availability.";
     header("Location: ../frontend/vet_avail.php?vet_id=$vet_id");
     exit();
 }

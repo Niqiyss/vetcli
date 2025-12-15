@@ -1,5 +1,4 @@
 <?php
-// backend/vetprofile_b.php
 
 session_start();
 include "../backend/connection.php";
@@ -9,68 +8,71 @@ if (!isset($_SESSION['vetID'])) {
     exit();
 }
 
-$vetID = $_SESSION['vetID'];
-$formErrors = [];
+$vet_id = $_SESSION['vetID'];
 
-// Fetch current vet info
-$stmt = $conn->prepare("SELECT * FROM veterinarian WHERE vet_id = :vet_id");
-$stmt->execute([':vet_id' => $vetID]);
+//vet table
+$stmt = $conn->prepare("SELECT * FROM veterinarian WHERE vet_id = :id");
+$stmt->execute([':id' => $vet_id]);
 $vet = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$vet) {
+    die("Veterinarian not found.");
+}
+
+$formErrors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $vet_name = trim($_POST['vet_name']);
-    $phone_num = trim($_POST['phone_num']);
+    $phone = trim($_POST['phone_num']);
     $email = trim($_POST['email']);
-    $specialization = trim($_POST['specialization']);
-    $availability = trim($_POST['availability']);
     $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    $vet_image = $vet['vet_image'];
 
-    // validation
-    if (!$vet_name || !$phone_num || !$email || !$specialization || !$availability || !$username || !$password) {
+    if (!$vet_name || !$phone || !$email || !$username) {
         $formErrors[] = "All fields are required.";
     }
-    if (!preg_match("/^[A-Za-z ]+$/", $vet_name)) {
-        $formErrors[] = "Name can only contain letters and spaces.";
-    }
-    if (!preg_match("/^[0-9\-]+$/", $phone_num)) {
-        $formErrors[] = "Phone number must contain only digits or dashes.";
-    }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $formErrors[] = "Invalid email format.";
-    }
-    if (strlen($password) < 6) {
-        $formErrors[] = "Password must be at least 6 characters.";
-    }
 
-    // Update DB
-    if (empty($formErrors)) {
-        try {
-            $sql = "UPDATE veterinarian
-                    SET vet_name = :vet_name, phone_num = :phone_num, email = :email,
-                        specialization = :specialization, availability = :availability,
-                        username = :username, password = :password
-                    WHERE vet_id = :vet_id";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([
-                ':vet_name' => $vet_name,
-                ':phone_num' => $phone_num,
-                ':email' => $email,
-                ':specialization' => $specialization,
-                ':availability' => $availability,
-                ':username' => $username,
-                ':password' => $password,
-                ':vet_id' => $vetID
-            ]);
+    $upload_dir = "../uploads/vets/";
 
-            $_SESSION['success_message'] = "Profile updated successfully!";
-            header("Location: ../frontend/vetprofile.php");
-            exit();
+    if (!empty($_FILES['vet_image']['name'])) {
+        $ext = strtolower(pathinfo($_FILES['vet_image']['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg','jpeg','png'];
 
-        } catch (PDOException $e) {
-            $formErrors[] = "Database Error: " . $e->getMessage();
+        if (!in_array($ext, $allowed)) {
+            $formErrors[] = "Only JPG and PNG allowed.";
+        }
+
+        if ($_FILES['vet_image']['size'] > 2 * 1024 * 1024) {
+            $formErrors[] = "Image must be under 2MB.";
+        }
+
+        if (empty($formErrors)) {
+            $file_name = "vet_" . $vet_id . "_" . time() . "." . $ext;
+            move_uploaded_file($_FILES['vet_image']['tmp_name'], $upload_dir . $file_name);
+
+            if (!empty($vet['vet_image']) && $vet['vet_image'] !== 'default.png') {
+                @unlink($upload_dir . $vet['vet_image']);
+            }
+
+            $vet_image = $file_name;
         }
     }
+
+    if (empty($formErrors)) {
+        $stmt = $conn->prepare(
+            "UPDATE veterinarian SET
+             vet_name=:n, phone_num=:p, email=:e, username=:u, vet_image=:i
+             WHERE vet_id=:id"
+        );
+
+        $stmt->execute([
+            ':n'=>$vet_name, ':p'=>$phone, ':e'=>$email,
+            ':u'=>$username, ':i'=>$vet_image, ':id'=>$vet_id
+        ]);
+
+        $_SESSION['success_message'] = "Profile updated successfully.";
+        header("Location: vetprofile.php");
+        exit();
+    }
 }
-?>

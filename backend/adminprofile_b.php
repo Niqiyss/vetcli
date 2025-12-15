@@ -1,5 +1,5 @@
 <?php
-// backend/adminprofile_b.php
+//adminprofile_b.php
 session_start();
 
 include "../backend/connection.php";
@@ -12,12 +12,12 @@ if (!isset($_SESSION['adminID'])) {
 $adminID = $_SESSION['adminID'];
 $formErrors = [];
 
-// Fetch admin data
+// Table admin
 $stmt = $conn->prepare("SELECT * FROM clinic_administrator WHERE admin_id = :admin_id");
 $stmt->execute([':admin_id' => $adminID]);
 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Handle update
+// Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $adminName = trim($_POST['admin_name']);
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    // Validations
+    // Validate
     if (!$adminName || !$phoneNum || !$username || !$password) {
         $formErrors[] = "All fields are required.";
     }

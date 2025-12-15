@@ -47,7 +47,7 @@ include "../backend/connection.php";
 
 <body class="index-page">
 
-    <!-- ======= Header ======= -->
+    <!--Header and Navmenu-->
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="header-container container-fluid container-xl d-flex align-items-center justify-content-between">
             <a href="../frontend/adminhome.php" class="logo d-flex align-items-center me-auto me-xl-0">

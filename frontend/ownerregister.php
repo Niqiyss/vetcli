@@ -7,7 +7,7 @@ include "../backend/ownerregister_b.php";
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <?php
-// Trigger SweetAlert2 success popup
+//SweetAlert2 success popup
 if (isset($_SESSION['success_popup'])) {
     $msg = $_SESSION['success_popup'];
     echo "

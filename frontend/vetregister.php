@@ -49,7 +49,7 @@ if (isset($_SESSION['success_popup'])) {
                             </div>
                         <?php endif; ?>
 
-                        <form method="POST">
+                        <form method="POST" enctype="multipart/form-data">
 
                             <div class="row g-3">
 
@@ -67,6 +67,10 @@ if (isset($_SESSION['success_popup'])) {
                                     <label class="form-label mt-3">Email</label>
                                     <input type="email" name="email" class="form-control" required
                                         value="<?= htmlspecialchars($email ?? '') ?>">
+
+
+                                    <label class="form-label mt-3">Veterinarian Image</label>
+                                    <input type="file" name="vet_image" class="form-control" accept="image/*">
                                 </div>
 
                                 <!-- RIGHT -->
