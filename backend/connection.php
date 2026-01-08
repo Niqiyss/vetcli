@@ -18,21 +18,24 @@ try {
     exit();
 }
 
-
 //aniq
-//$mb_host = '10.48.74.61';
-//$mb_port = 3309; 
-//$mb_db   = 'vet_clinic';
-//$mb_user = 'root';
-//$mb_pass = '1234';
+/*
+$mb_host = '10.48.74.61';
+$mb_port = 3309; 
+$mb_db   = 'vet_clinic';
+$mb_user = 'root';
+$mb_pass = '1234';
 
-//try {
-    //$connMaria = new PDO("mysql:host=$mb_host;port=$mb_port;dbname=$mb_db", $mb_user, $mb_pass);
-    //$connMaria->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
+    $connMaria = new PDO("mysql:host=$mb_host;port=$mb_port;dbname=$mb_db", $mb_user, $mb_pass);
+    $connMaria->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     //echo "MariaDB connected!";
-//} catch (PDOException $e) {
-    //echo "MariaDB connection failed: " . $e->getMessage();
-//}
+} catch (PDOException $e) {
+    echo "MariaDB connection failed: " . $e->getMessage();
+}*/
+
+
+//rukai
 
 
 ?>

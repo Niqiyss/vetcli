@@ -2,7 +2,6 @@
 //ownerprofile_b.php
 
 session_start();
-
 include "../backend/connection.php";
 
 if (!isset($_SESSION['ownerID'])) {
@@ -13,60 +12,134 @@ if (!isset($_SESSION['ownerID'])) {
 $ownerID = $_SESSION['ownerID'];
 $formErrors = [];
 
-//owner info
-$stmt = $conn->prepare("SELECT * FROM owner WHERE owner_id = :owner_id");
-$stmt->execute([':owner_id' => $ownerID]);
+//fetch owner
+$stmt = $conn->prepare("SELECT * FROM owner WHERE owner_id = :id");
+$stmt->execute([':id' => $ownerID]);
 $owner = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $owner_name = trim($_POST['owner_name']);
-    $phone_num = trim($_POST['phone_num']);
-    $email = trim($_POST['email']);
-    $address = trim($_POST['address']);
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+//split addr
+$addressParts = [
+    'street' => '',
+    'postcode' => '',
+    'city' => '',
+    'state' => ''
+];
 
-    // validation
-    if (!$owner_name || !$phone_num || !$email || !$address || !$username || !$password) {
-        $formErrors[] = "All fields are required.";
-    }
-    if (!preg_match("/^[A-Za-z ]+$/", $owner_name)) {
-        $formErrors[] = "Name can only contain letters and spaces.";
-    }
-    if (!preg_match("/^[0-9\-]+$/", $phone_num)) {
-        $formErrors[] = "Phone number must contain only digits or dashes.";
-    }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $formErrors[] = "Invalid email format.";
-    }
-    if (strlen($password) < 6) {
-        $formErrors[] = "Password must be at least 6 characters.";
-    }
-
-    // update
-    if (empty($formErrors)) {
-        try {
-            $sql = "UPDATE owner
-                    SET owner_name = :owner_name, phone_num = :phone_num, email = :email,
-                        address = :address, username = :username, password = :password
-                    WHERE owner_id = :owner_id";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([
-                ':owner_name' => $owner_name,
-                ':phone_num' => $phone_num,
-                ':email' => $email,
-                ':address' => $address,
-                ':username' => $username,
-                ':password' => $password,
-                ':owner_id' => $ownerID
-            ]);
-            $_SESSION['success_message'] = "Profile updated successfully!";
-            header("Location: ../frontend/ownerprofile.php");
-            exit();
-        } catch (PDOException $e) {
-            $formErrors[] = "Database Error: " . $e->getMessage();
-        }
+if (!empty($owner['address'])) {
+    if (preg_match('/^(.*),\s(\d{5})\s(.*),\s(.*)$/', $owner['address'], $m)) {
+        $addressParts = [
+            'street' => $m[1],
+            'postcode' => $m[2],
+            'city' => $m[3],
+            'state' => $m[4]
+        ];
     }
 }
 
-?>
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $owner_name = trim($_POST['owner_name'] ?? '');
+    $phone_num = trim($_POST['phone_num'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $username = trim($_POST['username'] ?? '');
+
+    $street = trim($_POST['street'] ?? '');
+    $postcode = trim($_POST['postcode'] ?? '');
+    $city = trim($_POST['city'] ?? '');
+    $state = trim($_POST['state'] ?? '');
+
+    //validation
+    if (!$owner_name || !$phone_num || !$email || !$username) {
+        $formErrors[] = "All required fields must be filled.";
+    }
+
+    if (!preg_match("/^[A-Za-z ]+$/", $owner_name)) {
+        $formErrors[] = "Full name may contain letters and spaces only.";
+    }
+
+    if (!preg_match("/^[0-9]+$/", $phone_num)) {
+        $formErrors[] = "Phone number must contain digits only.";
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $formErrors[] = "Invalid email format.";
+    }
+
+    //address validation
+    if ($street || $postcode || $city || $state) {
+
+        if (!$street || !$postcode || !$city || !$state) {
+            $formErrors[] = "Please complete the full address.";
+        }
+
+        if ($postcode && !preg_match('/^[0-9]{5}$/', $postcode)) {
+            $formErrors[] = "Postal code must be exactly 5 digits.";
+        }
+    }
+
+    //username unique
+    if ($username !== '') {
+
+        $stmt = $conn->prepare("
+        SELECT 1
+        FROM owner
+        WHERE LOWER(username) = LOWER(:username)
+          AND owner_id <> :owner_id
+        LIMIT 1
+    ");
+
+        $stmt->execute([
+            ':username' => $username,
+            ':owner_id' => $ownerID
+        ]);
+
+        if ($stmt->fetch()) {
+            $formErrors[] = "Username already exists.";
+        }
+    }
+
+
+
+    //error
+    if (!empty($formErrors)) {
+        $_SESSION['error_popup'] = $formErrors;
+        header("Location: ../frontend/ownerprofile.php");
+        exit();
+    }
+
+    //address
+    $address = ($street)
+        ? "$street, $postcode $city, $state"
+        : null;
+
+    //update
+    try {
+        $sql = "UPDATE owner
+                SET owner_name = :name,
+                    phone_num  = :phone,
+                    email      = :email,
+                    username   = :username,
+                    address    = :address
+                WHERE owner_id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':name' => $owner_name,
+            ':phone' => $phone_num,
+            ':email' => $email,
+            ':username' => $username,
+            ':address' => $address,
+            ':id' => $ownerID
+        ]);
+
+        $_SESSION['success_message'] = "";
+        header("Location: ../frontend/ownerprofile.php");
+        exit();
+
+    } catch (PDOException $e) {
+        $_SESSION['error_popup'] = ["Database error occurred. Please try again."];
+        header("Location: ../frontend/ownerprofile.php");
+        exit();
+    }
+}

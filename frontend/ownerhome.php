@@ -1,15 +1,35 @@
 <?php
+//ownerhome.php
 include "../frontend/ownerheader.php";
 include "../backend/connection.php";
-
 ?>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-teal: #0e5c65;
+        --accent-blue: #0095c4;   /* Syringe Blue */
+        --light-blue-bg: #e1f5fe;
+        --white: #ffffff;
+        --text-muted: #6c757d;
+        --bg-light: #f4f7f6;
+    }
+
     html {
         scroll-behavior: smooth;
     }
 
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: #444;
+        background-color: var(--white);
+    }
+
+    /* --- HERO SECTION STYLES (User Original Layout) --- */
     .hero-content {
         position: absolute;
         inset: 0;
@@ -32,6 +52,44 @@ include "../backend/connection.php";
         margin: 0 auto;
     }
 
+    /* NEW STYLING FOR WELCOME PART */
+    .welcome-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15); /* Glass effect */
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 8px 25px;
+        border-radius: 50px;
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .welcome-username {
+        color: #6ee7ff; /* Bright Cyan/Blue to pop against dark bg */
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-left: 5px;
+        text-shadow: 0 0 10px rgba(0, 149, 196, 0.5);
+    }
+
+    .hero-content h1 {
+        font-weight: 700;
+        color: #fff;
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .hero-content p.hero-desc {
+        color: #f0f0f0;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
     .hero-content .cta-group {
         display: flex;
         justify-content: center;
@@ -40,10 +98,20 @@ include "../backend/connection.php";
         flex-wrap: wrap;
     }
 
-
+    /* --- SERVICES SECTION (BLUE THEME) --- */
     .our-services {
-        padding: 70px 0;
-        background: #f9fbff;
+        padding: 80px 0;
+        background: var(--bg-light);
+    }
+
+    .section-title h2 {
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 10px;
+    }
+    
+    .section-title p {
+        color: var(--text-muted);
     }
 
     .our-service-box {
@@ -52,13 +120,15 @@ include "../backend/connection.php";
         padding: 32px 24px;
         text-align: center;
         height: 100%;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
         transition: 0.35s;
+        border-bottom: 4px solid transparent;
     }
 
     .our-service-box:hover {
         transform: translateY(-10px);
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 18px 40px rgba(0, 149, 196, 0.15); /* Blue Shadow */
+        border-bottom: 4px solid var(--accent-blue);     /* Blue Border */
     }
 
     .service-icon {
@@ -66,23 +136,17 @@ include "../backend/connection.php";
         height: 72px;
         margin: 0 auto 18px;
         border-radius: 50%;
-        background: #eef4ff;
+        background: var(--light-blue-bg);
         display: flex;
         align-items: center;
         justify-content: center;
         transition: 0.35s;
-    }
-
-    .service-icon i {
+        color: var(--accent-blue);
         font-size: 30px;
-        color: #1A2A5A;
     }
 
     .our-service-box:hover .service-icon {
-        background: #F6B100;
-    }
-
-    .our-service-box:hover .service-icon i {
+        background: var(--accent-blue);
         color: #fff;
     }
 
@@ -90,7 +154,7 @@ include "../backend/connection.php";
         font-size: 18px;
         font-weight: 700;
         margin-bottom: 8px;
-        color: #1A2A5A;
+        color: var(--primary-teal);
     }
 
     .our-service-box p {
@@ -99,29 +163,74 @@ include "../backend/connection.php";
         margin-bottom: 0;
     }
 
+    /* Emergency Override */
     .our-service-box.emergency {
         border: 2px solid #dc3545;
     }
-
-    .emergency-icon {
-        background: #dc3545 !important;
+    .our-service-box.emergency:hover {
+        border-bottom: 4px solid #dc3545;
+        box-shadow: 0 18px 40px rgba(220, 53, 69, 0.15);
     }
-
-    .emergency-icon i {
+    .emergency-icon {
+        background: #ffecec !important;
+        color: #dc3545 !important;
+    }
+    .our-service-box.emergency:hover .emergency-icon {
+        background: #dc3545 !important;
         color: #fff !important;
     }
 
-
-    .our-vets {
-        padding: 45px 0;
-        background: #f9fbff;
+    /* --- ABOUT SECTION (BLUE THEME) --- */
+    .home-about {
+        padding: 80px 0;
     }
 
+    .about-content h2 {
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
+
+    .about-content .lead {
+        color: var(--accent-blue);
+        font-weight: 500;
+        border-left: 4px solid var(--accent-blue);
+        padding-left: 15px;
+    }
+
+    .feature-item .icon {
+        width: 45px;
+        height: 45px;
+        background: var(--light-blue-bg);
+        color: var(--accent-blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .feature-item h4 {
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 5px;
+    }
+
+    /* --- VETS SECTION (BLUE THEME) --- */
+    .our-vets {
+        padding: 60px 0;
+        background: var(--bg-light);
+    }
+
+    .our-vets .section-title h2 {
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
 
     .vet-carousel-wrapper {
         position: relative;
         overflow: hidden;
-        padding: 10px 0;
+        margin-top: 30px;
+        padding: 0 20px;
     }
 
     .vet-carousel {
@@ -130,16 +239,71 @@ include "../backend/connection.php";
         transition: transform 0.45s ease;
     }
 
-
-    .vet-carousel .vet-item {
+    .vet-item {
         flex: 0 0 32%;
+        min-width: 300px;
     }
 
+    .vet-card {
+        background: #fff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid transparent;
+        transition: 0.3s;
+    }
+
+    .vet-card:hover {
+        border-color: var(--accent-blue);
+        transform: translateY(-5px);
+    }
+
+    .vet-img-wrapper {
+        width: 100%;
+        height: 260px;
+        text-align: center;
+        overflow: hidden;
+        background: #f8f9fa;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .vet-img-wrapper img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .vet-card-body {
+        padding: 20px 16px 22px;
+        text-align: center;
+    }
+
+    .vet-card-body h4 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 8px;
+    }
+
+    .vet-card-body span {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        background: var(--light-blue-bg);
+        color: var(--accent-blue);
+        font-size: 13px;
+        font-weight: 600;
+    }
 
     .vet-btn {
         position: absolute;
-        top: 38%;
-        background: #F6B100;
+        top: 45%;
+        background: var(--accent-blue);
         color: #fff;
         border: none;
         width: 42px;
@@ -147,77 +311,62 @@ include "../backend/connection.php";
         border-radius: 50%;
         font-size: 22px;
         cursor: pointer;
-        z-index: 20;
+        z-index: 10;
+        transition: 0.3s;
+    }
+    
+    .vet-btn:hover {
+        background: var(--primary-teal);
     }
 
-    .vet-btn.left {
-        left: 12px;
-    }
+    .vet-btn.left { left: 0; }
+    .vet-btn.right { right: 0; }
 
-    .vet-btn.right {
-        right: 12px;
-    }
-
-
-    .vet-card {
-        background: #fff;
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-        transition: 0.35s;
-        height: 100%;
-        text-align: center;
-    }
-
-    .vet-card:hover {
-        transform: translateY(-6px);
-    }
-
-    .vet-img-wrapper {
-        width: 100%;
-        height: 100;
-        overflow: hidden;
-    }
-
-    .vet-img-wrapper img {
-        width: 50%;
-        height: 50%;
-        object-fit: cover;
-
-    }
-
-    .vet-card-body {
-        padding: 10px 12px 10px;
-    }
-
-    .vet-card-body h4 {
-        font-size: 15px;
-        font-weight: 700;
-        color: #1A2A5A;
-        margin-bottom: 4px;
-    }
-
-    .vet-card-body span {
+    /* --- BUTTONS --- */
+    .btn-blue {
+        background-color: var(--accent-blue);
+        color: white;
+        border: none;
+        padding: 12px 35px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: 0.3s;
+        text-decoration: none;
         display: inline-block;
-        font-size: 12.5px;
-        padding: 5px 12px;
-        border-radius: 20px;
-        background: #eef4ff;
-        color: #044242ff;
-        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .btn-blue:hover {
+        background-color: var(--primary-teal);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
+    .btn-outline-blue {
+        border: 2px solid var(--accent-blue);
+        color: var(--accent-blue);
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s;
+        background: transparent;
+    }
+    .btn-outline-blue:hover {
+        background-color: var(--accent-blue);
+        color: white;
+    }
 </style>
-
 
 <main class="main">
 
-
     <section id="hero" class="hero section dark-background">
         <div class="container-fluid p-0">
-            <div class="hero-wrapper">
+            <div class="hero-wrapper" style="position: relative;">
                 <div class="hero-image">
-                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid">
+                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid" style="width: 100%; height: auto; min-height: 600px; object-fit: cover;">
                 </div>
 
                 <div class="hero-content">
@@ -225,15 +374,25 @@ include "../backend/connection.php";
                         <div class="row">
                             <div class="col-lg-7 col-md-10" data-aos="fade-up" data-aos-delay="150">
                                 <div class="content-box">
-                                    <h1 data-aos="fade-up" data-aos-delay="150">Where every paws gets attention</h1>
-                                    <p data-aos="fade-up" data-aos-delay="200">
-                                        From routine checkups to special care, we’re dedicated to every paw that walks
-                                        in.
+                                    
+                                    <div data-aos="fade-up" data-aos-delay="200">
+                                        <div class="welcome-badge">
+                                            WELCOME BACK, 
+                                            <span class="welcome-username">
+                                                <?= htmlspecialchars($_SESSION['username'] ?? ''); ?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <h1 data-aos="fade-up" data-aos-delay="150">Where every paw gets attention</h1>
+                                    <p class="hero-desc" data-aos="fade-up" data-aos-delay="200">
+                                        From routine checkups to special care, we’re dedicated to every paw that walks in
                                     </p>
-                                    <div class="cta-group" data-aos="fade-up" data-aos-delay="200">
-                                        <a href="appointment.html" class="btn btn-primary">Book Appointment</a>
 
-                                        <a href="appointment.html" class="btn btn-warning">Emergency Case</a>
+                                    <div class="cta-group" data-aos="fade-up" data-aos-delay="200">
+                                        <a href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?owner_id=<?= urlencode($_SESSION['ownerID']) ?>&ownerName=<?= urlencode($_SESSION['ownerName']) ?>"
+                                            class="btn-blue">
+                                            Book Appointment
+                                        </a>
                                     </div>
 
                                 </div>
@@ -243,15 +402,13 @@ include "../backend/connection.php";
                 </div>
             </div>
         </div>
-
     </section>
 
 
-    <!-- services -->
     <section class="our-services">
-        <div class="container section-title" data-aos="fade-up">
+        <div class="container section-title text-center" data-aos="fade-up">
             <h2>Our Services</h2>
-            <p>Quality veterinary services designed to keep your pets healthy and happy.</p>
+            <p>Quality veterinary services designed to keep your pets healthy and happy</p>
         </div>
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -263,7 +420,7 @@ include "../backend/connection.php";
                             <i class="bi bi-heart-pulse-fill"></i>
                         </div>
                         <h4>Health Check</h4>
-                        <p>Routine examinations to keep pets healthy.</p>
+                        <p>Routine examinations to keep pets healthy</p>
                     </div>
                 </div>
 
@@ -273,7 +430,7 @@ include "../backend/connection.php";
                             <i class="bi bi-shield-check"></i>
                         </div>
                         <h4>Vaccination</h4>
-                        <p>Essential vaccines for disease prevention.</p>
+                        <p>Essential vaccines for disease prevention</p>
                     </div>
                 </div>
 
@@ -283,7 +440,7 @@ include "../backend/connection.php";
                             <i class="bi bi-scissors"></i>
                         </div>
                         <h4>Surgery</h4>
-                        <p>Safe surgical procedures by professionals.</p>
+                        <p>Safe surgical procedures by professionals</p>
                     </div>
                 </div>
 
@@ -292,8 +449,8 @@ include "../backend/connection.php";
                         <div class="service-icon emergency-icon">
                             <i class="fas fa-ambulance"></i>
                         </div>
-                        <h4>Emergency Care</h4>
-                        <p>Immediate care for urgent situations.</p>
+                        <h4 class="text-danger">Emergency Care</h4>
+                        <p>Immediate care for urgent situations</p>
                     </div>
                 </div>
 
@@ -301,56 +458,53 @@ include "../backend/connection.php";
 
 
             <div class="text-center mt-5">
-                <a href="../frontend/services.php" class="btn btn-primary">
-                    Explore Services
-                </a>
+                <a href="../frontend/ownerservices.php" class="btn-blue">Explore Services</a>
             </div>
         </div>
     </section>
 
-
-
-
-    <!-- About -->
     <section id="home-about" class="home-about section">
         <div class="container" data-aos="fade-up" data-aos-delay="100">
             <div class="row gy-5 align-items-center">
 
                 <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
                     <div class="about-image">
-                        <img src="../MediTrust/assets/img/health/showcase-2.jpg" alt="Vet Clinic Facility"
-                            class="img-fluid rounded-3 mb-4">
+                        <img src="../MediTrust/assets/img/health/aboutus.jpeg" alt="Vet Clinic Facility"
+                            class="img-fluid rounded-4 shadow mb-4">
                     </div>
                 </div>
 
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
                     <div class="about-content">
-                        <h2>Dedicated to Your Pets’ Well-being</h2>
-                        <p class="lead">We provide compassionate care with trusted veterinarians and modern facilities.
-                        </p>
-                        <p>From regular check-ups to emergency treatment, our clinic ensures your pets receive the best
-                            possible medical attention.</p>
+                        <h2>Expert Care, Happy Pets</h2>
+                        <p class="lead">We provide compassionate care with trusted veterinarians and modern facilities</p>
+                        <p class="text-muted">From regular check-ups to emergency treatment, our clinic ensures your pets receive the best
+                            possible medical attention</p>
 
                         <div class="row g-4 mt-4">
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                                 <div class="feature-item">
-                                    <div class="icon"><i class="bi bi-heart"></i></div>
-                                    <h4>Gentle & Caring Staff</h4>
-                                    <p>Our team prioritizes comfort and stress-free treatment.</p>
+                                    <div class="icon"><i class="bi bi-heart-fill"></i></div>
+                                    <div>
+                                        <h4>Gentle & Caring Staff</h4>
+                                        <p>Our team prioritizes comfort</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                                 <div class="feature-item">
-                                    <div class="icon"><i class="bi bi-award"></i></div>
-                                    <h4>Professional Vets</h4>
-                                    <p>Experienced veterinarians dedicated to quality care.</p>
+                                    <div class="icon"><i class="bi bi-award-fill"></i></div>
+                                    <div>
+                                        <h4>Professional Vets</h4>
+                                        <p>Experienced & dedicated</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="cta-wrapper mt-4">
-                            <a href="../frontend/ownerabout.php" class="btn btn-primary">Learn More About Us</a>
-                            <a href="#our-vets" class="btn btn-outline">Meet Our Vets</a>
+                        <div class="cta-wrapper mt-4 d-flex gap-3">
+                            <a href="../frontend/ownerabout.php" class="btn-blue">About Us</a>
+                            <a href="#our-vets" class="btn-outline-blue">Meet Our Vets</a>
                         </div>
                     </div>
                 </div>
@@ -359,29 +513,26 @@ include "../backend/connection.php";
         </div>
     </section>
 
-
     <section id="our-vets" class="our-vets">
-        <div class="container section-title text-center" data-aos="fade-up">
+        <div class="container section-title text-center">
             <h2>Meet Our Veterinarians</h2>
-            <p>Experienced professionals dedicated to your pet’s health.</p>
+            <p>Our Experienced Vets</p>
         </div>
 
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-
+        <div class="container">
             <div class="vet-carousel-wrapper">
 
-                <!-- LEFT -->
-                <button class="vet-btn left" onclick="slideVet(-1)">&#10094;</button>
+                <button class="vet-btn left" onclick="slideVet(-1)">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
 
-                <!-- CAROUSEL -->
                 <div class="vet-carousel" id="vetCarousel">
-
                     <?php
                     $stmt = $conn->query("
-                                                SELECT vet_name, specialization, vet_image
-                                                FROM veterinarian
-                                                ORDER BY vet_name ASC
-                                            ");
+                    SELECT vet_name, specialization, vet_image
+                    FROM veterinarian
+                    ORDER BY vet_name ASC
+                ");
                     $vets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($vets as $vet):
@@ -394,49 +545,53 @@ include "../backend/connection.php";
 
                                 <div class="vet-img-wrapper">
                                     <img src="<?= $image ?>" alt="Veterinarian">
-                                </div><br>
+                                </div>
 
                                 <div class="vet-card-body">
-                                    <h4><?= htmlspecialchars($vet['vet_name']); ?></h4><br>
+                                    <h4><?= htmlspecialchars($vet['vet_name']); ?></h4>
                                     <span><?= htmlspecialchars($vet['specialization']); ?></span>
                                 </div>
 
                             </div>
                         </div>
                     <?php endforeach; ?>
-
                 </div>
 
-
-                <button class="vet-btn right" onclick="slideVet(1)">&#10095;</button>
+                <button class="vet-btn right" onclick="slideVet(1)">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
 
             </div>
         </div>
     </section>
 
-    <script>
-        let vetIndex = 0;
-
-        function slideVet(direction) {
-            const carousel = document.getElementById("vetCarousel");
-            const card = carousel.querySelector(".vet-item");
-            const cardWidth = card.offsetWidth + 24;
-            const visibleCards = 3;
-            const totalCards = carousel.children.length;
-            const maxIndex = totalCards - visibleCards;
-
-            vetIndex += direction;
-
-            if (vetIndex < 0) vetIndex = 0;
-            if (vetIndex > maxIndex) vetIndex = maxIndex;
-
-            carousel.style.transform = `translateX(-${vetIndex * cardWidth}px)`;
-        }
-    </script>
-
-
-
 </main>
+
+<script>
+    let vetIndex = 0;
+
+    function slideVet(direction) {
+        const carousel = document.getElementById("vetCarousel");
+        const card = carousel.querySelector(".vet-item");
+        
+        let visibleCards = 3;
+        if (window.innerWidth <= 992) visibleCards = 2;
+        if (window.innerWidth <= 768) visibleCards = 1;
+
+        const totalCards = carousel.children.length;
+        const maxIndex = Math.max(0, totalCards - visibleCards);
+
+        vetIndex += direction;
+
+        if (vetIndex < 0) vetIndex = 0;
+        if (vetIndex > maxIndex) vetIndex = maxIndex;
+
+        const offset = vetIndex * (100 / visibleCards);
+        carousel.style.transform = `translateX(-${offset}%)`;
+    }
+
+    window.addEventListener('resize', () => slideVet(0));
+</script>
 
 <?php
 include "../frontend/footer.php";

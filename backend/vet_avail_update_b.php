@@ -46,7 +46,7 @@ $stmt->execute([
 ]);
 
 if ($stmt->fetchColumn() > 0) {
-    $_SESSION['error_popup'] = "Overlapping availability detected for this day.";
+    $_SESSION['error_popup'] = "This vet already scheduled to work on this day";
     header("Location: ../frontend/vet_avail.php?vet_id=$vet_id");
     exit();
 }
@@ -68,7 +68,7 @@ try {
         ':id' => $availability_id
     ]);
 
-    $_SESSION['success_popup'] = "Availability updated successfully.";
+    $_SESSION['success_popup'] = "Availability updated successfully";
     header("Location: ../frontend/vet_avail.php?vet_id=$vet_id");
     exit();
 

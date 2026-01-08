@@ -23,7 +23,7 @@ include "../backend/connection.php";
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="../MediTrust/assets/img/favicon.png" rel="icon">
+    <link href="../MediTrust/assets/img/favicon.jpeg" rel="icon">
     <link href="../MediTrust/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
@@ -57,37 +57,24 @@ include "../backend/connection.php";
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="../frontend/vethome.php" class="active">Home</a></li>
-                    <li class="dropdown"><a href="#"><span>Appointment</span> <i
+                    <li><a href="../frontend/myschedule.php">MySchedule</a></li>
+                    <li class="dropdown"><a href="#"><span>Patient Records</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="../frontend/">View Appointment</a></li>
-                        </ul>
-                    </li>
-                     <li class="dropdown"><a href="#"><span>Patient Records</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="../frontend/">Assigned Patient</a></li>
+                            <li><a href="http://10.48.74.61/Vet_clinic/frontend/vet_app_list.php?vet_id=<?= $_SESSION['vetID'] ?> &vetname=<?= $_SESSION['vetname'] ?>">List Appointment</a></li>
+                            <li><a href="http://10.48.74.61/Vet_clinic/frontend/vet_app_history.php?vet_id=<?= $_SESSION['vetID'] ?> &vetname=<?= $_SESSION['vetname'] ?>">Appointment History</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#"><span>Treatment</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="http://10.48.74.38/vet_clinic/treatment.php">Add Treatment</a></li>
-                            <li><a href="http://10.48.74.38/vet_clinic/php">List Treatment</a></li>
+                            <li><a href="http://10.48.74.38/vet_cli/frontend/treatment_list.php?vet_id=<?= $_SESSION['vetID']?> &vetname=<?= $_SESSION['vetname'] ?>">List Treatment</a></li>
                         </ul>
                     </li>
-                     <li class="dropdown"><a href="#"><span>MyProfile</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="../frontend/vetprofile.php">Update Profile</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="../frontend/vetprofile.php">MyProfile</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
-            <a href="notification.php" class="me-3">
-                <i class="bi bi-bell fs-4"></i>
-            </a>
             <a class="btn-getstarted" href="../backend/logout.php">Log out</a>
         </div>
     </header>
@@ -105,6 +92,3 @@ include "../backend/connection.php";
         AOS.init(); // initialize animations
     </script>
 
-</body>
-
-</html>

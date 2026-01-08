@@ -1,6 +1,5 @@
 <?php
 //ownerheader.php
-
 session_start();
 
 if (!isset($_SESSION['ownerID'])) {
@@ -11,6 +10,24 @@ if (!isset($_SESSION['ownerID'])) {
 include "../backend/connection.php";
 
 ?>
+<style>
+    .navmenu .dropdown ul li a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 6px !important;
+    }
+
+    /* Paw icon styling */
+    .navmenu .dropdown ul li a i.fa-paw {
+        width: 16px;
+        min-width: 16px;
+        text-align: center;
+        color: #000 !important;
+    }
+</style>
+
+
 
 
 <!DOCTYPE html>
@@ -24,7 +41,7 @@ include "../backend/connection.php";
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="../MediTrust/assets/img/favicon.png" rel="icon">
+    <link href="../MediTrust/assets/img/favicon.jpeg" rel="icon">
     <link href="../MediTrust/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
@@ -58,44 +75,75 @@ include "../backend/connection.php";
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="../frontend/ownerhome.php" class="active">Home</a></li>
-                    <li><a href="http://10.48.74.197/test/frontend/service.php">Our Services</a></li>
+                    <li><a href="../frontend/ownerservices.php">Our Services</a></li>
                     <li><a href="../frontend/ownerabout.php">About Us</a></li>
-                    <li><a href="../frontend/">Medicine</a></li>
 
-                    <li><a href="../frontend/about.php">Medicine</a></li>
-                    <li class="dropdown"><a href="#"><span>MyPet</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <li class="dropdown">
+                        <a href="#">
+                            <span>Appointment</span>
+                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                        </a>
                         <ul>
-                            <li><a href="../frontend/newpet.php">New Pet</a></li>
-                            <li><a href="../frontend/ownerpetlist.php">View Pet</a></li>
-                            <li><a href="../frontend/medhistory.php">Medical History Pet</a></li>
+                            <li>
+                                <a
+                                    href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?owner_id=<?= $_SESSION['ownerID'] ?>&ownername=<?= $_SESSION['ownername'] ?>">
+                                    <i class="fas fa-paw"></i>
+                                    <span>Book Appointment</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    href="http://10.48.74.61/vet_clinic/frontend/appointment_list.php?owner_id=<?= $_SESSION['ownerID'] ?>&ownername=<?= $_SESSION['ownername'] ?>">
+                                    <i class="fas fa-paw"></i>
+                                    <span>Upcoming Appointment</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    href="http://10.48.74.61/vet_clinic/frontend/appointment_history.php?owner_id=<?= $_SESSION['ownerID'] ?>&ownername=<?= $_SESSION['ownername'] ?>">
+                                    <i class="fas fa-paw"></i>
+                                    <span>Appointment History</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="#"><span>Appointment</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
+
+
+                    <li class="dropdown">
+                        <a href="#">
+                            <span>MyPet</span>
+                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                        </a>
                         <ul>
-                            <li><a href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php">Book Appointment</a></li>
-                            <li><a href="../frontend/.php">Upcoming Appointment</a></li>
-                            <li><a href="../frontend/.php">Appointment History</a></li>
+                            <li>
+                                <a href="../frontend/newpet.php">
+                                    <i class="fas fa-paw"></i>
+                                    <span>New Pet</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../frontend/ownerpetlist.php">
+                                    <i class="fas fa-paw"></i>
+                                    <span>View Pet</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="#"><span>Payment</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="http://10.48.74.197/test/frontend/paymentstatusowner.php">Payment History</a></li>
-                        </ul>
-                    </li>
-                     <li class="dropdown"><a href="#"><span>MyProfile</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="../frontend/ownerprofile.php">Update Profile</a></li>
-                        </ul>
-                    </li>
+                    
+                    <li><a
+                            href="http://10.48.74.38/vet_cli/frontend/ownertreatment_details.php?owner_id=<?= $_SESSION['ownerID'] ?> &ownername=<?= $_SESSION['ownername'] ?>">Medical History
+                    </a></li>
+
+                    <li><a
+                            href="http://10.48.74.197/vetclinic/frontend/paymentstatusowner.php?owner_id=<?= $_SESSION['ownerID'] ?> &ownername=<?= $_SESSION['ownername'] ?>">MyPayment
+                    </a></li>
+
+                    <li><a href="../frontend/ownerprofile.php">MyProfile</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
-            <a href="notification.php" class="me-3">
-                <i class="bi bi-bell fs-4"></i>
-            </a>
             <a class="btn-getstarted" href="../backend/logout.php">Log out</a>
         </div>
     </header>
@@ -112,7 +160,3 @@ include "../backend/connection.php";
     <script>
         AOS.init(); // initialize animations
     </script>
-
-</body>
-
-</html>

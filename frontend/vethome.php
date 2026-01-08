@@ -1,469 +1,330 @@
 <?php
 //vethome.php
-
 include "../frontend/vetheader.php";
 include "../backend/connection.php";
-
 ?>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-teal: #0e5c65;
+        --accent-blue: #0095c4;
+        --light-blue-bg: #e1f5fe;
+        --white: #ffffff;
+        --text-muted: #6c757d;
+        --bg-light: #f4f7f6;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: #444;
+        background-color: var(--white);
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 2;
+    }
+
+    .hero-content .container {
+        max-width: 900px;
+    }
+
+    .hero-content h1 {
+        font-weight: 700;
+        color: #fff;
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .hero-content p.hero-desc {
+        color: #f0f0f0;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    /* WELCOME BADGE STYLE */
+    .welcome-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15); /* Glass effect */
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 8px 25px;
+        border-radius: 50px;
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .welcome-username {
+        color: #6ee7ff; /* Bright Cyan/Blue */
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-left: 5px;
+        text-shadow: 0 0 10px rgba(0, 149, 196, 0.5);
+    }
+
+    /* --- VETS SECTION --- */
+    .our-vets {
+        padding: 80px 0;
+        background: var(--bg-light);
+    }
+
+    .section-title h2 {
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 10px;
+    }
+    
+    .section-title p {
+        color: var(--text-muted);
+    }
+
+    .vet-carousel-wrapper {
+        position: relative;
+        overflow: hidden;
+        margin-top: 40px;
+        padding: 0 20px;
+    }
+
+    .vet-carousel {
+        display: flex;
+        gap: 24px;
+        transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .vet-item {
+        flex: 0 0 32%;
+        min-width: 300px;
+    }
+
+    .vet-card {
+        background: #fff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid transparent;
+        transition: 0.3s;
+    }
+
+    .vet-card:hover {
+        border-color: var(--accent-blue);
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 149, 196, 0.1);
+    }
+
+    .vet-img-wrapper {
+        width: 100%;
+        height: 260px;
+        text-align: center;
+        overflow: hidden;
+        background: #f8f9fa;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .vet-img-wrapper img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .vet-card-body {
+        padding: 25px 16px;
+        text-align: center;
+    }
+
+    .vet-card-body h4 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 8px;
+    }
+
+    .vet-card-body span {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 50px;
+        background: var(--light-blue-bg);
+        color: var(--accent-blue);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* CAROUSEL BUTTONS */
+    .vet-btn {
+        position: absolute;
+        top: 45%;
+        background: var(--accent-blue);
+        color: #fff;
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 20;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .vet-btn:hover {
+        background: var(--primary-teal);
+    }
+
+    .vet-btn.left {
+        left: 0;
+    }
+
+    .vet-btn.right {
+        right: 0;
+    }
+    
+    /* Responsive tweaks */
+    @media (max-width: 991px) {
+        .vet-item { flex: 0 0 calc(50% - 12px); }
+    }
+    @media (max-width: 768px) {
+        .vet-item { flex: 0 0 100%; }
+        .hero-content h1 { font-size: 2.5rem; }
+    }
+</style>
 
 <main class="main">
 
-    <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
-        <div class="container-fluid p-0">
-            <div class="hero-wrapper">
+        <div class="container-fluid p-0 position-relative">
+            <div class="hero-wrapper" style="position: relative; height: 600px; overflow: hidden;">
                 <div class="hero-image">
-                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare"
-                        class="img-fluid">
+                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid" style="width: 100%; height: 600px; object-fit: cover;">
                 </div>
 
                 <div class="hero-content">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-7 col-md-10" data-aos="fade-right" data-aos-delay="100">
+                            <div class="col-lg-8 col-md-10 mx-auto" data-aos="fade-up" data-aos-delay="150">
                                 <div class="content-box">
-                                    <h1 data-aos="fade-up" data-aos-delay="200">Where every paws gets attention</h1>
-                                    <p data-aos="fade-up" data-aos-delay="250">
-                                        From routine checkups to special care, we’re dedicated to every paw that walks
-                                        in.
+                                    
+                                    <div data-aos="fade-up" data-aos-delay="200">
+                                        <div class="welcome-badge">
+                                            WELCOME BACK, 
+                                            <span class="welcome-username">
+                                                <?= htmlspecialchars($_SESSION['username'] ?? 'ADMIN'); ?>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <h1 data-aos="fade-up" data-aos-delay="150">Where every paw gets attention</h1>
+                                    <p class="hero-desc" data-aos="fade-up" data-aos-delay="200">
+                                        From routine checkups to special care, we’re dedicated to every paw that walks in.
                                     </p>
-                                    <div class="cta-group" data-aos="fade-up" data-aos-delay="300">
-                                        <a href="appointment.html" class="btn btn-primary">Book Appointment</a>
-                                        
-                                    </div>
-
-                                    <div class="info-badges" data-aos="fade-up" data-aos-delay="350">
-                                        <div class="badge-item">
-                                            <i class="bi bi-telephone-fill"></i>
-                                            <div class="badge-content">
-                                                <span>Emergency Line</span>
-                                                <strong>+06-1233782</strong>
-                                            </div>
-                                        </div>
-                                        <div class="badge-item">
-                                            <i class="bi bi-clock-fill"></i>
-                                            <div class="badge-content">
-                                                <span>Working Hours</span>
-                                                <strong>Mon-Sat: 9AM-5PM</strong>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Features Section -->
-                        <div class="features-wrapper">
-                            <div class="row gy-4">
-
-                                <!-- Pet Health Check -->
-                                <div class="col-lg-4">
-                                    <div class="feature-item">
-                                        <div class="feature-icon"><i class="bi bi-heart-pulse-fill"></i></div>
-                                        <div class="feature-text">
-                                            <h3>Pet Health Check</h3>
-                                            <p>Routine health check-ups to keep your pets healthy and active.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Vaccination & Prevention -->
-                                <div class="col-lg-4">
-                                    <div class="feature-item">
-                                        <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
-                                        <div class="feature-text">
-                                            <h3>Vaccination & Prevention</h3>
-                                            <p>Protect your pets from harmful diseases with essential vaccinations.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Pet Diagnostics -->
-                                <div class="col-lg-4">
-                                    <div class="feature-item">
-                                        <div class="feature-icon"><i class="bi bi-search-heart"></i></div>
-                                        <div class="feature-text">
-                                            <h3>Pet Diagnostics</h3>
-                                            <p>Accurate diagnosis using modern tools such as X-ray and laboratory tests.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="home-about" class="home-about section">
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <div class="row gy-5 align-items-center">
-
-                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-                    <div class="about-image">
-                        <img src="../MediTrust/assets/img/health/showcase-2.jpg" alt="Vet Clinic Facility"
-                            class="img-fluid rounded-3 mb-4">
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-                    <div class="about-content">
-                        <h2>Dedicated to Your Pets’ Well-being</h2>
-                        <p class="lead">We provide compassionate care with trusted veterinarians and modern facilities.
-                        </p>
-                        <p>From regular check-ups to emergency treatment, our clinic ensures your pets receive the best
-                            possible medical attention.</p>
-
-                        <div class="row g-4 mt-4">
-                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
-                                <div class="feature-item">
-                                    <div class="icon"><i class="bi bi-heart"></i></div>
-                                    <h4>Gentle & Caring Staff</h4>
-                                    <p>Our team prioritizes comfort and stress-free treatment.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
-                                <div class="feature-item">
-                                    <div class="icon"><i class="bi bi-award"></i></div>
-                                    <h4>Professional Vets</h4>
-                                    <p>Experienced veterinarians dedicated to quality care.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="cta-wrapper mt-4">
-                            <a href="about.php" class="btn btn-primary">Learn More About Us</a>
-                            <a href="vets.php" class="btn btn-outline">Meet Our Vets</a>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Featured Services -->
-    <section id="featured-services" class="featured-services section light-background">
-
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Featured Services</h2>
-            <p>Quality veterinary services designed to keep your pets healthy and happy.</p>
+    <section id="our-vets" class="our-vets">
+        <div class="container section-title text-center">
+            <h2>Meet Our Veterinarians</h2>
+            <p>Our Experienced Vets</p>
         </div>
 
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="container" data-aos="fade-up" data-aos-delay="20">
+            <div class="vet-carousel-wrapper">
 
-            <div class="row gy-4">
+                <button class="vet-btn left" onclick="slideVet(-1)">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
 
-                <!-- Surgery -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-syringe"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>Pet Surgery</h3>
-                            <p>Safe and professional surgical procedures including spaying, neutering, and soft tissue
-                                surgery.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>Experienced surgeons</li>
-                                <li><i class="fas fa-check-circle"></i>Modern equipment</li>
-                                <li><i class="fas fa-check-circle"></i>Post-surgery care</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <div class="vet-carousel" id="vetCarousel">
+                    <?php
+                    $stmt = $conn->query("SELECT vet_name, specialization, vet_image FROM veterinarian ORDER BY vet_name ASC");
+                    $vets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                <!-- Grooming -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-paw"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>Pet Grooming</h3>
-                            <p>Keep your pets clean and comfortable with our grooming services.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>Bathing & brushing</li>
-                                <li><i class="fas fa-check-circle"></i>Nail trimming</li>
-                                <li><i class="fas fa-check-circle"></i>Ear cleaning</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dental Care -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-tooth"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>Pet Dental Care</h3>
-                            <p>Professional dental checks, teeth cleaning, and oral health maintenance.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>Plaque removal</li>
-                                <li><i class="fas fa-check-circle"></i>Oral disease screening</li>
-                                <li><i class="fas fa-check-circle"></i>Fresh breath treatment</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Emergency Care -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-ambulance"></i>
-                        </div>
-                        <div class="service-content">
-                            <h3>Emergency Vet Care</h3>
-                            <p>Immediate treatment for injuries, illness, and urgent pet health issues.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>24/7 availability</li>
-                                <li><i class="fas fa-check-circle"></i>Fast emergency response</li>
-                                <li><i class="fas fa-check-circle"></i>Critical care support</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <section id="find-a-doctor" class="find-a-doctor section">
-
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Find A Doctor</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div>
-
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
-                <div class="col-lg-12">
-                    <div class="search-container">
-                        <form class="search-form" action="forms/doctor-search.php" method="get">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="doctor_name"
-                                        placeholder="Doctor name or keyword">
+                    foreach ($vets as $vet):
+                        $image = !empty($vet['vet_image'])
+                            ? "../uploads/vets/" . htmlspecialchars($vet['vet_image'])
+                            : "../uploads/vets/default.png";
+                        ?>
+                        <div class="vet-item">
+                            <div class="vet-card">
+                                <div class="vet-img-wrapper">
+                                    <img src="<?= $image ?>" alt="Veterinarian">
                                 </div>
-                                <div class="col-md-4">
-                                    <select class="form-select" name="specialty" id="specialty-select">
-                                        <option value="">Select Specialty</option>
-                                        <option value="cardiology">Cardiology</option>
-                                        <option value="neurology">Neurology</option>
-                                        <option value="orthopedics">Orthopedics</option>
-                                        <option value="pediatrics">Pediatrics</option>
-                                        <option value="dermatology">Dermatology</option>
-                                        <option value="oncology">Oncology</option>
-                                        <option value="surgery">Surgery</option>
-                                        <option value="emergency">Emergency Medicine</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary w-100">
-                                        <i class="bi bi-search me-2"></i>Search Doctor
-                                    </button>
+                                <div class="vet-card-body">
+                                    <h4><?= htmlspecialchars($vet['vet_name']); ?></h4>
+                                    <span><?= htmlspecialchars($vet['specialization']); ?></span>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" data-aos="fade-up" data-aos-delay="400">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="doctor-card">
-                        <div class="doctor-image">
-                            <img src="../MediTrust/assets/img/health/staff-3.webp" alt="Dr. Sarah Mitchell"
-                                class="img-fluid">
-                            <div class="availability-badge online">Available</div>
                         </div>
-                        <div class="doctor-info">
-                            <h5>Dr. Sarah Mitchell</h5>
-                            <p class="specialty">Cardiology</p>
-                            <p class="experience">15+ years experience</p>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <span class="rating-text">(4.9)</span>
-                            </div>
-                            <div class="appointment-actions">
-                                <a href="#" class="btn btn-outline-primary btn-sm">View Profile</a>
-                                <a href="#" class="btn btn-primary btn-sm">Book Appointment</a>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
 
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="doctor-card">
-                        <div class="doctor-image">
-                            <img src="../MediTrust/assets/img/health/staff-7.webp" alt="Dr. Michael Rodriguez"
-                                class="img-fluid">
-                            <div class="availability-badge busy">In Surgery</div>
-                        </div>
-                        <div class="doctor-info">
-                            <h5>Dr. Michael Rodriguez</h5>
-                            <p class="specialty">Neurology</p>
-                            <p class="experience">12+ years experience</p>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                                <span class="rating-text">(4.7)</span>
-                            </div>
-                            <div class="appointment-actions">
-                                <a href="#" class="btn btn-outline-primary btn-sm">View Profile</a>
-                                <a href="#" class="btn btn-primary btn-sm">Book Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="doctor-card">
-                        <div class="doctor-image">
-                            <img src="../MediTrust/assets/img/health/staff-1.webp" alt="Dr. Emily Chen"
-                                class="img-fluid">
-                            <div class="availability-badge online">Available</div>
-                        </div>
-                        <div class="doctor-info">
-                            <h5>Dr. Emily Chen</h5>
-                            <p class="specialty">Pediatrics</p>
-                            <p class="experience">8+ years experience</p>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <span class="rating-text">(5.0)</span>
-                            </div>
-                            <div class="appointment-actions">
-                                <a href="#" class="btn btn-outline-primary btn-sm">View Profile</a>
-                                <a href="#" class="btn btn-primary btn-sm">Book Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="doctor-card">
-                        <div class="doctor-image">
-                            <img src="../MediTrust/assets/img/health/staff-9.webp" alt="Dr. James Thompson"
-                                class="img-fluid">
-                            <div class="availability-badge offline">Next: Tomorrow 9AM</div>
-                        </div>
-                        <div class="doctor-info">
-                            <h5>Dr. James Thompson</h5>
-                            <p class="specialty">Orthopedics</p>
-                            <p class="experience">20+ years experience</p>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                                <span class="rating-text">(4.8)</span>
-                            </div>
-                            <div class="appointment-actions">
-                                <a href="#" class="btn btn-outline-primary btn-sm">View Profile</a>
-                                <a href="#" class="btn btn-primary btn-sm">Book Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="doctor-card">
-                        <div class="doctor-image">
-                            <img src="../MediTrust/assets/img/health/staff-5.webp" alt="Dr. Lisa Anderson"
-                                class="img-fluid">
-                            <div class="availability-badge online">Available</div>
-                        </div>
-                        <div class="doctor-info">
-                            <h5>Dr. Lisa Anderson</h5>
-                            <p class="specialty">Dermatology</p>
-                            <p class="experience">10+ years experience</p>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star"></i>
-                                <span class="rating-text">(4.6)</span>
-                            </div>
-                            <div class="appointment-actions">
-                                <a href="#" class="btn btn-outline-primary btn-sm">View Profile</a>
-                                <a href="#" class="btn btn-primary btn-sm">Book Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="doctor-card">
-                        <div class="doctor-image">
-                            <img src="../MediTrust/assets/img/health/staff-12.webp" alt="Dr. Robert Kim"
-                                class="img-fluid">
-                            <div class="availability-badge online">Available</div>
-                        </div>
-                        <div class="doctor-info">
-                            <h5>Dr. Robert Kim</h5>
-                            <p class="specialty">Oncology</p>
-                            <p class="experience">18+ years experience</p>
-                            <div class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <span class="rating-text">(4.9)</span>
-                            </div>
-                            <div class="appointment-actions">
-                                <a href="#" class="btn btn-outline-primary btn-sm">View Profile</a>
-                                <a href="#" class="btn btn-primary btn-sm">Book Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button class="vet-btn right" onclick="slideVet(1)">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
 
             </div>
-
         </div>
-
     </section>
 
 </main>
 
-</body>
+<script>
+    let vetIndex = 0;
 
-</html>
+    function slideVet(direction) {
+        const carousel = document.getElementById("vetCarousel");
+        const items = carousel.children;
+        const totalCards = items.length;
+        
+        // Responsive visibility logic
+        let visibleCards = 3;
+        if (window.innerWidth <= 991) visibleCards = 2;
+        if (window.innerWidth <= 768) visibleCards = 1;
 
+        const maxIndex = Math.max(0, totalCards - visibleCards);
+
+        vetIndex += direction;
+
+        if (vetIndex < 0) vetIndex = 0;
+        if (vetIndex > maxIndex) vetIndex = maxIndex;
+
+        const offset = vetIndex * (100 / visibleCards);
+        carousel.style.transform = `translateX(-${offset}%)`;
+    }
+    
+    // Reset on resize to prevent layout break
+    window.addEventListener('resize', () => slideVet(0));
+</script>
 
 <?php
 include "../frontend/footer.php";

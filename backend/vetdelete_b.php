@@ -21,7 +21,7 @@ try {
     $stmt = $conn->prepare("DELETE FROM veterinarian WHERE vet_id = :vet_id");
     $stmt->execute([':vet_id' => $vetID]);
 
-    //success message
+    //success 
     header("Location: ../frontend/vetlist.php?msg=deleted");
     exit();
 

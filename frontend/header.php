@@ -9,7 +9,7 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="../MediTrust/assets/img/favicon.png" rel="icon">
+  <link href="../MediTrust/assets/img/favicon.jpeg" rel="icon">
   <link href="../MediTrust/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -47,10 +47,7 @@
           <li><a href="../frontend/about.php">About Us</a></li>
         </ul>
       </nav>
-      <a href="notification.php" class="me-3">
-        <i class="bi bi-bell fs-4"></i>
-      </a>
-      <a class="btn-getstarted" href="../frontend/userlogin.php">Log in</a>
+      <a class="btn-getstarted" href="../frontend/userlogin.php">Sign up / Log in</a>
     </div>
   </header>
   <!-- End Header -->

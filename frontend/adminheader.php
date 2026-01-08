@@ -23,7 +23,7 @@ include "../backend/connection.php";
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="../MediTrust/assets/img/favicon.png" rel="icon">
+    <link href="../MediTrust/assets/img/favicon.jpeg" rel="icon">
     <link href="../MediTrust/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
@@ -56,8 +56,11 @@ include "../backend/connection.php";
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="http://10.48.74.39/Workshop 2/report.html" class="active">Dashboard</a></li>
 
+                    <li><a href="../frontend/adminhome.php" class="active">Home</a></li>
+
+                    <li><a href="http://10.48.74.39/Workshop 2/frontend/report.php?admin_id=<?= $_SESSION['adminID'] ?> &admin_name=<?= $_SESSION['adminname'] ?>">Dashboard</a></li>
+                
                     <li class="dropdown"><a href="#"><span>Veterinarian</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="../frontend/vetregister.php">Register Vet</a></li>
@@ -68,43 +71,22 @@ include "../backend/connection.php";
 
                     <li class="dropdown"><a href="#"><span>Medicine</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="../frontend/.php">Add Medicine</a></li>
-                            <li><a href="../frontend/.php">Stock Medicine</a></li>
+                            <li><a href="http://10.48.74.38/vet_cli/frontend/medicinedetails.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Manage Medicine</a></li>
+                            <li><a href="http://10.48.74.38/vet_cli/frontend/medicine_list.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Stock Medicine</a></li>
                         </ul>
                     </li>
 
-                    <li class="dropdown"><a href="#"><span>Treatment</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="../frontend/.php">View Treatment</a></li>
-                        </ul>
-                    </li>
 
-                    <li class="dropdown"><a href="#"><span>Appointment</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="../frontend/.php">View Appointment</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="http://10.48.74.61/Vet_clinic/frontend/services.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Services</a></li>
 
-                    <li class="dropdown"><a href="#"><span>Payment</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="http://10.48.74.197/test/frontend/paymenthistory.php">Payment History</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="http://10.48.74.197/vetclinic/frontend/paymenthistory.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Payments</a></li>
 
-                    <li><a href="">Audit Log</a></li>
 
-                    <li class="dropdown"><a href="#"><span>MyProfile</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="../frontend/adminprofile.php">Update Profile</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="../frontend/adminprofile.php">MyProfile</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
 
-            <a href="notification.php" class="me-3">
-                <i class="bi bi-bell fs-4"></i>
-            </a>
             <a class="btn-getstarted" href="../backend/logout.php">Log out</a>
         </div>
     </header>

@@ -1,468 +1,549 @@
-
 <?php
+//home.php
 include "../frontend/header.php";
+include "../backend/connection.php";
 ?>
 
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
+    :root {
+        --primary-teal: #0e5c65;
+        --accent-blue: #0095c4;   /* Syringe Blue */
+        --light-blue-bg: #e1f5fe;
+        --white: #ffffff;
+        --text-muted: #6c757d;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
-        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Poppins', sans-serif;
+        color: #444;
+        background-color: var(--white);
     }
 
-
-    .section-title {
-        font-size: 42px;
-        font-weight: 700;
+    /* =========================================
+       HERO SECTION (YOUR ORIGINAL STYLES)
+       ========================================= */
+    .hero-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        margin-bottom: 40px;
-        color: #1A2A5A;
+        z-index: 2;
     }
 
-    .section-title span {
-        color: #F6B100;
+    .hero-content .container {
+        max-width: 900px;
     }
 
+    .hero-content .row {
+        justify-content: center;
+    }
 
-    .vet-section {
-        padding: 60px 0;
+    .hero-content .content-box {
+        margin: 0 auto;
+    }
+
+    .hero-content .cta-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+        flex-wrap: wrap;
+    }
+
+    .hero-content h1 {
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .hero-content p {
+        color: #fff;
+        font-size: 1.1rem;
+        text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    }
+
+    /* =========================================
+       SERVICES SECTION (NEW BLUE UI)
+       ========================================= */
+    .our-services {
+        padding: 80px 0;
+        background: #f9fbff;
+    }
+
+    .section-title h2 {
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 10px;
+    }
+
+    .our-service-box {
         background: #fff;
+        border-radius: 18px;
+        padding: 32px 24px;
+        text-align: center;
+        height: 100%;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+        transition: 0.35s;
+        border-bottom: 4px solid transparent;
+    }
+
+    .our-service-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 18px 40px rgba(0, 149, 196, 0.15); /* Blue Shadow */
+        border-bottom: 4px solid var(--accent-blue);     /* Blue Border */
+    }
+
+    .service-icon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: var(--light-blue-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.35s;
+        color: var(--accent-blue);
+        font-size: 30px;
+    }
+
+    .our-service-box:hover .service-icon {
+        background: var(--accent-blue);
+        color: #fff;
+    }
+
+    .our-service-box h4 {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--primary-teal);
+    }
+
+    .our-service-box p {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 0;
+    }
+
+    /* Emergency Special Style */
+    .our-service-box.emergency {
+        border: 2px solid #dc3545;
+    }
+    .our-service-box.emergency:hover {
+        border-bottom: 4px solid #dc3545;
+        box-shadow: 0 18px 40px rgba(220, 53, 69, 0.15);
+    }
+    .emergency-icon {
+        background: #ffecec !important;
+        color: #dc3545 !important;
+    }
+    .our-service-box.emergency:hover .emergency-icon {
+        background: #dc3545 !important;
+        color: #fff !important;
+    }
+
+    /* =========================================
+       ABOUT SECTION (NEW BLUE UI)
+       ========================================= */
+    .home-about {
+        padding: 80px 0;
+    }
+
+    .about-content h2 {
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
+
+    .about-content .lead {
+        color: var(--accent-blue);
+        font-weight: 500;
+        border-left: 4px solid var(--accent-blue);
+        padding-left: 15px;
+    }
+
+    .feature-item .icon {
+        width: 45px;
+        height: 45px;
+        background: var(--light-blue-bg);
+        color: var(--accent-blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .feature-item h4 {
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 5px;
+    }
+
+    /* =========================================
+       VETS SECTION (YOUR ORIGINAL STRUCTURE)
+       ========================================= */
+    .our-vets {
+        padding: 60px 0;
+        background: #f9fbff;
+    }
+
+    .our-vets .section-title h2 {
+        font-weight: 700;
+        color: var(--primary-teal);
     }
 
     .vet-carousel-wrapper {
         position: relative;
-        max-width: 1200px;
-        margin: 0 auto;
+        overflow: hidden;
+        margin-top: 30px;
+        padding: 0 20px;
     }
 
     .vet-carousel {
         display: flex;
-        gap: 30px;
-        overflow: hidden;
-        transition: transform 0.4s ease-in-out;
+        gap: 24px;
+        transition: transform 0.45s ease;
     }
 
+    .vet-item {
+        flex: 0 0 32%; /* Shows ~3 cards */
+        min-width: 300px;
+    }
 
     .vet-card {
-        min-width: 31%;
-        background: #ffffff;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        background: #fff;
+        border-radius: 18px;
         overflow: hidden;
-        opacity: 0;
-        transform: translateY(30px);
-        transition: 0.6s ease-out;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid transparent;
+        transition: 0.3s;
     }
 
-    .vet-card.visible {
-        opacity: 1;
-        transform: translateY(0px);
+    .vet-card:hover {
+        border-color: var(--accent-blue);
+        transform: translateY(-5px);
     }
 
-    .vet-img {
+    .vet-img-wrapper {
         width: 100%;
-        height: 320px;
-        object-fit: cover;
-        border-radius: 15px 15px 0 0;
+        height: 260px;
+        text-align: center;
+        overflow: hidden;
+        background: #f8f9fa;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
     }
 
-    .experience-tag {
-        background: #1A2A5A;
-        color: #fff;
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        padding: 7px 14px;
-        border-radius: 6px;
+    .vet-img-wrapper img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .vet-card-body {
+        padding: 20px 16px 22px;
+        text-align: center;
+    }
+
+    .vet-card-body h4 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 8px;
+    }
+
+    .vet-card-body span {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        background: var(--light-blue-bg);
+        color: var(--accent-blue);
         font-size: 13px;
         font-weight: 600;
     }
 
-    .vet-card h4 {
-        font-size: 20px;
-        font-weight: 700;
-        margin-top: 18px;
-        text-align: center;
-        color: #1A2A5A;
-    }
-
-    .role {
-        font-size: 15px;
-        color: #0057B7;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    .vet-list {
-        list-style: none;
-        padding: 0 25px 25px 25px;
-        margin-top: 10px;
-    }
-
-    .vet-list li {
-        margin-bottom: 6px;
-    }
-
-    .vet-list li::before {
-        content: "✔ ";
-        color: #F6B100;
-        font-weight: 700;
-    }
-
-    /* BUTTONS */
-    .carousel-btn {
+    .vet-btn {
         position: absolute;
         top: 45%;
-        transform: translateY(-50%);
-        background: #F6B100;
-        color: white;
-        width: 48px;
-        height: 48px;
+        background: var(--accent-blue);
+        color: #fff;
         border: none;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
-        font-size: 24px;
+        font-size: 22px;
         cursor: pointer;
-        z-index: 20;
-    }
-
-    .carousel-btn.left {
-        left: -20px;
-    }
-
-    .carousel-btn.right {
-        right: -20px;
-    }
-
-    /* OPTIONAL SMOOTH HOVER */
-    .vet-card:hover {
-        transform: translateY(-6px) !important;
+        z-index: 10;
         transition: 0.3s;
+    }
+    
+    .vet-btn:hover {
+        background: var(--primary-teal);
+    }
+
+    .vet-btn.left { left: 0; }
+    .vet-btn.right { right: 0; }
+
+    /* Custom Buttons */
+    .btn-blue {
+        background-color: var(--accent-blue);
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .btn-blue:hover {
+        background-color: var(--primary-teal);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-blue {
+        border: 2px solid var(--accent-blue);
+        color: var(--accent-blue);
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s;
+        background: transparent;
+    }
+    .btn-outline-blue:hover {
+        background-color: var(--accent-blue);
+        color: white;
     }
 </style>
 
-
 <main class="main">
 
-    <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
-        <div class="container-fluid p-0">
-            <div class="hero-wrapper">
+        <div class="container-fluid p-0 position-relative">
+            <div class="hero-wrapper" style="position: relative; height: 600px; overflow: hidden;">
                 <div class="hero-image">
-                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid">
+                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid" style="width: 100%; height: 600px; object-fit: cover;">
                 </div>
 
                 <div class="hero-content">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-7 col-md-10" data-aos="fade-right" data-aos-delay="100">
+                            <div class="col-lg-7 col-md-10" data-aos="fade-up" data-aos-delay="150">
                                 <div class="content-box">
-                                    <h1 data-aos="fade-up" data-aos-delay="200">Where every paws gets attention</h1>
-                                    <p data-aos="fade-up" data-aos-delay="250">
-                                        From routine checkups to special care, we’re dedicated to every paw that walks
-                                        in.
+                                    <h1 data-aos="fade-up" data-aos-delay="150">Where every paw gets attention</h1>
+                                    <p data-aos="fade-up" data-aos-delay="200">
+                                        From routine checkups to special care, we’re dedicated to every paw that walks in
                                     </p>
-                                    <div class="cta-group" data-aos="fade-up" data-aos-delay="300">
-                                        <a href="appointment.html" class="btn btn-primary">Book Appointment</a>
-                                    </div>
-
-                                    <div class="info-badges" data-aos="fade-up" data-aos-delay="350">
-                                        <div class="badge-item">
-                                            <i class="bi bi-telephone-fill"></i>
-                                            <div class="badge-content">
-                                                <span>Emergency Line</span>
-                                                <strong>+06-1233782</strong>
-                                            </div>
-                                        </div>
-                                        <div class="badge-item">
-                                            <i class="bi bi-clock-fill"></i>
-                                            <div class="badge-content">
-                                                <span>Working Hours</span>
-                                                <strong>Mon-Sat: 9AM-5PM</strong>
-                                            </div>
-                                        </div>
+                                    <div class="cta-group" data-aos="fade-up" data-aos-delay="200">
+                                        <a href="../frontend/userlogin.php" class="btn btn-primary btn-lg rounded-pill px-5">Book Appointment</a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Features Section -->
-                        <div class="features-wrapper">
-                            <div class="row gy-4">
-
-                                <!-- Pet Health Check -->
-                                <div class="col-lg-4">
-                                    <div class="feature-item">
-                                        <div class="feature-icon"><i class="bi bi-heart-pulse-fill"></i></div>
-                                        <div class="feature-text">
-                                            <h3>Pet Health Check</h3>
-                                            <p>Routine health check-ups to keep your pets healthy and active.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Vaccination & Prevention -->
-                                <div class="col-lg-4">
-                                    <div class="feature-item">
-                                        <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
-                                        <div class="feature-text">
-                                            <h3>Vaccination & Prevention</h3>
-                                            <p>Protect your pets from harmful diseases with essential vaccinations.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Pet Diagnostics -->
-                                <div class="col-lg-4">
-                                    <div class="feature-item">
-                                        <div class="feature-icon"><i class="bi bi-search-heart"></i></div>
-                                        <div class="feature-text">
-                                            <h3>Pet Diagnostics</h3>
-                                            <p>Accurate diagnosis using modern tools such as X-ray and laboratory tests.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="home-about" class="home-about section">
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <div class="row gy-5 align-items-center">
-
-                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-                    <div class="about-image">
-                        <img src="../MediTrust/assets/img/health/showcase-2.jpg" alt="Vet Clinic Facility"
-                            class="img-fluid rounded-3 mb-4">
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-                    <div class="about-content">
-                        <h2>Dedicated to Your Pets’ Well-being</h2>
-                        <p class="lead">We provide compassionate care with trusted veterinarians and modern facilities.
-                        </p>
-                        <p>From regular check-ups to emergency treatment, our clinic ensures your pets receive the best
-                            possible medical attention.</p>
-
-                        <div class="row g-4 mt-4">
-                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
-                                <div class="feature-item">
-                                    <div class="icon"><i class="bi bi-heart"></i></div>
-                                    <h4>Gentle & Caring Staff</h4>
-                                    <p>Our team prioritizes comfort and stress-free treatment.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
-                                <div class="feature-item">
-                                    <div class="icon"><i class="bi bi-award"></i></div>
-                                    <h4>Professional Vets</h4>
-                                    <p>Experienced veterinarians dedicated to quality care.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="cta-wrapper mt-4">
-                            <a href="about.php" class="btn btn-primary">Learn More About Us</a>
-                            <a href="vets.php" class="btn btn-outline">Meet Our Vets</a>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Featured Services -->
-    <section id="featured-services" class="featured-services section light-background">
-
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Featured Services</h2>
+    <section class="our-services">
+        <div class="container section-title">
+            <h2>Our Services</h2>
+            <p>Quality veterinary services designed to keep your pets healthy and happy</p>
         </div>
 
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="container">
+            <div class="row gy-4 justify-content-center">
 
-            <div class="row gy-4">
-
-                <!-- Surgery -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-card">
+                <div class="col-md-6 col-lg-3">
+                    <div class="our-service-box">
                         <div class="service-icon">
-                            <i class="fas fa-syringe"></i>
+                            <i class="bi bi-heart-pulse-fill"></i>
                         </div>
-                        <div class="service-content">
-                            <h3>Pet Surgery</h3>
-                            <p>Safe and professional surgical procedures including spaying, neutering, and soft tissue
-                                surgery.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>Experienced surgeons</li>
-                                <li><i class="fas fa-check-circle"></i>Modern equipment</li>
-                                <li><i class="fas fa-check-circle"></i>Post-surgery care</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
+                        <h4>Health Check</h4>
+                        <p>Routine examinations to keep pets healthy</p>
                     </div>
                 </div>
 
-                <!-- Grooming -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-card">
+                <div class="col-md-6 col-lg-3">
+                    <div class="our-service-box">
                         <div class="service-icon">
-                            <i class="fas fa-paw"></i>
+                            <i class="bi bi-shield-check"></i>
                         </div>
-                        <div class="service-content">
-                            <h3>Pet Grooming</h3>
-                            <p>Keep your pets clean and comfortable with our grooming services.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>Bathing & brushing</li>
-                                <li><i class="fas fa-check-circle"></i>Nail trimming</li>
-                                <li><i class="fas fa-check-circle"></i>Ear cleaning</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
+                        <h4>Vaccination</h4>
+                        <p>Essential vaccines for disease prevention</p>
                     </div>
                 </div>
 
-                <!-- Dental Care -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-card">
+                <div class="col-md-6 col-lg-3">
+                    <div class="our-service-box">
                         <div class="service-icon">
-                            <i class="fas fa-tooth"></i>
+                            <i class="bi bi-scissors"></i>
                         </div>
-                        <div class="service-content">
-                            <h3>Pet Dental Care</h3>
-                            <p>Professional dental checks, teeth cleaning, and oral health maintenance.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>Plaque removal</li>
-                                <li><i class="fas fa-check-circle"></i>Oral disease screening</li>
-                                <li><i class="fas fa-check-circle"></i>Fresh breath treatment</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
+                        <h4>Surgery</h4>
+                        <p>Safe surgical procedures by professionals</p>
                     </div>
                 </div>
 
-                <!-- Emergency Care -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-                    <div class="service-card">
-                        <div class="service-icon">
+                <div class="col-md-6 col-lg-3">
+                    <div class="our-service-box emergency">
+                        <div class="service-icon emergency-icon">
                             <i class="fas fa-ambulance"></i>
                         </div>
-                        <div class="service-content">
-                            <h3>Emergency Vet Care</h3>
-                            <p>Immediate treatment for injuries, illness, and urgent pet health issues.</p>
-                            <ul class="service-features">
-                                <li><i class="fas fa-check-circle"></i>24/7 availability</li>
-                                <li><i class="fas fa-check-circle"></i>Fast emergency response</li>
-                                <li><i class="fas fa-check-circle"></i>Critical care support</li>
-                            </ul>
-                            <a href="services.php" class="service-btn">
-                                Learn More <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
+                        <h4 class="text-danger">Emergency Care</h4>
+                        <p>Immediate care for urgent situations</p>
                     </div>
                 </div>
 
             </div>
 
-        </div>
-
-    </section>
-
-
-
-    <section id="vets" class="vet-section">
-        <div class="container">
-            <h2 class="section-title">Meet Our <span>Veterinarians</span></h2>
-
-            <div class="vet-carousel-wrapper">
-
-                <button class="carousel-btn left" id="prevBtn">&#10094;</button>
-
-                <div class="vet-carousel" id="vetCarousel">
-
-                    <!-- PHP doctor array -->
-                    <?php
-                    $vets = [
-                        ["15 YEARS EXPERIENCE", "../MediTrust/assets/img/health/staff-2.webp", "DR. OOI CHEE HONG", "Principal Veterinary Surgeon", ["Dermatology", "Echocardiography & Ultrasonography", "Herbology (TCM & Acupuncture)"]],
-                        ["13 YEARS EXPERIENCE", "../MediTrust/assets/img/health/staff-3.webp", "DR. SYAHAR AMIR A. GANI", "Senior Veterinarian", ["Exotic Animal / Bird / Wildlife", "Behavior & Nutrition", "Theriogenology & Pathology"]],
-                        ["10 YEARS EXPERIENCE", "../MediTrust/assets/img/health/staff-5.webp", "DR. ZAMRI BIN ZAINIR", "Veterinary Surgeon", ["Exotic Animal Surgery", "Emergency & Critical Care", "Soft Tissue / Orthopedics"]],
-                        ["5 YEARS EXPERIENCE", "../MediTrust/assets/img/health/staff-7.webp", "DR. NUR AMIRA", "Animal Nutrition Specialist", ["Pet Nutrition", "Weight Management", "Digestive Health"]],
-                        ["10 YEARS EXPERIENCE", "../MediTrust/assets/img/health/staff-9.webp", "DR. DANIEL LIM", "Orthopedic Specialist", ["Bone Fractures", "Joint Replacement", "Sports Injuries"]],
-                        ["8 YEARS EXPERIENCE", "../MediTrust/assets/img/health/staff-11.webp", "DR. AINA FARHANA", "Feline Specialist", ["Feline Internal Medicine", "Cat Behavior", "Vaccination & Wellness"]],
-                    ];
-
-                    foreach ($vets as $vet) {
-                        echo '<div class="vet-card">
-                        <div class="experience-tag">' . $vet[0] . '</div>
-                        <img src="' . $vet[1] . '" class="vet-img">
-
-                        <h4>' . $vet[2] . '</h4>
-                        <p class="role">' . $vet[3] . '</p>
-
-                        <ul class="vet-list">';
-                        foreach ($vet[4] as $item)
-                            echo '<li>' . $item . '</li>';
-                        echo '</ul></div>';
-                    }
-                    ?>
-
-                </div>
-
-                <button class="carousel-btn right" id="nextBtn">&#10095;</button>
+            <div class="text-center mt-5">
+                <a href="../frontend/services.php" class="btn-blue">Explore Services</a>
             </div>
         </div>
     </section>
 
+    <section id="home-about" class="home-about section">
+        <div class="container" data-aos="fade-up" data-aos-delay="50">
+            <div class="row gy-5 align-items-center">
+
+                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="50">
+                    <div class="about-image">
+                        <img src="../MediTrust/assets/img/health/aboutus.jpeg" alt="Vet Clinic Facility"
+                            class="img-fluid rounded-4 shadow mb-4">
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
+                    <div class="about-content">
+                        <h2>Expert Care, Happy Pets</h2>
+                        <p class="lead">We provide compassionate care with trusted veterinarians and modern facilities</p>
+                        <p class="text-muted">From regular check-ups to emergency treatment, our clinic ensures your pets receive the best
+                            possible medical attention</p>
+
+                        <div class="row g-4 mt-4">
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="feature-item">
+                                    <div class="icon"><i class="bi bi-heart-fill"></i></div>
+                                    <div>
+                                        <h4>Gentle & Caring</h4>
+                                        <p>Our team prioritizes comfort</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="feature-item">
+                                    <div class="icon"><i class="bi bi-award-fill"></i></div>
+                                    <div>
+                                        <h4>Professional Vets</h4>
+                                        <p>Experienced & dedicated</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cta-wrapper mt-4 d-flex gap-3">
+                            <a href="../frontend/about.php" class="btn-blue">About Us</a>
+                            <a href="#our-vets" class="btn-outline-blue">Meet Our Vets</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="our-vets" class="our-vets">
+        <div class="container section-title text-center">
+            <h2>Meet Our Veterinarians</h2>
+            <p>Our Experienced Vets</p>
+        </div>
+
+        <div class="container">
+            <div class="vet-carousel-wrapper">
+
+                <button class="vet-btn left" onclick="slideVet(-1)">&#10094;</button>
+
+                <div class="vet-carousel" id="vetCarousel">
+                    <?php
+                    $stmt = $conn->query("
+                    SELECT vet_name, specialization, vet_image
+                    FROM veterinarian
+                    ORDER BY vet_name ASC
+                ");
+                    $vets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($vets as $vet):
+                        $image = !empty($vet['vet_image'])
+                            ? "../uploads/vets/" . htmlspecialchars($vet['vet_image'])
+                            : "../uploads/vets/default.png";
+                        ?>
+                        <div class="vet-item">
+                            <div class="vet-card">
+                                <div class="vet-img-wrapper">
+                                    <img src="<?= $image ?>" alt="Veterinarian">
+                                </div>
+                                <div class="vet-card-body">
+                                    <h4><?= htmlspecialchars($vet['vet_name']); ?></h4>
+                                    <span><?= htmlspecialchars($vet['specialization']); ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <button class="vet-btn right" onclick="slideVet(1)">&#10095;</button>
+
+            </div>
+        </div>
+    </section>
 
 </main>
 
-<!-- ===================== JAVASCRIPT ===================== -->
 <script>
-    let index = 0;
-    const carousel = document.getElementById("vetCarousel");
-    const cards = document.querySelectorAll(".vet-card");
-    const cardsPerView = 3;
+    let vetIndex = 0;
 
-    // BUTTON CLICK
-    document.getElementById("nextBtn").onclick = () => {
-        if (index < cards.length - cardsPerView) index++;
-        updateCarousel();
-    };
+    function slideVet(direction) {
+        const carousel = document.getElementById("vetCarousel");
+        const items = carousel.children;
+        const totalCards = items.length;
+        
+        // Adjust for responsive card counting
+        let visibleCards = 3;
+        if (window.innerWidth <= 992) visibleCards = 2;
+        if (window.innerWidth <= 768) visibleCards = 1;
 
-    document.getElementById("prevBtn").onclick = () => {
-        if (index > 0) index--;
-        updateCarousel();
-    };
+        const maxIndex = Math.max(0, totalCards - visibleCards);
 
-    function updateCarousel() {
-        const cardWidth = cards[0].offsetWidth + 30;
-        carousel.style.transform = `translateX(-${index * cardWidth}px)`;
+        vetIndex += direction;
+
+        if (vetIndex < 0) vetIndex = 0;
+        if (vetIndex > maxIndex) vetIndex = maxIndex;
+
+        // Calculate offset percentage based on visible cards
+        const offset = vetIndex * (100 / visibleCards);
+        carousel.style.transform = `translateX(-${offset}%)`;
     }
-
-    // FADE-UP ANIMATION
-    function animateCards() {
-        cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 80) {
-                card.classList.add("visible");
-            }
-        });
-    }
-
-    window.addEventListener("scroll", animateCards);
-    window.addEventListener("load", animateCards);
+    
+    // Recalculate on resize
+    window.addEventListener('resize', () => slideVet(0));
 </script>
 
 <?php
