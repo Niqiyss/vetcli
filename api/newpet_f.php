@@ -1,9 +1,6 @@
 <?php
-// frontend/newpet.php
-
+// newpet.php
 session_start();
-
-include "../backend/newpet_b.php";
 include "../frontend/ownerheader.php";
 ?>
 
@@ -199,7 +196,7 @@ if (!empty($formErrors)) {
                 <div class="col-lg-10">
                     <div class="custom-card shadow border-0 rounded-4">
 
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" action="../backend/newpet_b.php" enctype="multipart/form-data">
 
                             <div class="row g-5">
 
@@ -296,12 +293,6 @@ if (!empty($formErrors)) {
                                     
                                     <div class="form-section-title">
                                         <i class="fas fa-info-circle"></i> Physical Details
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label">Color</label>
-                                        <input type="text" name="color" class="form-control" placeholder="E.g. Black & White"
-                                               value="<?= htmlspecialchars($color); ?>" required>
                                     </div>
 
                                     <div class="mb-3">

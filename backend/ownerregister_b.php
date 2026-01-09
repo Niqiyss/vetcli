@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $city     = trim($_POST['city'] ?? '');
     $state    = trim($_POST['state'] ?? '');
 
-    //required validaiton
+    //required
     if ($owner_name === '' || $phone_num === '' || $email === '' || $username === '' || $password === '') {
         $formErrors[] = "All required fields must be filled.";
     }
 
-    //validation
+    //format
     if ($owner_name !== '' && !preg_match("/^[A-Za-z ]+$/", $owner_name)) {
         $formErrors[] = "Full name may contain letters and spaces only.";
     }
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $formErrors[] = "Invalid email format.";
     }
 
-    //password validation
+    //pass validation
     if ($password !== '') {
         if (strlen($password) < 6) {
             $formErrors[] = "Password must be at least 6 characters.";
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    //adddr optional
+    //opt address
     if ($street || $postcode || $city || $state) {
 
         if (!$street || !$postcode || !$city || !$state) {
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    //error
+    //popup error
     if (!empty($formErrors)) {
         $_SESSION['error_popup'] = implode("\n", $formErrors);
         header("Location: ../frontend/ownerregister.php");
@@ -88,29 +88,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        //ownerid
-        $stmt = $conn->query("
-            SELECT MAX(CAST(SUBSTRING(owner_id FROM 3) AS INTEGER)) AS max_num 
-            FROM owner
-        ");
-        $last = $stmt->fetch(PDO::FETCH_ASSOC);
-        $num = $last['max_num'] ? intval($last['max_num']) + 1 : 1;
-        $owner_id = "OW" . str_pad($num, 3, "0", STR_PAD_LEFT);
 
-        //hash pass
+        //hashing
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         //insert
         $sql = "
-            INSERT INTO owner 
-            (owner_id, owner_name, phone_num, email, address, username, password)
+            INSERT INTO owner
+            (owner_name, phone_num, email, address, username, password)
             VALUES
-            (:id, :name, :phone, :email, :address, :username, :password)
+            (:name, :phone, :email, :address, :username, :password)
         ";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ':id'       => $owner_id,
+
             ':name'     => $owner_name,
             ':phone'    => $phone_num,
             ':email'    => $email,

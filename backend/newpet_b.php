@@ -111,27 +111,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
 
-    //petid
-    $stmt = $conn->query("
-        SELECT MAX(CAST(SUBSTRING(pet_id FROM 2) AS INTEGER)) AS max_num 
-        FROM pet
-    ");
-    $last = $stmt->fetch(PDO::FETCH_ASSOC);
-    $num = $last['max_num'] ? intval($last['max_num']) + 1 : 1;
-    $pet_id = "P" . str_pad($num, 4, "0", STR_PAD_LEFT);
-
     //insert
     try {
         $sql = "
             INSERT INTO pet
-            (pet_id, pet_name, species, breed, gender, color, dob, owner_id, pet_image)
+            (pet_name, species, breed, gender, color, dob, owner_id, pet_image)
             VALUES
-            (:pet_id, :pet_name, :species, :breed, :gender, :color, :dob, :owner_id, :pet_image)
+            (:pet_name, :species, :breed, :gender, :color, :dob, :owner_id, :pet_image)
         ";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ':pet_id'   => $pet_id,
             ':pet_name' => $pet_name,
             ':species'  => $species_final,
             ':breed'    => $breed_final,

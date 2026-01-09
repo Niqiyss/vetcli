@@ -113,26 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //insert, generate vetid
     try {
-        $stmt = $conn->query("
-            SELECT MAX(CAST(SUBSTRING(vet_id FROM 3) AS INTEGER)) AS max_num 
-            FROM veterinarian
-        ");
-        $last = $stmt->fetch(PDO::FETCH_ASSOC);
-        $num = $last['max_num'] ? intval($last['max_num']) + 1 : 1;
-        $vet_id = "VT" . str_pad($num, 3, "0", STR_PAD_LEFT);
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "
             INSERT INTO veterinarian
-            (vet_id, vet_name, phone_num, email, specialization, username, password, admin_id, vet_image)
+            (vet_name, phone_num, email, specialization, username, password, admin_id, vet_image)
             VALUES
-            (:vet_id, :vet_name, :phone, :email, :spec, :username, :password, :admin, :image)
+            (:vet_name, :phone, :email, :spec, :username, :password, :admin, :image)
         ";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ':vet_id' => $vet_id,
             ':vet_name' => $vet_name,
             ':phone' => $phone_num,
             ':email' => $email,

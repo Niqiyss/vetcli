@@ -1,7 +1,9 @@
 <?php
 //ownerpetlist.php
-include "../frontend/ownerheader.php";
 include "../backend/ownerpetlist_b.php";
+
+include "../frontend/ownerheader.php";
+
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -381,8 +383,8 @@ if (isset($_SESSION['error_popup'])) {
                         <div class="text-muted mb-3">
                             <i class="fas fa-paw fa-3x" style="color: #ddd;"></i>
                         </div>
-                        <h5 class="text-muted">No pets found</h5>
-                        <p class="mb-4">You haven't registered any pets yet</p>
+                        <h5 class="text-muted">No pets found.</h5>
+                        <p class="mb-4">You haven't registered any pets yet.</p>
                         <a href="../frontend/newpet.php" class="btn btn-save-modal">
                             <i class="fas fa-plus me-2"></i> Register New Pet
                         </a>

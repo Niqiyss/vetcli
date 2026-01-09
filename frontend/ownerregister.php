@@ -1,6 +1,5 @@
 <?php
-//ownerregister.php
-
+// ownerregister.php
 session_start();
 include "../frontend/header.php";
 ?>
@@ -12,7 +11,7 @@ include "../frontend/header.php";
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <?php
-//success logic
+// success popup
 if (isset($_SESSION['success_popup'])) {
     $successMsg = json_encode($_SESSION['success_popup']);
     echo "<script>
@@ -26,10 +25,10 @@ if (isset($_SESSION['success_popup'])) {
     unset($_SESSION['success_popup']);
 }
 
-//error logic
+// error popup
 if (isset($_SESSION['error_popup'])) {
-    $errors = explode("\n", $_SESSION['error_popup']);
-    $html = '<ul style="text-align:left; margin-left:1rem;">';
+    $errors = explode('\n', $_SESSION['error_popup']);
+    $html = '<ul style=\"text-align:left; margin-left:1rem;\">';
     foreach ($errors as $e) {
         $html .= '<li>' . htmlspecialchars($e) . '</li>';
     }
@@ -61,35 +60,29 @@ if (isset($_SESSION['error_popup'])) {
         background-color: var(--bg-light);
     }
 
-    /* MATCHING HEADER CSS */
     .page-header-custom {
         margin-bottom: 30px;
         display: flex;
-        justify-content: center; 
-        text-align: center;      
+        justify-content: center;
+        text-align: center;
     }
 
     .page-title h1 {
         font-size: 28px;
         font-weight: 700;
         color: var(--primary-teal);
-        margin-bottom: 5px;
     }
 
     .page-title p {
         color: var(--text-muted);
-        margin-bottom: 0;
         font-size: 15px;
     }
 
-    /* CARD STYLING */
     .custom-card {
         background: white;
         border-radius: 16px;
-        border: none;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         padding: 35px;
-        width: 100%;
     }
 
     .section-subtitle {
@@ -109,21 +102,12 @@ if (isset($_SESSION['error_popup'])) {
         font-weight: 600;
         color: #444;
         font-size: 14px;
-        margin-bottom: 8px;
     }
 
     .form-control {
         border-radius: 10px;
         padding: 12px 15px;
-        border: 1px solid #e0e0e0;
         font-size: 14px;
-        transition: all 0.3s;
-    }
-
-    .form-control:focus {
-        border-color: var(--accent-teal);
-        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
-        outline: none;
     }
 
     .btn-register {
@@ -133,36 +117,18 @@ if (isset($_SESSION['error_popup'])) {
         border-radius: 10px;
         font-weight: 600;
         color: white;
-        transition: all 0.3s;
-    }
-
-    .btn-register:hover {
-        background-color: var(--primary-teal);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 157, 145, 0.3);
-        color: white;
     }
 
     #addressDetails {
-        overflow: hidden;
         transition: all 0.4s ease;
         max-height: 0;
         opacity: 0;
-    }
-
-    .bi-info-circle-fill {
-        color: var(--accent-teal) !important;
-        cursor: help;
+        overflow: hidden;
     }
 
     .login-link {
         color: var(--primary-teal);
         text-decoration: none;
-        transition: 0.2s;
-    }
-
-    .login-link:hover {
-        color: var(--accent-teal);
     }
 </style>
 
@@ -177,7 +143,8 @@ if (isset($_SESSION['error_popup'])) {
         </div>
 
         <div class="row justify-content-center">
-            <div class="col-lg-12"> <div class="custom-card">
+            <div class="col-lg-12">
+                <div class="custom-card">
 
                     <form method="post" action="../backend/ownerregister_b.php">
                         <div class="row g-4">
@@ -187,7 +154,7 @@ if (isset($_SESSION['error_popup'])) {
 
                                 <div class="mb-3">
                                     <label class="form-label">Full Name</label>
-                                    <input type="text" name="owner_name" class="form-control" 
+                                    <input type="text" name="owner_name" class="form-control"
                                         onkeyup="this.value=this.value.toUpperCase();" required>
                                 </div>
 
@@ -198,34 +165,37 @@ if (isset($_SESSION['error_popup'])) {
 
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
+                                    <input type="email" name="email" class="form-control" placeholder="name@example.com"
+                                        required>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">
-                                        Username
-                                        <i class="bi bi-info-circle-fill ms-1" data-bs-toggle="tooltip" title="Must be unique."></i>
-                                    </label>
+                                    <label class="form-label">Username</label>
                                     <input type="text" name="username" class="form-control" required>
                                 </div>
 
                                 <div class="mb-2">
-                                    <label class="form-label">
-                                        Password
-                                        <i class="bi bi-info-circle-fill ms-1" data-bs-toggle="tooltip" 
-                                           title="Min 6 chars, 1 uppercase and 1 symbol."></i>
-                                    </label>
+                                    <label class="form-label">Password</label>
                                     <input type="password" name="password" id="password" class="form-control" required>
+
+                                    <!-- ✅ PASSWORD RULES (NEW) -->
+                                    <ul id="pwRules" class="small mt-2" style="list-style:none;padding-left:0;">
+                                        <li id="pw-length" style="color:red;">✗ At least 6 characters</li>
+                                        <li id="pw-upper" style="color:red;">✗ At least 1 uppercase letter</li>
+                                        <li id="pw-symbol" style="color:red;">✗ At least 1 symbol</li>
+                                    </ul>
                                 </div>
 
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="showPw" onclick="togglePassword()">
-                                    <label class="form-check-label text-muted small" for="showPw" style="cursor:pointer;">Show Password</label>
+                                    <input type="checkbox" class="form-check-input" id="showPw"
+                                        onclick="togglePassword()">
+                                    <label class="form-check-label text-muted small" for="showPw">Show Password</label>
                                 </div>
                             </div>
 
                             <div class="col-md-6 ps-md-4">
-                                <h6 class="section-subtitle"><i class="fas fa-map-marker-alt"></i> Home Address (Optional)</h6>
+                                <h6 class="section-subtitle"><i class="fas fa-map-marker-alt"></i> Home Address
+                                    (Optional)</h6>
 
                                 <div class="mb-3">
                                     <label class="form-label">House No, Building, Street Name</label>
@@ -235,34 +205,26 @@ if (isset($_SESSION['error_popup'])) {
 
                                 <div id="addressDetails">
                                     <div class="mb-3">
-                                        <label class="form-label">Postal Code
-                                            <i class="bi bi-info-circle-fill ms-1" data-bs-toggle="tooltip" title="Example: 75150"></i> 
-                                        </label>
-                                        <input type="text" name="postcode" class="form-control" maxlength="5" placeholder="75150">
+                                        <label class="form-label">Postal Code</label>
+                                        <input type="text" name="postcode" class="form-control" maxlength="5">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">City
-                                            <i class="bi bi-info-circle-fill ms-1" data-bs-toggle="tooltip" title="Example: BUKIT BARU"></i> 
-                                        </label>
-                                        <input type="text" name="city" class="form-control" placeholder="CITY NAME"
+                                        <label class="form-label">City</label>
+                                        <input type="text" name="city" class="form-control"
                                             onkeyup="this.value=this.value.toUpperCase();">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">State
-                                            <i class="bi bi-info-circle-fill ms-1" data-bs-toggle="tooltip" title="Example: MELAKA"></i> 
-                                        </label>
-                                        <input type="text" name="state" class="form-control" placeholder="STATE NAME"
+                                        <label class="form-label">State</label>
+                                        <input type="text" name="state" class="form-control"
                                             onkeyup="this.value=this.value.toUpperCase();">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-12 text-center mt-4">
-                                <button type="submit" class="btn btn-register">
-                                    Register
-                                </button>
+                                <button type="submit" class="btn btn-register">Register</button>
                             </div>
 
                             <div class="col-12 text-center mt-3">
@@ -294,10 +256,23 @@ if (isset($_SESSION['error_popup'])) {
         details.style.opacity = show ? "1" : "0";
     });
 
-    // Initialize tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
+    /* ✅ LIVE PASSWORD CHECK (NEW) */
+    const passwordInput = document.getElementById("password");
+    const pwLength = document.getElementById("pw-length");
+    const pwUpper = document.getElementById("pw-upper");
+    const pwSymbol = document.getElementById("pw-symbol");
+
+    passwordInput.addEventListener("input", () => {
+        const val = passwordInput.value;
+
+        pwLength.style.color = val.length >= 6 ? "green" : "red";
+        pwLength.innerHTML = (val.length >= 6 ? "✓" : "✗") + " At least 6 characters";
+
+        pwUpper.style.color = /[A-Z]/.test(val) ? "green" : "red";
+        pwUpper.innerHTML = (/[A-Z]/.test(val) ? "✓" : "✗") + " At least 1 uppercase letter";
+
+        pwSymbol.style.color = /[\W_]/.test(val) ? "green" : "red";
+        pwSymbol.innerHTML = (/[\W_]/.test(val) ? "✓" : "✗") + " At least 1 symbol";
     });
 </script>
 
