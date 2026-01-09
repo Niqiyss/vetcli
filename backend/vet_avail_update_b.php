@@ -6,7 +6,7 @@ if (!isset($_SESSION['adminID'])) {
     exit();
 }
 
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 
 //get data
 $availability_id = $_POST['id'] ?? '';

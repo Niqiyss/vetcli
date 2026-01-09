@@ -1,7 +1,7 @@
 <?php
 //change_password_b.php
 session_start();
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 
 /* ===== USER ROLE ===== */
 if (isset($_SESSION['adminID'])) {

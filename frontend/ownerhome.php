@@ -1,18 +1,26 @@
 <?php
 //ownerhome.php
+
 include "../frontend/ownerheader.php";
-include "../backend/connection.php";
+require_once "../backend/connection.php";
+
 ?>
+
+
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
     /* --- THEME VARIABLES --- */
     :root {
         --primary-teal: #0e5c65;
-        --accent-blue: #0095c4;   /* Syringe Blue */
+        --accent-blue: #0095c4;
+        /* Syringe Blue */
         --light-blue-bg: #e1f5fe;
         --white: #ffffff;
         --text-muted: #6c757d;
@@ -55,7 +63,8 @@ include "../backend/connection.php";
     /* NEW STYLING FOR WELCOME PART */
     .welcome-badge {
         display: inline-block;
-        background: rgba(255, 255, 255, 0.15); /* Glass effect */
+        background: rgba(255, 255, 255, 0.15);
+        /* Glass effect */
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.3);
         padding: 8px 25px;
@@ -64,11 +73,12 @@ include "../backend/connection.php";
         font-size: 14px;
         letter-spacing: 1px;
         margin-bottom: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     .welcome-username {
-        color: #6ee7ff; /* Bright Cyan/Blue to pop against dark bg */
+        color: #6ee7ff;
+        /* Bright Cyan/Blue to pop against dark bg */
         font-weight: 800;
         text-transform: uppercase;
         margin-left: 5px;
@@ -80,14 +90,14 @@ include "../backend/connection.php";
         color: #fff;
         font-size: 3.5rem;
         margin-bottom: 15px;
-        text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
     .hero-content p.hero-desc {
         color: #f0f0f0;
         font-size: 1.2rem;
         margin-bottom: 30px;
-        text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     }
 
     .hero-content .cta-group {
@@ -109,7 +119,7 @@ include "../backend/connection.php";
         color: var(--primary-teal);
         margin-bottom: 10px;
     }
-    
+
     .section-title p {
         color: var(--text-muted);
     }
@@ -127,8 +137,10 @@ include "../backend/connection.php";
 
     .our-service-box:hover {
         transform: translateY(-10px);
-        box-shadow: 0 18px 40px rgba(0, 149, 196, 0.15); /* Blue Shadow */
-        border-bottom: 4px solid var(--accent-blue);     /* Blue Border */
+        box-shadow: 0 18px 40px rgba(0, 149, 196, 0.15);
+        /* Blue Shadow */
+        border-bottom: 4px solid var(--accent-blue);
+        /* Blue Border */
     }
 
     .service-icon {
@@ -167,14 +179,17 @@ include "../backend/connection.php";
     .our-service-box.emergency {
         border: 2px solid #dc3545;
     }
+
     .our-service-box.emergency:hover {
         border-bottom: 4px solid #dc3545;
         box-shadow: 0 18px 40px rgba(220, 53, 69, 0.15);
     }
+
     .emergency-icon {
         background: #ffecec !important;
         color: #dc3545 !important;
     }
+
     .our-service-box.emergency:hover .emergency-icon {
         background: #dc3545 !important;
         color: #fff !important;
@@ -314,13 +329,18 @@ include "../backend/connection.php";
         z-index: 10;
         transition: 0.3s;
     }
-    
+
     .vet-btn:hover {
         background: var(--primary-teal);
     }
 
-    .vet-btn.left { left: 0; }
-    .vet-btn.right { right: 0; }
+    .vet-btn.left {
+        left: 0;
+    }
+
+    .vet-btn.right {
+        right: 0;
+    }
 
     /* --- BUTTONS --- */
     .btn-blue {
@@ -336,11 +356,12 @@ include "../backend/connection.php";
         text-transform: uppercase;
         letter-spacing: 1px;
     }
+
     .btn-blue:hover {
         background-color: var(--primary-teal);
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     .btn-outline-blue {
@@ -354,6 +375,7 @@ include "../backend/connection.php";
         transition: 0.3s;
         background: transparent;
     }
+
     .btn-outline-blue:hover {
         background-color: var(--accent-blue);
         color: white;
@@ -366,7 +388,8 @@ include "../backend/connection.php";
         <div class="container-fluid p-0">
             <div class="hero-wrapper" style="position: relative;">
                 <div class="hero-image">
-                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid" style="width: 100%; height: auto; min-height: 600px; object-fit: cover;">
+                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid"
+                        style="width: 100%; height: auto; min-height: 600px; object-fit: cover;">
                 </div>
 
                 <div class="hero-content">
@@ -374,10 +397,10 @@ include "../backend/connection.php";
                         <div class="row">
                             <div class="col-lg-7 col-md-10" data-aos="fade-up" data-aos-delay="150">
                                 <div class="content-box">
-                                    
+
                                     <div data-aos="fade-up" data-aos-delay="200">
                                         <div class="welcome-badge">
-                                            WELCOME BACK, 
+                                            WELCOME BACK,
                                             <span class="welcome-username">
                                                 <?= htmlspecialchars($_SESSION['username'] ?? ''); ?>
                                             </span>
@@ -385,7 +408,8 @@ include "../backend/connection.php";
                                     </div>
                                     <h1 data-aos="fade-up" data-aos-delay="150">Where every paw gets attention</h1>
                                     <p class="hero-desc" data-aos="fade-up" data-aos-delay="200">
-                                        From routine checkups to special care, we’re dedicated to every paw that walks in
+                                        From routine checkups to special care, we’re dedicated to every paw that walks
+                                        in
                                     </p>
 
                                     <div class="cta-group" data-aos="fade-up" data-aos-delay="200">
@@ -477,8 +501,10 @@ include "../backend/connection.php";
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
                     <div class="about-content">
                         <h2>Expert Care, Happy Pets</h2>
-                        <p class="lead">We provide compassionate care with trusted veterinarians and modern facilities</p>
-                        <p class="text-muted">From regular check-ups to emergency treatment, our clinic ensures your pets receive the best
+                        <p class="lead">We provide compassionate care with trusted veterinarians and modern facilities
+                        </p>
+                        <p class="text-muted">From regular check-ups to emergency treatment, our clinic ensures your
+                            pets receive the best
                             possible medical attention</p>
 
                         <div class="row g-4 mt-4">
@@ -573,7 +599,7 @@ include "../backend/connection.php";
     function slideVet(direction) {
         const carousel = document.getElementById("vetCarousel");
         const card = carousel.querySelector(".vet-item");
-        
+
         let visibleCards = 3;
         if (window.innerWidth <= 992) visibleCards = 2;
         if (window.innerWidth <= 768) visibleCards = 1;
@@ -592,6 +618,9 @@ include "../backend/connection.php";
 
     window.addEventListener('resize', () => slideVet(0));
 </script>
+
+
+
 
 <?php
 include "../frontend/footer.php";

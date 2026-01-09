@@ -1,7 +1,7 @@
 <?php
 //adminhome.php
 include "../frontend/adminheader.php";
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">

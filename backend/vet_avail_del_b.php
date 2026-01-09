@@ -7,7 +7,7 @@ if (!isset($_SESSION['adminID'])) {
     exit();
 }
 
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 
 $id = $_GET['id'] ?? '';
 $vet_id = $_GET['vet_id'] ?? '';

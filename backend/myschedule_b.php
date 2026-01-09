@@ -1,7 +1,7 @@
 <?php
 // ../backend/myschedule_b.php
 session_start();
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 
 if (!isset($_SESSION['vetID'])) {
     header("Location: ../frontend/userlogin.php");

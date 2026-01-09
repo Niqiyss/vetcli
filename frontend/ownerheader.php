@@ -1,5 +1,5 @@
 <?php
-//ownerheader.php
+// ownerheader.php
 session_start();
 
 if (!isset($_SESSION['ownerID'])) {
@@ -7,9 +7,13 @@ if (!isset($_SESSION['ownerID'])) {
     exit();
 }
 
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 
 ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <style>
     .navmenu .dropdown ul li a {
         display: flex !important;
@@ -131,14 +135,14 @@ include "../backend/connection.php";
                             </li>
                         </ul>
                     </li>
-                    
+
                     <li><a
-                            href="http://10.48.74.38/vet_cli/frontend/ownertreatment_details.php?owner_id=<?= $_SESSION['ownerID'] ?> &ownername=<?= $_SESSION['ownername'] ?>">Medical History
-                    </a></li>
+                            href="../frontend/medical_hist.php">Medical History
+                        </a></li>
 
                     <li><a
                             href="http://10.48.74.197/vetclinic/frontend/paymentstatusowner.php?owner_id=<?= $_SESSION['ownerID'] ?> &ownername=<?= $_SESSION['ownername'] ?>">MyPayment
-                    </a></li>
+                        </a></li>
 
                     <li><a href="../frontend/ownerprofile.php">MyProfile</a></li>
                 </ul>
@@ -160,3 +164,4 @@ include "../backend/connection.php";
     <script>
         AOS.init(); // initialize animations
     </script>
+

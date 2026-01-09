@@ -3,7 +3,7 @@
 
 session_start();
 include "../frontend/adminheader.php";
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 
 $filterVet = $_GET['vet_id'] ?? '';
 $filterDay = $_GET['day'] ?? '';

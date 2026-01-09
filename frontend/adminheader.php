@@ -8,7 +8,7 @@ if (!isset($_SESSION['adminID'])) {
     exit();
 }
 
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 ?>
 
 
@@ -72,7 +72,7 @@ include "../backend/connection.php";
                     <li class="dropdown"><a href="#"><span>Medicine</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="http://10.48.74.38/vet_cli/frontend/medicinedetails.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Manage Medicine</a></li>
-                            <li><a href="http://10.48.74.38/vet_cli/frontend/medicine_list.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Stock Medicine</a></li>
+                            <li><a href="http://10.48.74.38/vet_cli/frontend/admin_medicine_list.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Stock Medicine</a></li>
                         </ul>
                     </li>
 

@@ -7,7 +7,7 @@ if (!isset($_SESSION['adminID'])) {
     exit();
 }
 
-include "../backend/connection.php";
+require_once "../backend/connection.php";
 
 $vet_id = $_POST['vet_id'] ?? '';
 $day = $_POST['day_of_week'] ?? '';
