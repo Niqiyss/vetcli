@@ -1,5 +1,5 @@
 <?php
-//service.php
+//ownerservices.php
 include "../frontend/ownerheader.php";
 ?>
 
@@ -9,8 +9,8 @@ include "../frontend/ownerheader.php";
 
 <style>
     :root {
-        --primary-teal: #0e5c65;  
-        --accent-blue: #0095c4;   
+        --primary-teal: #0e5c65;  /* Dark Teal for Headings */
+        --accent-blue: #0095c4;   /* The Blue Color */
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
         --white: #ffffff;
@@ -24,16 +24,17 @@ include "../frontend/ownerheader.php";
 
     /* CENTERED HEADER */
     .page-header-custom {
-        padding-top: 2rem;
-        margin-bottom: 3rem;
-        text-align: center;
+        margin-bottom: 40px;
+        display: flex;
+        justify-content: center; 
+        text-align: center;      
     }
 
     .page-title h1 {
-        font-size: 32px;
+        font-size: 36px;
         font-weight: 700;
-        color: var(--primary-teal); /* Title stays Dark Teal */
-        margin-bottom: 10px;
+        color: var(--primary-teal);
+        margin-bottom: 15px;
     }
 
     .page-title p {
@@ -41,55 +42,64 @@ include "../frontend/ownerheader.php";
         font-size: 16px;
         max-width: 600px;
         margin: 0 auto;
+        line-height: 1.6;
     }
 
-    /* SERVICE CARDS */
+    /* SERVICE GRID */
     .service-card {
         background: var(--white);
         border-radius: 20px;
-        padding: 35px 25px;
+        padding: 40px 30px;
         text-align: center;
         transition: all 0.3s ease;
-        border: 1px solid transparent;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        border: 1px solid #edf2f4;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
         height: 100%;
+        position: relative;
+        overflow: hidden;
     }
 
+    /* Hover Effect */
     .service-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 149, 196, 0.15); /* Blue shadow */
-        border-color: rgba(0, 149, 196, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 149, 196, 0.1); 
+        border-color: rgba(0, 149, 196, 0.3);
     }
 
     .icon-wrapper {
-        width: 80px;
-        height: 80px;
-        background-color: var(--accent-blue); /* NEW BLUE BACKGROUND */
+        width: 70px;
+        height: 70px;
+        background-color: var(--accent-blue);
         color: var(--white);
-        border-radius: 18px; /* Slightly rounded square like your image */
+        border-radius: 20px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
+        font-size: 28px;
         margin-bottom: 25px;
-        box-shadow: 0 8px 20px rgba(0, 149, 196, 0.3);
+        box-shadow: 0 10px 25px rgba(0, 149, 196, 0.25);
+        transition: 0.3s;
+    }
+
+    .service-card:hover .icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
     }
 
     .service-title {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
-        color: #333;
-        margin-bottom: 12px;
+        color: var(--primary-teal);
+        margin-bottom: 15px;
     }
 
     .service-desc {
         font-size: 14px;
         color: #666;
-        line-height: 1.6;
+        line-height: 1.7;
         margin-bottom: 0;
     }
 
-    /* CTA SECTION */
+    /* ORIGINAL CTA SECTION (White Background + Blue Button) */
     .cta-section {
         background-color: white;
         border-radius: 20px;
@@ -100,7 +110,7 @@ include "../frontend/ownerheader.php";
     }
 
     .btn-book {
-        background-color: var(--accent-blue); /* Blue Button */
+        background-color: var(--accent-blue);
         color: white;
         border: none;
         padding: 12px 40px;
@@ -109,6 +119,8 @@ include "../frontend/ownerheader.php";
         font-size: 16px;
         transition: 0.3s;
         margin-top: 20px;
+        text-decoration: none;
+        display: inline-block;
     }
 
     .btn-book:hover {
@@ -122,82 +134,91 @@ include "../frontend/ownerheader.php";
     <div class="container">
 
         <div class="page-header-custom">
-            <div class="page-title">
+            <div class="title-wrapper page-title">
                 <h1>Our Services</h1>
-                <p>Comprehensive veterinary care tailored to your pet's needs</p>
+                <p>We provide a wide range of veterinary services to ensure your pet lives a happy, healthy, and active life</p>
             </div>
         </div>
 
         <div class="row g-4">
             
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="service-card">
                     <div class="icon-wrapper">
                         <i class="fas fa-stethoscope"></i>
                     </div>
                     <h5 class="service-title">General Checkup</h5>
-                    <p class="service-desc">
-                        Routine physical examinations to monitor your pet's health and detect issues early
-                    </p>
+                    <p class="service-desc">Routine Health Checkup</p>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="service-card">
                     <div class="icon-wrapper">
-                        <i class="fas fa-syringe"></i> </div>
-                    <h5 class="service-title">Vaccination</h5>
-                    <p class="service-desc">
-                        Essential vaccines to protect your pets from common and dangerous infectious diseases
-                    </p>
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h5 class="service-title">Deworming</h5>
+                    <p class="service-desc">Treatment to remove intestinal worms</p>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
+                <div class="service-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h5 class="service-title">Vaccination</h5>
+                    <p class="service-desc">Vaccination services</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="service-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-user-nurse"></i>
+                    </div>
+                    <h5 class="service-title">Surgery Consultation</h5>
+                    <p class="service-desc">Consultation before surgery</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="service-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h5 class="service-title">Flea & Tick Treatment</h5>
+                    <p class="service-desc">Treatment for flea and tick prevention</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
                 <div class="service-card">
                     <div class="icon-wrapper">
                         <i class="fas fa-tooth"></i>
                     </div>
-                    <h5 class="service-title">Dental Care</h5>
-                    <p class="service-desc">
-                        Professional cleaning, polishing, and dental surgeries to keep their smile healthy
-                    </p>
+                    <h5 class="service-title">Dental Checkup</h5>
+                    <p class="service-desc">Examination of teeth and gums</p>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="service-card">
                     <div class="icon-wrapper">
-                        <i class="fas fa-procedures"></i>
+                        <i class="fas fa-eye"></i>
                     </div>
-                    <h5 class="service-title">Surgery</h5>
-                    <p class="service-desc">
-                        Safe surgical procedures including spaying, neutering, and soft tissue surgeries
-                    </p>
+                    <h5 class="service-title">Ear & Eye Exam</h5>
+                    <p class="service-desc">Check and treatment for eye or ear infections</p>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-6">
                 <div class="service-card">
                     <div class="icon-wrapper">
-                        <i class="fas fa-cut"></i>
+                        <i class="fas fa-paw"></i>
                     </div>
-                    <h5 class="service-title">Pet Grooming</h5>
-                    <p class="service-desc">
-                        Bathing, styling, and hygiene care to keep your pet looking and feeling their best
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="service-card">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-ambulance"></i>
-                    </div>
-                    <h5 class="service-title">Emergency Care</h5>
-                    <p class="service-desc">
-                        Urgent medical attention for critical conditions, available during clinic hours
-                    </p>
+                    <h5 class="service-title">Skin & Allergy</h5>
+                    <p class="service-desc">Diagnosis and treatment for skin infections, itching, or allergies</p>
                 </div>
             </div>
 
@@ -207,7 +228,7 @@ include "../frontend/ownerheader.php";
             <h2 class="fw-bold text-dark mb-3">Ready to visit us?</h2>
             <p class="text-muted mb-0">Book an appointment online to skip the wait</p>
             <a
-                href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?owner_id=<?= $_SESSION['ownerID'] ?>&ownername=<?= $_SESSION['ownername'] ?>" class="btn btn-book">Book Appointment</a>
+                href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?token=<?= urlencode($_SESSION['sso_token']) ?>" class="btn btn-book">Book Appointment</a>
         </div>
 
     </div>

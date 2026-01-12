@@ -9,6 +9,7 @@ if (!isset($_SESSION['vetID'])) {
 }
 
 $vet_id = $_SESSION['vetID'];
+
 $stmt_name = $conn->prepare("SELECT vet_name FROM veterinarian WHERE vet_id = :vid");
 $stmt_name->execute([':vid' => $vet_id]);
 $vet_data = $stmt_name->fetch(PDO::FETCH_ASSOC);

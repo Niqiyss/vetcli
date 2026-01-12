@@ -1,5 +1,4 @@
 <?php
-// ownerheader.php
 session_start();
 
 if (!isset($_SESSION['ownerID'])) {
@@ -8,6 +7,50 @@ if (!isset($_SESSION['ownerID'])) {
 }
 
 require_once "../backend/connection.php";
+
+/* =========================
+   SSO CONFIG
+========================= */
+define('SSO_SECRET', 'VETCLINIC_SSO_2026_SECRET');
+define('SSO_EXPIRE', 300);
+
+/* =========================
+   TOKEN HELPERS
+========================= */
+function createSSOToken($id, $name, $type) {
+    $payload = [
+        'id' => $id,
+        'name' => $name,
+        'type' => $type,
+        'exp' => time() + SSO_EXPIRE
+    ];
+    $payload_b64 = base64_encode(json_encode($payload));
+    $signature = hash_hmac('sha256', $payload_b64, SSO_SECRET);
+    return $payload_b64 . '.' . $signature;
+}
+
+function decodeSSOToken($token) {
+    if (!$token || !str_contains($token, '.')) return false;
+    [$payload_b64, $signature] = explode('.', $token, 2);
+    $expected = hash_hmac('sha256', $payload_b64, SSO_SECRET);
+    if (!hash_equals($expected, $signature)) return false;
+    return json_decode(base64_decode($payload_b64), true);
+}
+
+/* =========================
+   AUTO-REFRESH TOKEN
+========================= */
+if (isset($_SESSION['sso_token'])) {
+    $payload = decodeSSOToken($_SESSION['sso_token']);
+    if ($payload && ($payload['exp'] - time()) < 60) {
+        $_SESSION['sso_token'] = createSSOToken(
+            $payload['id'],
+            $payload['name'],
+            $payload['type']
+        );
+    }
+}
+
 
 ?>
 
@@ -79,6 +122,10 @@ require_once "../backend/connection.php";
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="../frontend/ownerhome.php" class="active">Home</a></li>
+
+                    <li><a href="http://10.48.74.39/Workshop 2/frontend/report_owner.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Dashboard</a></li>
+                
+
                     <li><a href="../frontend/ownerservices.php">Our Services</a></li>
                     <li><a href="../frontend/ownerabout.php">About Us</a></li>
 
@@ -90,7 +137,7 @@ require_once "../backend/connection.php";
                         <ul>
                             <li>
                                 <a
-                                    href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?owner_id=<?= $_SESSION['ownerID'] ?>&ownername=<?= $_SESSION['ownername'] ?>">
+                                    href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?token=<?= urlencode($_SESSION['sso_token']) ?>">
                                     <i class="fas fa-paw"></i>
                                     <span>Book Appointment</span>
                                 </a>
@@ -98,7 +145,7 @@ require_once "../backend/connection.php";
 
                             <li>
                                 <a
-                                    href="http://10.48.74.61/vet_clinic/frontend/appointment_list.php?owner_id=<?= $_SESSION['ownerID'] ?>&ownername=<?= $_SESSION['ownername'] ?>">
+                                    href="http://10.48.74.61/vet_clinic/frontend/appointment_list.php?token=<?= urlencode($_SESSION['sso_token']) ?>">
                                     <i class="fas fa-paw"></i>
                                     <span>Upcoming Appointment</span>
                                 </a>
@@ -106,7 +153,7 @@ require_once "../backend/connection.php";
 
                             <li>
                                 <a
-                                    href="http://10.48.74.61/vet_clinic/frontend/appointment_history.php?owner_id=<?= $_SESSION['ownerID'] ?>&ownername=<?= $_SESSION['ownername'] ?>">
+                                    href="http://10.48.74.61/vet_clinic/frontend/appointment_history.php?token=<?= urlencode($_SESSION['sso_token']) ?>">
                                     <i class="fas fa-paw"></i>
                                     <span>Appointment History</span>
                                 </a>
@@ -141,7 +188,7 @@ require_once "../backend/connection.php";
                         </a></li>
 
                     <li><a
-                            href="http://10.48.74.197/vetclinic/frontend/paymentstatusowner.php?owner_id=<?= $_SESSION['ownerID'] ?> &ownername=<?= $_SESSION['ownername'] ?>">MyPayment
+                            href="http://10.48.74.197/vetclinic/frontend/paymentstatusowner.php?token=<?= urlencode($_SESSION['sso_token']) ?>">MyPayment
                         </a></li>
 
                     <li><a href="../frontend/ownerprofile.php">MyProfile</a></li>

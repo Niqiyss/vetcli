@@ -63,8 +63,8 @@ if (isset($_SESSION['success_message'])) {
     .page-header-custom {
         margin-bottom: 30px;
         display: flex;
-        justify-content: center; 
-        text-align: center;      
+        justify-content: center;
+        text-align: center;
     }
 
     .page-title h1 {
@@ -172,6 +172,167 @@ if (isset($_SESSION['success_message'])) {
         color: var(--accent-teal);
         text-decoration: underline;
     }
+
+    /* =========================
+       NEW DANGER ZONE STYLES
+    ========================= */
+    .danger-zone {
+        margin-top: 50px;
+        border: 1px solid #fee2e2;
+        /* Very light red border */
+        border-radius: 12px;
+        background: #fff;
+        overflow: hidden;
+    }
+
+    .danger-zone-header {
+        background: #fff5f5;
+        /* Light red background */
+        padding: 15px 25px;
+        border-bottom: 1px solid #fee2e2;
+        color: #dc3545;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .danger-zone-body {
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .danger-info h6 {
+        font-weight: 600;
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .danger-info p {
+        font-size: 13px;
+        color: #6c757d;
+        margin: 0;
+        max-width: 500px;
+        line-height: 1.6;
+    }
+
+    .btn-delete-custom {
+        border: 1px solid #dc3545;
+        background-color: transparent;
+        color: #dc3545;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .btn-delete-custom:hover {
+        background-color: #dc3545;
+        color: white;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+        transform: translateY(-1px);
+    }
+
+    /* =========================
+    DELETE ACCOUNT MODAL
+    ========================= */
+
+    .delete-popup {
+        border-radius: 18px !important;
+        padding: 30px 28px !important;
+        max-width: 800px;
+    }
+
+    .delete-modal {
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .icon-wrap {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: rgba(220, 53, 69, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #dc3545;
+        font-size: 22px;
+    }
+
+    .warning-text {
+        font-size: 14px;
+        color: #6c757d;
+        margin-bottom: 22px;
+        line-height: 1.6;
+    }
+
+    .checkbox-wrap {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        text-align: left;
+        margin-bottom: 18px;
+        font-size: 14px;
+    }
+
+    .checkbox-wrap input {
+        margin-top: 4px;
+    }
+
+    .input-wrap {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .input-wrap label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .input-wrap input {
+        width: 100%;
+        padding: 11px 14px;
+        border-radius: 10px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
+
+    .input-wrap input:focus {
+        outline: none;
+        border-color: #dc3545;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+    }
+
+    /* Buttons */
+    .delete-confirm-btn {
+        background: #dc3545 !important;
+        border-radius: 10px !important;
+        padding: 10px 18px !important;
+        font-weight: 600;
+    }
+
+    .delete-cancel-btn {
+        border-radius: 10px !important;
+        padding: 10px 18px !important;
+        font-weight: 600;
+        color: #495057 !important;
+    }
 </style>
 
 <main class="main py-5">
@@ -274,12 +435,30 @@ if (isset($_SESSION['success_message'])) {
 
                         <div class="text-center mt-5">
                             <button type="submit" class="btn btn-update shadow-sm">
-                                Update 
+                                Update
                             </button>
                         </div>
 
                     </form>
 
+                    <div class="danger-zone">
+                        <div class="danger-zone-header">
+                            <i class="bi bi-exclamation-octagon-fill"></i> Danger Zone
+                        </div>
+                        <div class="danger-zone-body">
+                            <div class="danger-info">
+                                <h6>Delete Account</h6>
+                                <p>
+                                    Deleting your account is permanent and cannot be undone.
+                                    All your personal data, booking history, and profile settings
+                                    will be permanently removed from our system.
+                                </p>
+                            </div>
+                            <button type="button" class="btn-delete-custom" onclick="confirmDeleteAccount()">
+                                Delete My Account
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -300,4 +479,92 @@ if (isset($_SESSION['success_message'])) {
     window.addEventListener("load", toggleAddress);
 </script>
 
-<?php include "../frontend/footer.php"; ?>
+<script>
+    function confirmDeleteAccount() {
+        Swal.fire({
+            title: 'Delete Personal Account',
+            html: `
+            <div class="delete-modal">
+
+                <div class="icon-wrap">
+                    <i class="bi bi-trash3"></i>
+                </div>
+
+                <p class="warning-text">
+                    This action is permanent. Your account and all related data
+                    will be permanently removed
+                </p>
+                <br>
+
+                <div class="checkbox-wrap">
+                    <input type="checkbox" id="confirmDelete">
+                    <label for="confirmDelete">
+                        I understand that I wont be able recover my account
+                    </label>
+                </div>
+                <br>
+
+                <div class="input-wrap">
+                    <label>Confirm with password</label>
+                    <input
+                        type="password"
+                        id="deletePassword"
+                        placeholder="Enter your password"
+                    >
+                </div>
+
+            </div>
+        `,
+            showCancelButton: true,
+            confirmButtonText: 'Delete account',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#e9ecef',
+            focusConfirm: false,
+            customClass: {
+                popup: 'delete-popup',
+                confirmButton: 'delete-confirm-btn',
+                cancelButton: 'delete-cancel-btn'
+            },
+            preConfirm: () => {
+                const checked = document.getElementById('confirmDelete').checked;
+                const password = document.getElementById('deletePassword').value;
+
+                if (!checked) {
+                    Swal.showValidationMessage(
+                        'Please confirm before continuing.'
+                    );
+                    return false;
+                }
+
+                if (!password) {
+                    Swal.showValidationMessage(
+                        'Password is required.'
+                    );
+                    return false;
+                }
+
+                return password;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '../backend/delete_owner_account.php';
+
+                const passInput = document.createElement('input');
+                passInput.type = 'hidden';
+                passInput.name = 'password';
+                passInput.value = result.value;
+
+                form.appendChild(passInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+</script>
+
+<?php
+include "../frontend/footer.php";
+?>

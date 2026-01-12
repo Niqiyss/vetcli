@@ -1,15 +1,20 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+session_start();
+require_once "../backend/connection.php";
+
+if (!isset($_SESSION['ownerID'])) {
+    header("Location: ../frontend/userlogin.php");
+    exit();
 }
 
-if (empty($_SESSION['ownerID'])) {
-    header("Location: ../frontend/userlogin.php");
-    exit;
-}
 
 $ownerID = $_SESSION['ownerID'];
+
+$stmt_name = $conn->prepare("SELECT owner_name FROM owner WHERE owner_id = :oid");
+$stmt_name->execute([':oid' => $ownerID]); 
+$owner_data = $stmt_name->fetch(PDO::FETCH_ASSOC);
+$owner = $owner_data['owner_name'] ?? 'Owner';
 
 //conn
 require_once __DIR__ . "/connection.php";

@@ -14,8 +14,10 @@ include "../backend/vetlist_b.php";
 <style>
     /* VETCLINIC THEME STYLES */
     :root {
-        --primary-teal: #0e5c65; /* Dark teal for text */
-        --accent-teal: #009d91;  /* Bright teal for buttons/icons */
+        --primary-teal: #0e5c65;
+        /* Dark teal for text */
+        --accent-teal: #009d91;
+        /* Bright teal for buttons/icons */
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
     }
@@ -119,7 +121,7 @@ include "../backend/vetlist_b.php";
         cursor: pointer;
         z-index: 5;
     }
-    
+
     .search-icon-btn:hover {
         color: var(--accent-teal);
     }
@@ -150,7 +152,7 @@ include "../backend/vetlist_b.php";
 
     .table-custom tbody tr:hover {
         transform: translateY(-2px);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .table-custom td {
@@ -178,7 +180,7 @@ include "../backend/vetlist_b.php";
         height: 45px;
         border-radius: 10px;
         object-fit: cover;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .spec-badge {
@@ -223,7 +225,7 @@ include "../backend/vetlist_b.php";
         </div>
 
         <div class="custom-card">
-            
+
             <div class="card-header-custom flex-wrap gap-3">
                 <div class="card-title-custom">
                     <div class="card-title-icon">
@@ -264,7 +266,8 @@ include "../backend/vetlist_b.php";
                                 <tr>
                                     <td>
                                         <img src="../uploads/vets/<?= htmlspecialchars($vet['vet_image'] ?? 'default.png') ?>"
-                                            class="vet-img" alt="Vet">
+                                            class="vet-img" alt="Vet" style="cursor:pointer;" onclick="showVetImage(this.src)">
+
                                     </td>
                                     <td>
                                         <div class="fw-bold text-dark"><?= htmlspecialchars($vet['vet_name']) ?></div>
@@ -277,7 +280,8 @@ include "../backend/vetlist_b.php";
                                         </span>
                                     </td>
                                     <td class="text-end">
-                                        <button class="btn-icon-danger" onclick="confirmDelete('<?= $vet['vet_id'] ?>')" title="Delete">
+                                        <button class="btn-icon-danger" onclick="confirmDelete('<?= $vet['vet_id'] ?>')"
+                                            title="Delete">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -316,7 +320,26 @@ include "../backend/vetlist_b.php";
             }
         });
     }
+
+
+    function showVetImage(imgSrc) {
+    Swal.fire({
+        imageUrl: imgSrc,
+        imageAlt: 'Veterinarian Image',
+        showConfirmButton: false,
+        background: '#fff',
+        imageWidth: 400,
+        imageHeight: 'auto',
+        padding: '1.5rem'
+    });
+}
+
+
 </script>
+
+
+
+
 
 <?php
 include "../frontend/footer.php";

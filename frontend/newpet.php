@@ -1,5 +1,5 @@
 <?php
-// frontend/newpet.php
+//newpet.php
 
 session_start();
 
@@ -298,13 +298,7 @@ if (!empty($formErrors)) {
                                         <i class="fas fa-info-circle"></i> Physical Details
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label">Color</label>
-                                        <input type="text" name="color" class="form-control" placeholder="E.g. Black & White"
-                                               value="<?= htmlspecialchars($color); ?>" required>
-                                    </div>
-
-                                    <div class="mb-3">
+                                     <div class="mb-3">
                                         <label class="form-label">Date of Birth</label>
                                         <input type="date" name="dob" class="form-control"
                                                max="<?= date("Y-m-d") ?>" required>
@@ -321,7 +315,9 @@ if (!empty($formErrors)) {
                                     <div class="text-center">
                                         <img id="previewImage" src="#" alt="Preview" class="img-preview">
                                     </div>
+                                    <br>         
 
+                                    
                                 </div>
 
                                 <div class="col-12 text-center mt-5">

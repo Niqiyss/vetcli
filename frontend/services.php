@@ -136,7 +136,7 @@ include "../frontend/header.php";
         <div class="page-header-custom">
             <div class="title-wrapper page-title">
                 <h1>Our Services</h1>
-                <p>We provide a wide range of veterinary services to ensure your pet lives a happy, healthy, and active life.</p>
+                <p>We provide a wide range of veterinary services to ensure your pet lives a happy, healthy, and active life</p>
             </div>
         </div>
 

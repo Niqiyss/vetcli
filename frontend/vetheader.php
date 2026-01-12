@@ -9,6 +9,48 @@ if (!isset($_SESSION['vetID'])) {
 
 require_once "../backend/connection.php";
 
+/* =========================
+   SSO CONFIG
+========================= */
+define('SSO_SECRET', 'VETCLINIC_SSO_2026_SECRET');
+define('SSO_EXPIRE', 300);
+
+/* =========================
+   TOKEN HELPERS
+========================= */
+function createSSOToken($id, $name, $type) {
+    $payload = [
+        'id' => $id,
+        'name' => $name,
+        'type' => $type,
+        'exp' => time() + SSO_EXPIRE
+    ];
+    $payload_b64 = base64_encode(json_encode($payload));
+    $signature = hash_hmac('sha256', $payload_b64, SSO_SECRET);
+    return $payload_b64 . '.' . $signature;
+}
+
+function decodeSSOToken($token) {
+    if (!$token || !str_contains($token, '.')) return false;
+    [$payload_b64, $signature] = explode('.', $token, 2);
+    $expected = hash_hmac('sha256', $payload_b64, SSO_SECRET);
+    if (!hash_equals($expected, $signature)) return false;
+    return json_decode(base64_decode($payload_b64), true);
+}
+
+/* =========================
+   AUTO-REFRESH TOKEN
+========================= */
+if (isset($_SESSION['sso_token'])) {
+    $payload = decodeSSOToken($_SESSION['sso_token']);
+    if ($payload && ($payload['exp'] - time()) < 60) {
+        $_SESSION['sso_token'] = createSSOToken(
+            $payload['id'],
+            $payload['name'],
+            $payload['type']
+        );
+    }
+}
 ?>
 
 
@@ -57,18 +99,22 @@ require_once "../backend/connection.php";
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a href="../frontend/vethome.php" class="active">Home</a></li>
+
+                    <li><a href="http://10.48.74.39/Workshop 2/frontend/report_vet.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Dashboard</a></li>
+                
+
                     <li><a href="../frontend/myschedule.php">MySchedule</a></li>
                     <li class="dropdown"><a href="#"><span>Patient Records</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="http://10.48.74.61/Vet_clinic/frontend/vet_app_list.php?vet_id=<?= $_SESSION['vetID'] ?> &vetname=<?= $_SESSION['vetname'] ?>">List Appointment</a></li>
-                            <li><a href="http://10.48.74.61/Vet_clinic/frontend/vet_app_history.php?vet_id=<?= $_SESSION['vetID'] ?> &vetname=<?= $_SESSION['vetname'] ?>">Appointment History</a></li>
+                            <li><a href="http://10.48.74.61/Vet_clinic/frontend/vet_app_list.php?token=<?= urlencode($_SESSION['sso_token']) ?>">List Appointment</a></li>
+                            <li><a href="http://10.48.74.61/Vet_clinic/frontend/vet_app_history.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Appointment History</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#"><span>Treatment</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="http://10.48.74.38/vet_cli/frontend/treatment_list.php?vet_id=<?= $_SESSION['vetID']?> &vetname=<?= $_SESSION['vetname'] ?>">List Treatment</a></li>
+                            <li><a href="http://10.48.74.38/vet_cli/frontend/treatment_list.php?token=<?= urlencode($_SESSION['sso_token']) ?>">List Treatment</a></li>
                         </ul>
                     </li>
                     <li><a href="../frontend/vetprofile.php">MyProfile</a></li>

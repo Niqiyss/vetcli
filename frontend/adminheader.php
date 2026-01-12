@@ -9,6 +9,50 @@ if (!isset($_SESSION['adminID'])) {
 }
 
 require_once "../backend/connection.php";
+
+/* =========================
+   SSO CONFIG
+========================= */
+define('SSO_SECRET', 'VETCLINIC_SSO_2026_SECRET');
+define('SSO_EXPIRE', 300);
+
+/* =========================
+   TOKEN HELPERS
+========================= */
+function createSSOToken($id, $name, $type) {
+    $payload = [
+        'id' => $id,
+        'name' => $name,
+        'type' => $type,
+        'exp' => time() + SSO_EXPIRE
+    ];
+    $payload_b64 = base64_encode(json_encode($payload));
+    $signature = hash_hmac('sha256', $payload_b64, SSO_SECRET);
+    return $payload_b64 . '.' . $signature;
+}
+
+function decodeSSOToken($token) {
+    if (!$token || !str_contains($token, '.')) return false;
+    [$payload_b64, $signature] = explode('.', $token, 2);
+    $expected = hash_hmac('sha256', $payload_b64, SSO_SECRET);
+    if (!hash_equals($expected, $signature)) return false;
+    return json_decode(base64_decode($payload_b64), true);
+}
+
+/* =========================
+   AUTO-REFRESH TOKEN
+========================= */
+if (isset($_SESSION['sso_token'])) {
+    $payload = decodeSSOToken($_SESSION['sso_token']);
+    if ($payload && ($payload['exp'] - time()) < 60) {
+        $_SESSION['sso_token'] = createSSOToken(
+            $payload['id'],
+            $payload['name'],
+            $payload['type']
+        );
+    }
+}
+
 ?>
 
 
@@ -59,7 +103,7 @@ require_once "../backend/connection.php";
 
                     <li><a href="../frontend/adminhome.php" class="active">Home</a></li>
 
-                    <li><a href="http://10.48.74.39/Workshop 2/frontend/report.php?admin_id=<?= $_SESSION['adminID'] ?> &admin_name=<?= $_SESSION['adminname'] ?>">Dashboard</a></li>
+                    <li><a href="http://10.48.74.39/Workshop 2/frontend/report.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Dashboard</a></li>
                 
                     <li class="dropdown"><a href="#"><span>Veterinarian</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
@@ -71,15 +115,15 @@ require_once "../backend/connection.php";
 
                     <li class="dropdown"><a href="#"><span>Medicine</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="http://10.48.74.38/vet_cli/frontend/medicinedetails.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Manage Medicine</a></li>
-                            <li><a href="http://10.48.74.38/vet_cli/frontend/admin_medicine_list.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Stock Medicine</a></li>
+                            <li><a href="http://10.48.74.38/vet_cli/frontend/medicinedetails.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Manage Medicine</a></li>
+                            <li><a href="http://10.48.74.38/vet_cli/frontend/admin_medicine_list.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Stock Medicine</a></li>
                         </ul>
                     </li>
 
 
-                    <li><a href="http://10.48.74.61/Vet_clinic/frontend/services.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Services</a></li>
+                    <li><a href="http://10.48.74.61/Vet_clinic/frontend/services.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Services</a></li>
 
-                    <li><a href="http://10.48.74.197/vetclinic/frontend/paymenthistory.php?admin_id=<?= $_SESSION['adminID'] ?>&admin_name=<?= $_SESSION['adminname'] ?>">Payments</a></li>
+                    <li><a href="http://10.48.74.197/vetclinic/frontend/paymenthistory.php?token=<?= urlencode($_SESSION['sso_token']) ?>">Payments</a></li>
 
 
                     <li><a href="../frontend/adminprofile.php">MyProfile</a></li>

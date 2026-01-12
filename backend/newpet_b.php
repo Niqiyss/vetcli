@@ -1,5 +1,5 @@
 <?php
-// newpet_b.php
+//newpet_b.php
 
 session_start();
 require_once "../backend/connection.php";
@@ -11,29 +11,82 @@ if (!isset($_SESSION['ownerID'])) {
 
 $formErrors = [];
 
-/* ===== DEFAULT VALUES ===== */
-$pet_name = "";
-$species = "";
-$other_species = "";
-$breed = "";
-$other_breed = "";
-$gender = "";
-$color = "";
-$dob = "";
-$pet_image = null;
+//color mapping
+function mapColorName($r, $g, $b) {
 
-/* SPECIES OPTIONS*/
-$species_options = [
-    "Cat","Dog",
-    "Rabbit","Hamster","Guinea Pig","Ferret","Hedgehog","Sugar Glider","Chinchilla",
-    "Parrot","Owl",
-    "Turtle","Iguana","Lizard","Snake",
-    "Goldfish","Koi","Guppy","Arowana",
-    "Goat","Sheep","Chicken","Duck",
-    "Other"
-];
+    // BLACK
+    if ($r < 60 && $g < 60 && $b < 60) {
+        return "Black";
+    }
 
-/* ===== SUBMIT ===== */
+    // WHITE
+    if ($r > 200 && $g > 200 && $b > 200) {
+        return "White";
+    }
+
+    // GREY
+    if (abs($r - $g) < 15 && abs($r - $b) < 15 && $r < 200) {
+        return "Grey";
+    }
+
+    // ORANGE / GINGER
+    if ($r > 180 && $g > 100 && $g < 180 && $b < 100) {
+        return "Orange";
+    }
+
+    // BROWN
+    if ($r > 120 && $r > $g && $g > $b) {
+        return "Brown";
+    }
+
+    return "Other";
+}
+
+function detectDominantColor($imagePath) {
+    $img = @imagecreatefromstring(file_get_contents($imagePath));
+    if (!$img) return null;
+
+    $width  = imagesx($img);
+    $height = imagesy($img);
+
+    $colorCount = [];
+
+    for ($x = 0; $x < $width; $x += 10) {
+        for ($y = 0; $y < $height; $y += 10) {
+
+            $rgb = imagecolorat($img, $x, $y);
+
+            $r = ($rgb >> 16) & 0xFF;
+            $g = ($rgb >> 8) & 0xFF;
+            $b = $rgb & 0xFF;
+
+            $color = mapColorName($r, $g, $b);
+
+            if ($color !== "Other") {
+                $colorCount[$color] = ($colorCount[$color] ?? 0) + 1;
+            }
+        }
+    }
+
+    imagedestroy($img);
+
+    if (empty($colorCount)) {
+        return null;
+    }
+
+    arsort($colorCount);
+    $topColors = array_keys($colorCount);
+
+    // One dominant color
+    if (count($topColors) === 1) {
+        return $topColors[0];
+    }
+
+    // Two dominant colors
+    return $topColors[0] . " & " . $topColors[1];
+}
+
+//form
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     $pet_name = trim($_POST['pet_name'] ?? "");
@@ -42,20 +95,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $breed = $_POST['breed'] ?? "";
     $other_breed = trim($_POST['other_breed'] ?? "");
     $gender = $_POST['gender'] ?? "";
-    $color = trim($_POST['color'] ?? "");
     $dob = $_POST['dob'] ?? "";
 
-    //validation
-    if (!$pet_name || !$species || !$gender || !$color || !$dob) {
+    $color = "";       
+    $pet_image = null;
+
+    /* VALIDATION */
+    if (!$pet_name || !$species || !$gender || !$dob) {
         $formErrors[] = "All required fields must be filled";
     }
 
     if (!preg_match("/^[A-Za-z ]+$/", $pet_name)) {
         $formErrors[] = "Pet name must contain letters only";
-    }
-
-    if (!preg_match("/^[A-Za-z ,]+$/", $color)) {
-        $formErrors[] = "Color must contain letters and commas only";
     }
 
     if ($species === "Other" && $other_species === "") {
@@ -70,14 +121,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $formErrors[] = "Date of birth cannot be in the future";
     }
 
-    //final values
     $species_final = ($species === "Other") ? $other_species : $species;
-
     $breed_final =
         ($breed === "Other") ? $other_breed :
         (($breed === "None" || $breed === "") ? null : $breed);
 
-    //image upload
+    /* IMAGE UPLOAD */
     $upload_dir = "../uploads/pets/";
 
     if (!is_dir($upload_dir)) {
@@ -104,40 +153,52 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         if (empty($formErrors)) {
             if (move_uploaded_file($file_tmp, $upload_dir . $file_name)) {
                 $pet_image = $file_name;
+
+                // AUTO-DETECT COLOR
+                $detectedColor = detectDominantColor($upload_dir . $file_name);
+                if ($detectedColor !== null) {
+                    $color = $detectedColor;
+                }
             } else {
                 $formErrors[] = "Failed to upload pet image";
             }
         }
     }
 
+    /* FINAL SAFETY FALLBACK */
+    if (empty($color)) {
+        $color = "Other";
+    }
 
-    //insert
-    try {
-        $sql = "
-            INSERT INTO pet
-            (pet_name, species, breed, gender, color, dob, owner_id, pet_image)
-            VALUES
-            (:pet_name, :species, :breed, :gender, :color, :dob, :owner_id, :pet_image)
-        ";
+    /* INSERT */
+    if (empty($formErrors)) {
+        try {
+            $sql = "
+                INSERT INTO pet
+                (pet_name, species, breed, gender, color, dob, owner_id, pet_image)
+                VALUES
+                (:pet_name, :species, :breed, :gender, :color, :dob, :owner_id, :pet_image)
+            ";
 
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([
-            ':pet_name' => $pet_name,
-            ':species'  => $species_final,
-            ':breed'    => $breed_final,
-            ':gender'   => $gender,
-            ':color'    => $color,
-            ':dob'      => $dob,
-            ':owner_id' => $_SESSION['ownerID'],
-            ':pet_image'=> $pet_image
-        ]);
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':pet_name'  => $pet_name,
+                ':species'   => $species_final,
+                ':breed'     => $breed_final,
+                ':gender'    => $gender,
+                ':color'     => $color,
+                ':dob'       => $dob,
+                ':owner_id'  => $_SESSION['ownerID'],
+                ':pet_image' => $pet_image
+            ]);
 
-        $_SESSION['success_popup'] = "";
-        header("Location: ../frontend/newpet.php");
-        exit();
+            $_SESSION['success_popup'] = "";
+            header("Location: ../frontend/ownerpetlist.php");
+            exit();
 
-    } catch (PDOException $e) {
-        $formErrors[] = "Database error occurred. Please try again.";
+        } catch (PDOException $e) {
+            die($e->getMessage()); 
+        }
     }
 }
 ?>

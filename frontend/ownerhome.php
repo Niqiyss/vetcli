@@ -3,15 +3,11 @@
 
 include "../frontend/ownerheader.php";
 require_once "../backend/connection.php";
-
 ?>
-
-
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -20,11 +16,12 @@ require_once "../backend/connection.php";
     :root {
         --primary-teal: #0e5c65;
         --accent-blue: #0095c4;
-        /* Syringe Blue */
         --light-blue-bg: #e1f5fe;
         --white: #ffffff;
         --text-muted: #6c757d;
         --bg-light: #f4f7f6;
+        /* Hero & About Section Background */
+        --bg-gradient: linear-gradient(120deg, #f8fcfd 0%, #eef7f9 100%);
     }
 
     html {
@@ -37,81 +34,252 @@ require_once "../backend/connection.php";
         background-color: var(--white);
     }
 
-    /* --- HERO SECTION STYLES (User Original Layout) --- */
-    .hero-content {
+    /* --- 1. HERO SECTION (COLOR) --- */
+    .hero-modern {
+        padding: 120px 0 80px; 
+        background: var(--bg-gradient);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Decorative Circle Background */
+    .hero-modern::before {
+        content: '';
         position: absolute;
-        inset: 0;
-        display: flex;
+        top: -100px;
+        right: -100px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(0, 149, 196, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .hero-text-col {
+        position: relative;
+        z-index: 2;
+        padding-right: 20px;
+    }
+
+    /* Badge Style */
+    .hero-badge {
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        text-align: center;
+        gap: 8px;
+        background: rgba(14, 92, 101, 0.1);
+        color: var(--primary-teal);
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        border: 1px solid rgba(14, 92, 101, 0.1);
+    }
+
+    .hero-badge i {
+        color: var(--accent-blue);
+    }
+
+    /* Typography */
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--primary-teal);
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .hero-title span {
+        color: var(--accent-blue);
+    }
+
+    .hero-description {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 35px;
+        line-height: 1.7;
+        max-width: 500px;
+    }
+
+    /* Buttons */
+    .hero-btns {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 50px;
+    }
+
+    /* --- HERO IMAGE CAROUSEL STYLES --- */
+    .hero-img-wrapper {
+        position: relative;
+        z-index: 1;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        border: 4px solid #fff;
+        background: #fff;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hero-img-wrapper:hover {
+        transform: translateY(-5px); 
+        box-shadow: 0 20px 40px rgba(0, 149, 196, 0.15);
+    }
+
+    /* Fixed Height for Rectangle Look */
+    .hero-carousel-img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover; 
+        object-position: center;
+    }
+
+    /* --- DOT INDICATORS OVERLAY --- */
+    .carousel-indicators {
+        position: absolute;
+        bottom: 15px;
+        margin-bottom: 0;
+        gap: 8px;
         z-index: 2;
     }
 
-    .hero-content .container {
-        max-width: 900px;
+    .carousel-indicators [data-bs-target] {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #fff;
+        opacity: 0.5;
+        border: none;
+        margin: 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
-    .hero-content .row {
-        justify-content: center;
+    .carousel-indicators .active {
+        opacity: 1;
+        transform: scale(1.2);
+        background-color: #fff;
     }
 
-    .hero-content .content-box {
-        margin: 0 auto;
+    /* --- NEW: CUSTOM ARROW STYLING --- */
+    /* This makes the arrows look like visible buttons */
+    .carousel-control-prev, 
+    .carousel-control-next {
+        width: 45px;
+        height: 45px;
+        background-color: rgba(0,0,0,0.4); /* Semi-transparent black background */
+        border-radius: 50%; /* Circle shape */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%);
+        opacity: 0; /* Hidden by default, shown on hover of wrapper */
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255,255,255,0.5);
     }
 
-    /* NEW STYLING FOR WELCOME PART */
-    .welcome-badge {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.15);
-        /* Glass effect */
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        padding: 8px 25px;
-        border-radius: 50px;
-        color: #fff;
-        font-size: 14px;
-        letter-spacing: 1px;
-        margin-bottom: 25px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Show arrows when hovering over the image */
+    .hero-img-wrapper:hover .carousel-control-prev,
+    .hero-img-wrapper:hover .carousel-control-next {
+        opacity: 1;
     }
 
-    .welcome-username {
-        color: #6ee7ff;
-        /* Bright Cyan/Blue to pop against dark bg */
-        font-weight: 800;
-        text-transform: uppercase;
-        margin-left: 5px;
-        text-shadow: 0 0 10px rgba(0, 149, 196, 0.5);
+    .carousel-control-prev { left: 15px; }
+    .carousel-control-next { right: 15px; }
+
+    .carousel-control-prev:hover, 
+    .carousel-control-next:hover {
+        background-color: var(--accent-blue); /* Blue on hover */
+        border-color: var(--accent-blue);
+        opacity: 1;
     }
 
-    .hero-content h1 {
-        font-weight: 700;
-        color: #fff;
-        font-size: 3.5rem;
-        margin-bottom: 15px;
-        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
 
-    .hero-content p.hero-desc {
-        color: #f0f0f0;
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    .hero-content .cta-group {
+    /* --- INFO CARDS --- */
+    .hero-info-grid {
         display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 25px;
+        gap: 20px;
         flex-wrap: wrap;
     }
 
-    /* --- SERVICES SECTION (BLUE THEME) --- */
+    .info-card-box {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #fff;
+        padding: 15px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        border: 1px solid #edf2f4;
+        min-width: 240px;
+        transition: 0.3s;
+    }
+
+    .info-card-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .icon-box-sm {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .info-text-sm h6 {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0;
+        color: #333;
+    }
+
+    .info-text-sm span {
+        font-size: 13px;
+        color: #777;
+    }
+
+    /* Specific Colors */
+    .info-card-box.hours .icon-box-sm {
+        background: #e1f5fe;
+        color: var(--accent-blue);
+    }
+
+    .info-card-box.emergency {
+        border-left: 4px solid #dc3545;
+    }
+
+    .info-card-box.emergency .icon-box-sm {
+        background: #ffecec;
+        color: #dc3545;
+        animation: pulse 2s infinite;
+    }
+
+    .info-card-box.emergency h6 {
+        color: #dc3545;
+    }
+
+    .emergency-link {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 15px;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+
+    /* --- SERVICES SECTION (UPDATED FOR SOLID ICONS) --- */
     .our-services {
         padding: 80px 0;
-        background: var(--bg-light);
+        background-color: var(--white);
     }
 
     .section-title h2 {
@@ -131,6 +299,7 @@ require_once "../backend/connection.php";
         text-align: center;
         height: 100%;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid #f0f0f0;
         transition: 0.35s;
         border-bottom: 4px solid transparent;
     }
@@ -138,28 +307,29 @@ require_once "../backend/connection.php";
     .our-service-box:hover {
         transform: translateY(-10px);
         box-shadow: 0 18px 40px rgba(0, 149, 196, 0.15);
-        /* Blue Shadow */
         border-bottom: 4px solid var(--accent-blue);
-        /* Blue Border */
+        border-color: transparent;
     }
 
+    /* UPDATED: Solid Square Icon Style */
     .service-icon {
-        width: 72px;
-        height: 72px;
-        margin: 0 auto 18px;
-        border-radius: 50%;
-        background: var(--light-blue-bg);
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        border-radius: 20px; /* Rounded Square */
+        background: var(--accent-blue); /* Solid Blue BG */
+        color: #fff; /* White Icon */
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 32px;
         transition: 0.35s;
-        color: var(--accent-blue);
-        font-size: 30px;
+        box-shadow: 0 8px 20px rgba(0, 149, 196, 0.3);
     }
 
     .our-service-box:hover .service-icon {
-        background: var(--accent-blue);
-        color: #fff;
+        transform: scale(1.1);
+        background: var(--primary-teal); /* Darker on hover */
     }
 
     .our-service-box h4 {
@@ -175,7 +345,7 @@ require_once "../backend/connection.php";
         margin-bottom: 0;
     }
 
-    /* Emergency Override */
+    /* Emergency Card Specifics */
     .our-service-box.emergency {
         border: 2px solid #dc3545;
     }
@@ -185,19 +355,18 @@ require_once "../backend/connection.php";
         box-shadow: 0 18px 40px rgba(220, 53, 69, 0.15);
     }
 
-    .emergency-icon {
-        background: #ffecec !important;
-        color: #dc3545 !important;
-    }
-
-    .our-service-box.emergency:hover .emergency-icon {
+    /* Emergency Icon (Solid Red) */
+    .service-icon.emergency-icon {
         background: #dc3545 !important;
         color: #fff !important;
+        box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
     }
+    
 
-    /* --- ABOUT SECTION (BLUE THEME) --- */
+    /* --- 3. ABOUT SECTION (COLOR) --- */
     .home-about {
         padding: 80px 0;
+        background: var(--bg-gradient); 
     }
 
     .about-content h2 {
@@ -215,13 +384,14 @@ require_once "../backend/connection.php";
     .feature-item .icon {
         width: 45px;
         height: 45px;
-        background: var(--light-blue-bg);
+        background: #fff;
         color: var(--accent-blue);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     .feature-item h4 {
@@ -230,10 +400,10 @@ require_once "../backend/connection.php";
         margin-bottom: 5px;
     }
 
-    /* --- VETS SECTION (BLUE THEME) --- */
+    /* --- 4. VETS SECTION (WHITE) --- */
     .our-vets {
-        padding: 60px 0;
-        background: var(--bg-light);
+        padding: 80px 0;
+        background-color: var(--white);
     }
 
     .our-vets .section-title h2 {
@@ -267,7 +437,7 @@ require_once "../backend/connection.php";
         display: flex;
         flex-direction: column;
         height: 100%;
-        border: 1px solid transparent;
+        border: 1px solid #f0f0f0;
         transition: 0.3s;
     }
 
@@ -380,56 +550,155 @@ require_once "../backend/connection.php";
         background-color: var(--accent-blue);
         color: white;
     }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 991px) {
+        .hero-modern {
+            padding: 80px 0 40px; 
+            text-align: center;
+        }
+
+        .hero-text-col {
+            padding-right: 0;
+            margin-bottom: 40px;
+        }
+
+        .hero-description {
+            margin: 0 auto 30px;
+        }
+
+        .hero-btns {
+            justify-content: center;
+        }
+
+        .hero-info-grid {
+            justify-content: center;
+        }
+
+        .hero-img-wrapper {
+            transform: none;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .hero-carousel-img {
+            height: 280px; /* Smaller height for mobile */
+        }
+    }
 </style>
 
 <main class="main">
 
-    <section id="hero" class="hero section dark-background">
-        <div class="container-fluid p-0">
-            <div class="hero-wrapper" style="position: relative;">
-                <div class="hero-image">
-                    <img src="../MediTrust/assets/img/health/main.jpg" alt="Advanced Healthcare" class="img-fluid"
-                        style="width: 100%; height: auto; min-height: 600px; object-fit: cover;">
-                </div>
+    <section class="hero-modern">
+        <div class="container">
+            <div class="row align-items-center">
 
-                <div class="hero-content">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-7 col-md-10" data-aos="fade-up" data-aos-delay="150">
-                                <div class="content-box">
+                <div class="col-lg-6 hero-text-col" data-aos="fade-right">
 
-                                    <div data-aos="fade-up" data-aos-delay="200">
-                                        <div class="welcome-badge">
-                                            WELCOME BACK,
-                                            <span class="welcome-username">
-                                                <?= htmlspecialchars($_SESSION['username'] ?? ''); ?>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <h1 data-aos="fade-up" data-aos-delay="150">Where every paw gets attention</h1>
-                                    <p class="hero-desc" data-aos="fade-up" data-aos-delay="200">
-                                        From routine checkups to special care, we’re dedicated to every paw that walks
-                                        in
-                                    </p>
+                    <br><br>
+                    <div class="hero-badge">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Welcome, <?= htmlspecialchars($_SESSION['username'] ?? 'Owner'); ?></span>
+                    </div>
 
-                                    <div class="cta-group" data-aos="fade-up" data-aos-delay="200">
-                                        <a href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?owner_id=<?= urlencode($_SESSION['ownerID']) ?>&ownerName=<?= urlencode($_SESSION['ownerName']) ?>"
-                                            class="btn-blue">
-                                            Book Appointment
-                                        </a>
-                                    </div>
+                    <h1 class="hero-title">
+                        Where every paw  <br>
+                        <span>gets attention</span>
+                    </h1>
 
-                                </div>
+                    <p class="hero-description">
+                        From routine checkups to special care, we’re dedicated to every paw that walks in
+                    </p>
+
+                    <div class="hero-btns">
+                        <a href="http://10.48.74.61/vet_clinic/frontend/new_appointment.php?token=<?= urlencode($_SESSION['sso_token']) ?>"
+                            class="btn-blue shadow">
+                            Book Appointment <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+
+                    <div class="hero-info-grid">
+
+                        <div class="info-card-box hours">
+                            <div class="icon-box-sm">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <div class="info-text-sm">
+                                <h6>Mon - Sat</h6>
+                                <span>9:00 AM - 6:00 PM</span>
                             </div>
                         </div>
+
+                        <div class="info-card-box emergency">
+                            <a href="tel:+601111244959" class="emergency-link">
+                                <div class="icon-box-sm">
+                                    <i class="bi bi-telephone-fill"></i>
+                                </div>
+                                <div class="info-text-sm">
+                                    <h6>Emergency Line</h6>
+                                    <span>011-1124 4959</span>
+                                </div>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
+
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                    <div class="hero-img-wrapper">
+                        
+                        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+                            
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                            </div>
+
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="../MediTrust/assets/img/health/aboutus.jpeg" class="hero-carousel-img" alt="Vet examining cat">
+                                </div>
+
+                                <div class="carousel-item">
+                                    <img src="../MediTrust/assets/img/health/withrabbit.jpeg" class="hero-carousel-img" alt="With Rabbit">
+                                </div>
+
+                                <div class="carousel-item">
+                                    <img src="../MediTrust/assets/img/health/hero-2.jpg" class="hero-carousel-img" alt="Kitten">
+                                </div>
+
+                                <div class="carousel-item">
+                                    <img src="../MediTrust/assets/img/health/hamster.webp" class="hero-carousel-img" alt="Golden Retriever">
+                                </div>
+                            </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon visually-hidden" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                                <i class="fas fa-chevron-left text-white fs-5"></i>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon visually-hidden" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                                <i class="fas fa-chevron-right text-white fs-5"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-
-    <section class="our-services">
+        <section class="our-services">
         <div class="container section-title text-center" data-aos="fade-up">
             <h2>Our Services</h2>
             <p>Quality veterinary services designed to keep your pets healthy and happy</p>
@@ -441,30 +710,30 @@ require_once "../backend/connection.php";
                 <div class="col-md-6 col-lg-3">
                     <div class="our-service-box">
                         <div class="service-icon">
-                            <i class="bi bi-heart-pulse-fill"></i>
+                            <i class="fas fa-stethoscope"></i>
                         </div>
-                        <h4>Health Check</h4>
-                        <p>Routine examinations to keep pets healthy</p>
+                        <h4>General Checkup</h4>
+                        <p>Routine Health Checkup</p>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-lg-3">
                     <div class="our-service-box">
                         <div class="service-icon">
-                            <i class="bi bi-shield-check"></i>
+                            <i class="fas fa-syringe"></i>
                         </div>
                         <h4>Vaccination</h4>
-                        <p>Essential vaccines for disease prevention</p>
+                        <p>Vaccination services</p>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-lg-3">
                     <div class="our-service-box">
                         <div class="service-icon">
-                            <i class="bi bi-scissors"></i>
+                            <i class="fas fa-paw"></i>
                         </div>
-                        <h4>Surgery</h4>
-                        <p>Safe surgical procedures by professionals</p>
+                        <h4>Skin & Allergy</h4>
+                        <p>Diagnosis and treatment for skin infections</p>
                     </div>
                 </div>
 
@@ -480,7 +749,6 @@ require_once "../backend/connection.php";
 
             </div>
 
-
             <div class="text-center mt-5">
                 <a href="../frontend/ownerservices.php" class="btn-blue">Explore Services</a>
             </div>
@@ -493,7 +761,7 @@ require_once "../backend/connection.php";
 
                 <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
                     <div class="about-image">
-                        <img src="../MediTrust/assets/img/health/aboutus.jpeg" alt="Vet Clinic Facility"
+                        <img src="../MediTrust/assets/img/health/hero.png" alt="Vet Clinic Facility"
                             class="img-fluid rounded-4 shadow mb-4">
                     </div>
                 </div>
@@ -619,8 +887,7 @@ require_once "../backend/connection.php";
     window.addEventListener('resize', () => slideVet(0));
 </script>
 
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <?php
 include "../frontend/footer.php";
