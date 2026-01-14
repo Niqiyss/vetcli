@@ -1,5 +1,5 @@
 <?php
-// backend/pet_update_b.php
+//pet_update_b.php
 
 session_start();
 require_once "../backend/connection.php";
@@ -12,9 +12,7 @@ if (!isset($_SESSION['ownerID'])) {
 $ownerID = $_SESSION['ownerID'];
 $formErrors = [];
 
-/* =====================================================
-   COLOR DETECTION FUNCTIONS (SAME AS REGISTER)
-===================================================== */
+//color detection function
 function mapColorName($r, $g, $b)
 {
 
@@ -78,18 +76,14 @@ function detectDominantColor($imagePath)
     return count($top) === 1 ? $top[0] : $top[0] . " & " . $top[1];
 }
 
-/* =====================================================
-   INPUT
-===================================================== */
+//input
 $pet_id = $_POST['pet_id'] ?? '';
 $pet_name = trim($_POST['pet_name'] ?? '');
 $gender = $_POST['gender'] ?? '';
 $color = trim($_POST['color'] ?? '');
 $dob = $_POST['dob'] ?? '';
 
-/* =====================================================
-   VALIDATION
-===================================================== */
+//validation
 if (!$pet_id || !$pet_name || !$gender || !$dob) {
     $formErrors[] = "All required fields must be filled";
 }
@@ -106,9 +100,7 @@ if ($dob > date("Y-m-d")) {
     $formErrors[] = "Date of birth cannot be in the future";
 }
 
-/* =====================================================
-   FETCH CURRENT PET (SECURITY)
-===================================================== */
+//fetch current pet
 $stmt = $conn->prepare("
     SELECT species, breed, pet_image
     FROM pet
@@ -131,9 +123,7 @@ $species = $currentPet['species'];
 $breed = $currentPet['breed'];
 $pet_image = $currentPet['pet_image'];
 
-/* =====================================================
-   IMAGE UPLOAD
-===================================================== */
+//image upload
 $upload_dir = "../uploads/pets/";
 if (!is_dir($upload_dir)) {
     mkdir($upload_dir, 0777, true);
@@ -172,22 +162,18 @@ if (!empty($_FILES['pet_image']['name'])) {
     }
 }
 
-/* =====================================================
-   AUTO-DETECT COLOR (ONLY IF IMAGE CHANGED & COLOR EMPTY)
-===================================================== */
+//auto detect color but if not become empty
+
 if ($imageChanged && empty($color)) {
     $detectedColor = detectDominantColor($upload_dir . $pet_image);
     $color = $detectedColor ?? "Other";
 }
 
-/* FINAL SAFETY */
 if (empty($color)) {
     $color = "Other";
 }
 
-/* =====================================================
-   UPDATE
-===================================================== */
+//update
 if (!empty($formErrors)) {
     $_SESSION['error_popup'] = implode("\n", $formErrors);
     header("Location: ../frontend/ownerpetlist.php");

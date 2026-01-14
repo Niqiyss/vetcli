@@ -12,14 +12,15 @@ include "../backend/vetlist_b.php";
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-    /* VETCLINIC THEME STYLES */
+
     :root {
-        --primary-teal: #0e5c65;
-        /* Dark teal for text */
-        --accent-teal: #009d91;
-        /* Bright teal for buttons/icons */
+
+        --primary-teal: #00798C;
+        --accent-teal: #00798C; 
+        
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -28,19 +29,32 @@ include "../backend/vetlist_b.php";
         color: #333;
     }
 
-    /* Page Header */
-    .page-header-custom {
-        margin-bottom: 30px;
-        display: center;
-        justify-content: space-between;
-        align-items: flex-end;
+
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding: 40px 0;
+        border-bottom: 3px solid var(--accent-teal); 
+        margin-bottom: 40px;
+    }
+
+    .header-content-wrapper {
+        display: flex;
+        flex-direction: column; 
+        align-items: center;    
+        position: relative;    
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 20px; 
     }
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
         color: var(--primary-teal);
-        margin-bottom: 5px;
+        margin-bottom: 15px;
     }
 
     .page-title p {
@@ -49,7 +63,65 @@ include "../backend/vetlist_b.php";
         font-size: 15px;
     }
 
-    /* Main Card */
+
+    .admin-badge {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        
+        background-color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .admin-badge-icon {
+        width: 32px;
+        height: 32px;
+        background-color: var(--accent-teal);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .admin-badge-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+        text-align: left;
+    }
+
+    .admin-badge-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .admin-badge-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
+
+
+    @media (max-width: 768px) {
+        .admin-badge {
+            position: static;
+            transform: none;
+            margin-top: 15px;
+        }
+    }
+
+
     .custom-card {
         background: white;
         border-radius: 16px;
@@ -88,7 +160,7 @@ include "../backend/vetlist_b.php";
         font-size: 14px;
     }
 
-    /* Search Bar Styled to Match Theme */
+
     .vet-search-wrapper {
         position: relative;
         width: 300px;
@@ -106,7 +178,7 @@ include "../backend/vetlist_b.php";
     .vet-search-input:focus {
         border-color: var(--accent-teal);
         outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 121, 140, 0.1);
     }
 
     .search-icon-btn {
@@ -126,7 +198,7 @@ include "../backend/vetlist_b.php";
         color: var(--accent-teal);
     }
 
-    /* Table Styling */
+
     .table-custom {
         width: 100%;
         border-collapse: separate;
@@ -174,7 +246,7 @@ include "../backend/vetlist_b.php";
         border-bottom-right-radius: 10px;
     }
 
-    /* Avatar & Badges */
+
     .vet-img {
         width: 45px;
         height: 45px;
@@ -185,7 +257,7 @@ include "../backend/vetlist_b.php";
 
     .spec-badge {
         background: #e0f7fa;
-        color: #006064;
+        color: var(--accent-teal);
         padding: 6px 12px;
         border-radius: 6px;
         font-size: 0.8rem;
@@ -193,7 +265,7 @@ include "../backend/vetlist_b.php";
         display: inline-block;
     }
 
-    /* Action Buttons */
+
     .btn-icon-danger {
         color: #dc3545;
         background: #fff5f5;
@@ -214,15 +286,34 @@ include "../backend/vetlist_b.php";
     }
 </style>
 
-<main class="main py-5">
-    <div class="container">
 
-        <div class="page-header-custom">
+
+
+<div class="hero-section">
+    <div class="container">
+        <div class="header-content-wrapper">
+            
             <div class="page-title">
                 <h1>Veterinarian List</h1>
                 <p>Manage Registered Veterinarians Details</p>
             </div>
+
+            <div class="admin-badge">
+                <div class="admin-badge-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="admin-badge-text">
+                    <span class="admin-badge-label">Admin</span>
+                    <span class="admin-badge-name"><?= htmlspecialchars($_SESSION['adminname'] ?? 'Admin'); ?></span>
+                </div>
+            </div>
+
         </div>
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="custom-card">
 
@@ -304,6 +395,8 @@ include "../backend/vetlist_b.php";
     </div>
 </main>
 
+
+
 <script>
     function confirmDelete(vetID) {
         Swal.fire({
@@ -336,9 +429,6 @@ include "../backend/vetlist_b.php";
 
 
 </script>
-
-
-
 
 
 <?php

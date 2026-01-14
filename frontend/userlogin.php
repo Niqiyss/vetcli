@@ -12,9 +12,10 @@ include "../frontend/header.php";
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
+
+        --primary-teal: #137c85; 
         --accent-teal: #009d91;
-        --bg-light: #f4f7f6;
+        --bg-light: #f4f7f6;     
         --text-muted: #8898aa;
     }
 
@@ -23,7 +24,7 @@ include "../frontend/header.php";
         background-color: var(--bg-light);
     }
 
-    /* MATCHING HEADER CSS */
+
     .page-header-custom {
         margin-bottom: 30px;
         display: flex;
@@ -33,8 +34,8 @@ include "../frontend/header.php";
 
     .page-title h1 {
         font-size: 28px;
-        font-weight: 700;
-        color: var(--primary-teal);
+        font-weight: 700; 
+        color: var(--primary-teal); 
         margin-bottom: 5px;
     }
 
@@ -44,7 +45,7 @@ include "../frontend/header.php";
         font-size: 15px;
     }
 
-    /* LOGIN CARD STYLING */
+
     .login-card {
         background: white;
         border-radius: 20px;
@@ -115,6 +116,8 @@ include "../frontend/header.php";
         margin: 0 auto 20px auto;
     }
 </style>
+
+
 
 <main class="main py-5">
     <div class="page-header-custom">

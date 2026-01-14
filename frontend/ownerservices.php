@@ -9,8 +9,11 @@ include "../frontend/ownerheader.php";
 
 <style>
     :root {
-        --primary-teal: #0e5c65;  /* Dark Teal for Headings */
-        --accent-blue: #0095c4;   /* The Blue Color */
+        --theme-teal: #00798C; 
+        --accent-teal: #00798C;
+
+        --primary-teal: #0e5c65;  
+        --accent-blue: #0095c4;   
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
         --white: #ffffff;
@@ -22,18 +25,25 @@ include "../frontend/ownerheader.php";
         color: #444;
     }
 
-    /* CENTERED HEADER */
-    .page-header-custom {
+
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding-top: 40px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--theme-teal); 
         margin-bottom: 40px;
-        display: flex;
-        justify-content: center; 
-        text-align: center;      
+    }
+
+    .page-header-custom {
+        text-align: center;
+        margin-bottom: 10px;
     }
 
     .page-title h1 {
-        font-size: 36px;
+        font-size: 32px;
         font-weight: 700;
-        color: var(--primary-teal);
+        color: var(--theme-teal); 
         margin-bottom: 15px;
     }
 
@@ -45,7 +55,67 @@ include "../frontend/ownerheader.php";
         line-height: 1.6;
     }
 
-    /* SERVICE GRID */
+
+    .badge-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        padding-right: 10px;
+    }
+
+    .owner-badge {
+        background: white;
+        border: 1px solid #e0e0e0;
+        padding: 8px 20px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .owner-badge-icon {
+        width: 32px;
+        height: 32px;
+        background-color: var(--accent-teal);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .owner-badge-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+        text-align: left;
+    }
+
+    .owner-badge-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .owner-badge-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--theme-teal);
+    }
+
+
+    @media (max-width: 768px) {
+        .badge-container {
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
+
     .service-card {
         background: var(--white);
         border-radius: 20px;
@@ -59,7 +129,7 @@ include "../frontend/ownerheader.php";
         overflow: hidden;
     }
 
-    /* Hover Effect */
+ 
     .service-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 40px rgba(0, 149, 196, 0.1); 
@@ -99,7 +169,7 @@ include "../frontend/ownerheader.php";
         margin-bottom: 0;
     }
 
-    /* ORIGINAL CTA SECTION (White Background + Blue Button) */
+
     .cta-section {
         background-color: white;
         border-radius: 20px;
@@ -124,21 +194,42 @@ include "../frontend/ownerheader.php";
     }
 
     .btn-book:hover {
-        background-color: #007ba1; /* Darker Blue on Hover */
+        background-color: #007ba1; 
         box-shadow: 0 5px 15px rgba(0, 149, 196, 0.4);
         color: white;
     }
 </style>
 
-<main class="main py-5">
-    <div class="container">
 
+
+
+<div class="hero-section">
+    <div class="container">
+        
         <div class="page-header-custom">
             <div class="title-wrapper page-title">
                 <h1>Our Services</h1>
                 <p>We provide a wide range of veterinary services to ensure your pet lives a happy, healthy, and active life</p>
             </div>
         </div>
+
+        <div class="badge-container">
+            <div class="owner-badge">
+                <div class="owner-badge-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="owner-badge-text">
+                    <span class="owner-badge-label">Owner</span>
+                    <span class="owner-badge-name"><?= htmlspecialchars($_SESSION['ownername'] ?? 'Owner'); ?></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="row g-4">
             

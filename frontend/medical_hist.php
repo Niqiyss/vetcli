@@ -5,13 +5,17 @@ include "../frontend/ownerheader.php";
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
-        --accent-teal: #009d91;
+        /* UPDATED: Theme Color */
+        --primary-teal: #00798C; 
+        --accent-teal: #00798C;  
+        
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -19,30 +23,42 @@ include "../frontend/ownerheader.php";
         background-color: var(--bg-light);
     }
 
-    /* PAGE TITLE */
+    /* --- HERO/HEADER SECTION (White BG + Line) --- */
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding-top: 40px;
+        padding-bottom: 10px;
+        /* Green Line */
+        border-bottom: 3px solid var(--accent-teal); 
+        margin-bottom: 40px;
+    }
+
     .page-header-custom {
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: center;
         text-align: center;
+        margin-bottom: 10px;
     }
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
-        color: var(--primary-teal);
+        color: var(--primary-teal); /* Updated Color */
+        margin-bottom: 15px;
     }
 
     .page-title p {
         color: var(--text-muted);
+        margin-bottom: 0;
         font-size: 15px;
     }
 
+    /* --- BADGE  --- */
+
     .badge-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 25px;
-    padding-right: 10px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 25px;
+        padding-right: 10px;
     }
 
     .owner-badge {
@@ -88,6 +104,15 @@ include "../frontend/ownerheader.php";
         font-weight: 700;
         color: var(--primary-teal);
     }
+
+    /* Responsive Badge */
+    @media (max-width: 768px) {
+        .badge-container {
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
 
 
     /* RECORDS LIST BAR */
@@ -198,7 +223,7 @@ include "../frontend/ownerheader.php";
     }
 
     .pagination {
-    gap: 6px;
+        gap: 6px;
     }
 
     .pagination .page-item .page-link {
@@ -221,10 +246,9 @@ include "../frontend/ownerheader.php";
 
 </style>
 
-<main class="main py-5">
+<div class="hero-section">
     <div class="container">
-
-        <!-- TITLE -->
+        
         <div class="page-header-custom">
             <div class="page-title">
                 <h1>Medical History</h1>
@@ -232,19 +256,24 @@ include "../frontend/ownerheader.php";
             </div>
         </div>
 
-         <div class="badge-container">
+        <div class="badge-container">
             <div class="owner-badge">
                 <div class="owner-badge-icon">
-                    <i class="fas fa-user-md"></i>
+                    <i class="fas fa-user"></i>
                 </div>
                 <div class="owner-badge-text">
                     <span class="owner-badge-label">Owner</span>
-                    <span class="owner-badge-name"><?= htmlspecialchars($owner) ?></span>
+                    <span class="owner-badge-name"><?= htmlspecialchars($_SESSION['ownername'] ?? 'Owner'); ?></span>
                 </div>
             </div>
         </div>
 
-        <!-- RECORDS LIST + SORT -->
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
+
         <div class="records-bar">
             <div class="records-left">
                 <div class="records-icon">
@@ -262,7 +291,6 @@ include "../frontend/ownerheader.php";
             </div>
         </div>
 
-        <!-- CARDS -->
         <section>
             <?php if (!empty($treatments)): ?>
                 <div class="medical-grid" id="medicalGrid">
@@ -270,18 +298,15 @@ include "../frontend/ownerheader.php";
                         <?php $tID = $row['treatment_id']; ?>
                         <div class="medical-card" data-date="<?= $row['treatment_date']; ?>">
 
-                            <!-- DATE -->
                             <div class="medical-header">
                                 <?= date("d M Y", strtotime($row['treatment_date'])); ?>
                             </div>
 
-                            <!-- PET NAME -->
                             <div class="medical-row">
                                 <span class="medical-label">Pet</span>
                                 <span><strong><?= htmlspecialchars($row['pet_name']); ?></strong></span>
                             </div>
 
-                            <!-- APPOINTMENT TIME (SAFE) -->
                             <div class="medical-row">
                                 <span class="medical-label">Appointment</span>
                                 <span>
@@ -295,26 +320,22 @@ include "../frontend/ownerheader.php";
                                 </span>
                             </div>
 
-                            <!-- DIAGNOSIS -->
                             <div class="medical-row">
                                 <span class="medical-label">Treatment</span>
                                 <span><?= htmlspecialchars($row['diagnosis'] ?: 'General Checkup'); ?></span>
                             </div>
 
-                            <!-- VET -->
                             <div class="medical-row">
                                 <span class="medical-label">Vet</span>
                                 <span><?= htmlspecialchars($row['vet_name']); ?></span>
                             </div>
 
-                            <!-- FEE -->
                             <div class="medical-row">
                                 <span class="medical-label">Fee</span>
                                 <span><strong>RM <?= number_format($row['treatment_fee'], 2); ?></strong></span>
                             </div>
 
                             <br>
-                            <!-- PRESCRIPTION -->
                             <?php if (isset($instructionsMap[$tID])): ?>
                                 <button class="btn-prescription"
                                     onclick='viewPrescription(<?= json_encode($instructionsMap[$tID]); ?>)'>
@@ -333,7 +354,6 @@ include "../frontend/ownerheader.php";
             <?php endif; ?>
         </section>
 
-        <!-- PAGINATION -->
         <div class="d-flex justify-content-center mt-4">
             <nav>
                 <ul class="pagination" id="pagination"></ul>
@@ -344,7 +364,6 @@ include "../frontend/ownerheader.php";
     </div>
 </main>
 
-<!-- PRESCRIPTION MODAL -->
 <div class="modal fade" id="prescriptionModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4">
@@ -365,9 +384,11 @@ include "../frontend/ownerheader.php";
 
     const ITEMS_PER_PAGE = 6;
     let currentPage = 1;
-    let cards = Array.from(grid.children);
+    // Handle null grid if no records found
+    let cards = grid ? Array.from(grid.children) : [];
 
     function renderPage(page) {
+        if (!grid) return;
         currentPage = page;
         grid.innerHTML = "";
 
@@ -379,8 +400,11 @@ include "../frontend/ownerheader.php";
     }
 
     function renderPagination() {
+        if (!grid) return;
         pagination.innerHTML = "";
         const totalPages = Math.ceil(cards.length / ITEMS_PER_PAGE);
+
+        if (totalPages <= 1) return;
 
         // Prev
         pagination.innerHTML += `
@@ -415,21 +439,23 @@ include "../frontend/ownerheader.php";
         renderPage(page);
     }
 
-    // SORTING
-    sortDate.addEventListener("change", () => {
-        const order = sortDate.value;
+    if (sortDate && grid) {
+        // SORTING
+        sortDate.addEventListener("change", () => {
+            const order = sortDate.value;
 
-        cards.sort((a, b) => {
-            const dateA = new Date(a.dataset.date);
-            const dateB = new Date(b.dataset.date);
-            return order === "newest" ? dateB - dateA : dateA - dateB;
+            cards.sort((a, b) => {
+                const dateA = new Date(a.dataset.date);
+                const dateB = new Date(b.dataset.date);
+                return order === "newest" ? dateB - dateA : dateA - dateB;
+            });
+
+            renderPage(1);
         });
 
+        // INITIAL LOAD
         renderPage(1);
-    });
-
-    // INITIAL LOAD
-    renderPage(1);
+    }
 
     // PRESCRIPTION MODAL
     function viewPrescription(data) {

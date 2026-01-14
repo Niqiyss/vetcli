@@ -12,11 +12,11 @@ require_once "../backend/connection.php";
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-    /* --- THEME VARIABLES --- */
+    
     :root {
         --primary-teal: #0e5c65;
-        --accent-blue: #0095c4; /* Default Blue */
-        --hover-green: #2ecc71; /* The Green for Hover */
+        --accent-blue: #0095c4; 
+        --hover-green: #2ecc71; 
         --light-blue-bg: #e1f5fe;
         --white: #ffffff;
         --text-muted: #6c757d;
@@ -34,7 +34,7 @@ require_once "../backend/connection.php";
         background-color: var(--white);
     }
 
-    /* --- 1. HERO SECTION --- */
+    
     .hero-modern {
         padding: 120px 0 80px; 
         background: var(--bg-gradient);
@@ -87,7 +87,7 @@ require_once "../backend/connection.php";
         margin-bottom: 50px;
     }
 
-    /* --- HERO IMAGE CAROUSEL STYLES --- */
+   
     .hero-img-wrapper {
         position: relative;
         z-index: 1;
@@ -166,7 +166,7 @@ require_once "../backend/connection.php";
     }
 
 
-    /* --- INFO CARDS --- */
+
     .hero-info-grid {
         display: flex;
         gap: 20px;
@@ -249,7 +249,6 @@ require_once "../backend/connection.php";
     }
 
 
-    /* --- SERVICES SECTION (UPDATED FOR SOLID ICONS) --- */
     .our-services {
         padding: 80px 0;
         background-color: var(--white);
@@ -284,14 +283,13 @@ require_once "../backend/connection.php";
         border-color: transparent;
     }
 
-    /* UPDATED: Solid Square Icon Style */
     .service-icon {
         width: 80px;
         height: 80px;
         margin: 0 auto 20px;
-        border-radius: 20px; /* Rounded Square */
-        background: var(--accent-blue); /* Solid Blue BG */
-        color: #fff; /* White Icon */
+        border-radius: 20px; 
+        background: var(--accent-blue); 
+        color: #fff; 
         display: flex;
         align-items: center;
         justify-content: center;
@@ -302,7 +300,7 @@ require_once "../backend/connection.php";
 
     .our-service-box:hover .service-icon {
         transform: scale(1.1);
-        background: var(--primary-teal); /* Darker on hover */
+        background: var(--primary-teal); 
     }
 
     .our-service-box h4 {
@@ -318,7 +316,7 @@ require_once "../backend/connection.php";
         margin-bottom: 0;
     }
 
-    /* Emergency Card Specifics */
+    
     .our-service-box.emergency {
         border: 2px solid #dc3545;
     }
@@ -328,14 +326,14 @@ require_once "../backend/connection.php";
         box-shadow: 0 18px 40px rgba(220, 53, 69, 0.15);
     }
 
-    /* Emergency Icon (Solid Red) */
+    
     .service-icon.emergency-icon {
         background: #dc3545 !important;
         color: #fff !important;
         box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
     }
 
-    /* --- ABOUT SECTION --- */
+   
     .home-about {
         padding: 80px 0;
         background: var(--bg-gradient); 
@@ -372,7 +370,7 @@ require_once "../backend/connection.php";
         margin-bottom: 5px;
     }
 
-    /* --- VETS SECTION --- */
+    
     .our-vets {
         padding: 80px 0;
         background-color: var(--white);
@@ -484,7 +482,7 @@ require_once "../backend/connection.php";
         right: 0;
     }
 
-    /* --- STANDARD BUTTON (Light Blue) --- */
+    
     .btn-blue {
         background-color: var(--accent-blue);
         color: white;
@@ -523,7 +521,7 @@ require_once "../backend/connection.php";
         color: white;
     }
 
-    /* --- BLUE TO GREEN + SHINE ANIMATION --- */
+    
     .btn-cta-animate {
         background-color: var(--accent-blue); 
         color: white;
@@ -570,7 +568,7 @@ require_once "../backend/connection.php";
         100% { left: 100%; }
     }
     
-    /* Responsive Adjustments */
+    
     @media (max-width: 991px) {
         .hero-modern {
             padding: 80px 0 40px; 
@@ -609,6 +607,8 @@ require_once "../backend/connection.php";
         }
     }
 </style>
+
+
 
 <main class="main">
 
@@ -874,6 +874,7 @@ require_once "../backend/connection.php";
     </section>
 
 </main>
+
 
 <script>
     let vetIndex = 0;

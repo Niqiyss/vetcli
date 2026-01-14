@@ -40,8 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $formErrors[] = "Name can only contain letters and spaces.";
     }
 
-    if (!preg_match("/^[0-9\-]+$/", $phoneNum)) {
-        $formErrors[] = "Phone number must contain digits or dashes only.";
+
+    if (!preg_match('/^([0-9]{10,11}|[0-9]{3}-[0-9]{8})$/', $phoneNum)) {
+    $formErrors[] = "Phone number must be 10 or 11 digits";
     }
 
 

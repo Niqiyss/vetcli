@@ -9,31 +9,38 @@ include "../frontend/header.php";
 
 <style>
     :root {
-        --primary-teal: #0e5c65;  /* Main Titles (Kept Dark) */
-        --accent-blue: #0095c4;   /* NEW BLUE (Matches Service Page) */
-        --light-blue-bg: #e1f5fe; /* Light Blue for backgrounds */
+        
+        --theme-teal: #00798C; 
+
+        
+        --primary-teal: #0e5c65;  
+        --accent-blue: #0095c4;   
+        --light-blue-bg: #e1f5fe; 
         --bg-light: #f4f7f6;
-        --text-muted: #6c757d;
         --white: #ffffff;
+        --text-muted: #6c757d;
     }
 
     body {
         font-family: 'Poppins', sans-serif;
         color: #444;
-        background-color: var(--white);
+        background-color: var(--bg-light); 
     }
 
-    /* --- PAGE HEADER --- */
-    .page-header-custom {
-        padding-top: 2rem;
-        margin-bottom: 3rem;
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding: 60px 0;
+        border-bottom: 3px solid var(--theme-teal); 
+        margin-bottom: 0; 
         text-align: center;
     }
 
     .page-title h1 {
         font-size: 32px;
         font-weight: 700;
-        color: var(--primary-teal); /* Title remains Dark Teal */
+
+        color: var(--theme-teal); 
         margin-bottom: 10px;
     }
 
@@ -44,16 +51,16 @@ include "../frontend/header.php";
         margin: 0 auto;
     }
 
-    /* --- BADGES & HEADINGS --- */
+    
     .section-title-badge {
         font-size: 13px;
         font-weight: 700;
-        color: var(--accent-blue); /* Blue Text */
+        color: var(--accent-blue);
         text-transform: uppercase;
         letter-spacing: 1.5px;
         display: inline-block;
         margin-bottom: 10px;
-        background: var(--light-blue-bg); /* Light Blue BG */
+        background: var(--light-blue-bg);
         padding: 5px 15px;
         border-radius: 20px;
     }
@@ -61,14 +68,15 @@ include "../frontend/header.php";
     .section-heading {
         font-size: 32px;
         font-weight: 700;
-        color: var(--primary-teal); /* Heading remains Dark Teal */
+        color: var(--primary-teal); 
         margin-bottom: 25px;
         line-height: 1.3;
     }
 
-    /* --- ABOUT SECTION --- */
+    
     .about-section {
-        padding: 40px 0 80px;
+        padding: 80px 0;
+        background-color: var(--bg-light);
     }
 
     .lead-text {
@@ -76,7 +84,7 @@ include "../frontend/header.php";
         font-weight: 500;
         color: #333;
         margin-bottom: 20px;
-        border-left: 4px solid var(--accent-blue); /* Blue Border */
+        border-left: 4px solid var(--accent-blue);
         padding-left: 15px;
     }
 
@@ -88,10 +96,11 @@ include "../frontend/header.php";
 
     .stat-box h3 {
         font-weight: 700;
-        color: var(--accent-blue); /* Blue Numbers */
+        color: var(--accent-blue);
         margin-bottom: 0;
         font-size: 28px;
     }
+
     .stat-box small {
         font-size: 13px;
         text-transform: uppercase;
@@ -123,34 +132,36 @@ include "../frontend/header.php";
         object-fit: cover;
     }
 
-    /* --- WHY US SECTION --- */
+    
     .why-us {
         padding: 90px 0;
-        background-color: var(--bg-light);
+        background-color: var(--white);
     }
 
     .feature-card {
-        background: var(--white);
+        background: var(--bg-light);
         padding: 25px;
         border-radius: 16px;
         margin-bottom: 20px;
         display: flex;
         align-items: flex-start;
         gap: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        box-shadow: none;
+        border: 1px solid #e0e0e0;
         transition: all 0.3s ease;
         border-left: 4px solid transparent;
     }
 
     .feature-card:hover {
         transform: translateX(10px);
-        box-shadow: 0 15px 30px rgba(0, 149, 196, 0.15); /* Blue Shadow */
-        border-left: 4px solid var(--accent-blue); /* Blue Border */
+        box-shadow: 0 15px 30px rgba(0, 149, 196, 0.15); 
+        border-left: 4px solid var(--accent-blue);
+        background: white;
     }
 
     .feature-icon {
-        background-color: var(--light-blue-bg); /* Light Blue BG */
-        color: var(--accent-blue); /* Blue Icon */
+        background-color: var(--light-blue-bg); 
+        color: var(--accent-blue);
         min-width: 55px;
         height: 55px;
         border-radius: 50%;
@@ -163,7 +174,7 @@ include "../frontend/header.php";
 
     .feature-content h6 {
         font-weight: 700;
-        color: var(--primary-teal);
+        color: var(--section-heading-color); 
         margin-bottom: 8px;
         font-size: 18px;
     }
@@ -184,9 +195,10 @@ include "../frontend/header.php";
         min-height: 450px;
     }
 
-    /* --- MISSION VISION CARDS --- */
+    
     .mv-section {
         padding: 90px 0;
+        background-color: var(--bg-light);
     }
 
     .mv-card {
@@ -197,20 +209,20 @@ include "../frontend/header.php";
         box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         height: 100%;
         transition: 0.3s;
-        border-top: 4px solid var(--bg-light); 
+        border-top: 4px solid transparent; 
     }
 
     .mv-card:hover {
         transform: translateY(-10px);
-        border-top: 4px solid var(--accent-blue); /* Blue Top Border */
+        border-top: 4px solid var(--accent-blue);
         box-shadow: 0 15px 40px rgba(0, 149, 196, 0.15);
     }
 
     .mv-icon {
         width: 80px;
         height: 80px;
-        background: var(--bg-light);
-        color: var(--primary-teal); /* Icon starts dark */
+        background: var(--light-blue-bg);
+        color: var(--accent-blue);
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
@@ -221,13 +233,13 @@ include "../frontend/header.php";
     }
 
     .mv-card:hover .mv-icon {
-        background: var(--accent-blue); /* Icon BG becomes Blue */
+        background: var(--accent-blue);
         color: var(--white);
     }
 
     .mv-card h4 {
         font-weight: 700;
-        color: #333;
+        color: var(--section-heading-color); 
         margin-bottom: 15px;
     }
 
@@ -238,14 +250,16 @@ include "../frontend/header.php";
     }
 </style>
 
-<main class="main">
-
-    <div class="page-header-custom">
-        <div class="title-wrapper page-title">
+<div class="hero-section">
+    <div class="container">
+        <div class="page-title">
             <h1>About Us</h1>
             <p>From routine checkups to special care, we are dedicated to every paw that walks in</p>
         </div>
     </div>
+</div>
+
+<main class="main">
 
     <section class="about-section">
         <div class="container">
@@ -254,31 +268,23 @@ include "../frontend/header.php";
                 <div class="col-lg-6 order-2 order-lg-1">
                     <div class="about-text pe-lg-4">
                         <span class="section-title-badge">Who We Are</span>
-                        <h2 class="section-heading">Dedicated to Your Pet's Health & Happiness</h2>
+                        <h2 class="section-heading">Expert Care, Happy Pets</h2>
                         
                         <p class="lead-text">
-                            At <strong>VetClinic</strong>, your pet’s health and well-being are our top priority. 
-                            We are committed to providing professional, ethical, and compassionate veterinary care
+                            At <strong>VetClinic</strong>, your pet’s health and well-being are our top priority 
+                            We provide compassionate care with trusted veterinarians and modern facilities
                         </p>
 
                         <p>
-                            Our experienced veterinarians and support staff work closely together to ensure
-                            every pet receives safe, effective, and personalized treatment. We believe in treating
-                            every animal as if they were our own family member.
+                            Our history began with a love for animals. 
+                            Realizing they deserve better, we made it our mission to provide expert care crafted to their challenges. 
+                            From simple vaccination to end-of-life care, we’re dedicated to the lives of pets.
                         </p>
                         
                         <div class="row mt-5">
-                            <div class="col-4 text-center stat-box">
-                                <h3>10+</h3>
-                                <small>Years Experience</small>
-                            </div>
                             <div class="col-4 text-center stat-box border-start border-end">
-                                <h3>5k+</h3>
-                                <small>Happy Pets</small>
-                            </div>
-                            <div class="col-4 text-center stat-box">
-                                <h3>24/7</h3>
-                                <small>Support</small>
+                                <h3>10k+</h3>
+                                <small>Years Experience</small>
                             </div>
                         </div>
                     </div>

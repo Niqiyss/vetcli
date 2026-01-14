@@ -9,8 +9,10 @@ include "../frontend/header.php";
 
 <style>
     :root {
-        --primary-teal: #0e5c65;  /* Dark Teal for Headings */
-        --accent-blue: #0095c4;   /* The Blue Color */
+        --theme-teal: #00798C;
+        --primary-teal: #009d91; 
+        --accent-blue: #0095c4;   
+        --hover-green: #2ecc71;
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
         --white: #ffffff;
@@ -22,18 +24,21 @@ include "../frontend/header.php";
         color: #444;
     }
 
-    /* CENTERED HEADER */
-    .page-header-custom {
-        margin-bottom: 40px;
-        display: flex;
-        justify-content: center; 
-        text-align: center;      
+
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding: 60px 0;
+        /* The Green Line */
+        border-bottom: 3px solid var(--theme-teal); 
+        margin-bottom: 50px;
     }
 
     .page-title h1 {
-        font-size: 36px;
+        font-size: 32px;
         font-weight: 700;
-        color: var(--primary-teal);
+        /* Title Color Updated to #00798C */
+        color: var(--theme-teal); 
         margin-bottom: 15px;
     }
 
@@ -45,31 +50,30 @@ include "../frontend/header.php";
         line-height: 1.6;
     }
 
-    /* SERVICE GRID */
+    /* SERVICE GRID (Unchanged) */
     .service-card {
         background: var(--white);
         border-radius: 20px;
         padding: 40px 30px;
         text-align: center;
         transition: all 0.3s ease;
-        border: 1px solid #edf2f4;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        border: 1px solid #e0e0e0; 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
         height: 100%;
         position: relative;
         overflow: hidden;
     }
 
-    /* Hover Effect */
     .service-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 149, 196, 0.1); 
+        box-shadow: 0 20px 40px rgba(0, 149, 196, 0.15); 
         border-color: rgba(0, 149, 196, 0.3);
     }
 
     .icon-wrapper {
         width: 70px;
         height: 70px;
-        background-color: var(--accent-blue);
+        background-color: var(--accent-blue); 
         color: var(--white);
         border-radius: 20px;
         display: inline-flex;
@@ -88,7 +92,8 @@ include "../frontend/header.php";
     .service-title {
         font-size: 18px;
         font-weight: 700;
-        color: var(--primary-teal);
+
+        color: var(--primary-teal); 
         margin-bottom: 15px;
     }
 
@@ -99,46 +104,79 @@ include "../frontend/header.php";
         margin-bottom: 0;
     }
 
-    /* ORIGINAL CTA SECTION (White Background + Blue Button) */
     .cta-section {
         background-color: white;
         border-radius: 20px;
         padding: 50px;
         margin-top: 60px;
+        margin-bottom: 60px;
         text-align: center;
         box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border: 1px solid #e0e0e0;
     }
 
-    .btn-book {
-        background-color: var(--accent-blue);
+
+    .btn-shine-animate {
+        background-color: var(--accent-blue); 
         color: white;
         border: none;
-        padding: 12px 40px;
+        padding: 14px 45px;
         border-radius: 50px;
-        font-weight: 600;
-        font-size: 16px;
-        transition: 0.3s;
-        margin-top: 20px;
+        font-weight: 700;
         text-decoration: none;
         display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden; 
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(0, 149, 196, 0.3); 
     }
 
-    .btn-book:hover {
-        background-color: #007ba1; /* Darker Blue on Hover */
-        box-shadow: 0 5px 15px rgba(0, 149, 196, 0.4);
+    .btn-shine-animate:hover {
+        background-color: var(--hover-green); 
         color: white;
+        transform: translateY(-4px); 
+        box-shadow: 0 10px 25px rgba(46, 204, 113, 0.5); 
+    }
+
+    .btn-shine-animate::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            120deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.6), 
+            transparent
+        );
+        animation: shine-sweep 3s infinite; 
+    }
+
+    @keyframes shine-sweep {
+        0% { left: -100%; }
+        10% { left: 100%; }
+        100% { left: 100%; }
     }
 </style>
 
-<main class="main py-5">
-    <div class="container">
 
-        <div class="page-header-custom">
-            <div class="title-wrapper page-title">
-                <h1>Our Services</h1>
-                <p>We provide a wide range of veterinary services to ensure your pet lives a happy, healthy, and active life</p>
-            </div>
+
+<div class="hero-section">
+    <div class="container text-center">
+        <div class="page-title">
+            <h1>Our Services</h1>
+            <p>We provide a wide range of veterinary services to ensure your pet lives a happy, healthy, and active life</p>
         </div>
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="row g-4">
             
@@ -227,7 +265,10 @@ include "../frontend/header.php";
         <div class="cta-section">
             <h2 class="fw-bold text-dark mb-3">Ready to visit us?</h2>
             <p class="text-muted mb-0">Book an appointment online to skip the wait</p>
-            <a href="../frontend/userlogin.php" class="btn btn-book">Book Appointment</a>
+            
+            <a href="../frontend/userlogin.php" class="btn-shine-animate">
+                Book Appointment
+            </a>
         </div>
 
     </div>

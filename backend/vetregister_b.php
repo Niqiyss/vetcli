@@ -34,9 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $formErrors[] = "Full name may contain letters and spaces only.";
     }
 
-    if ($phone_num && !preg_match("/^[0-9]+$/", $phone_num)) {
-        $formErrors[] = "Phone number must contain digits only.";
+    if (!preg_match('/^([0-9]{10,11}|[0-9]{3}-[0-9]{8})$/', $phone_num)) {
+    $formErrors[] = "Phone number must be 10 or 11 digits";
     }
+
 
     if ($email && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $formErrors[] = "Invalid email format.";
@@ -111,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    //insert, generate vetid
+    //insert
     try {
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);

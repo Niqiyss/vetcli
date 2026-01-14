@@ -9,9 +9,12 @@ include "../frontend/ownerheader.php";
 
 <style>
     :root {
-        --primary-teal: #0e5c65;  /* Main Titles (Kept Dark) */
-        --accent-blue: #0095c4;   /* NEW BLUE (Matches Service Page) */
-        --light-blue-bg: #e1f5fe; /* Light Blue for backgrounds */
+        --theme-teal: #00798C; 
+        --accent-teal: #00798C;
+ 
+        --primary-teal: #0e5c65;
+        --accent-blue: #0095c4;
+        --light-blue-bg: #e1f5fe;
         --bg-light: #f4f7f6;
         --text-muted: #6c757d;
         --white: #ffffff;
@@ -20,20 +23,24 @@ include "../frontend/ownerheader.php";
     body {
         font-family: 'Poppins', sans-serif;
         color: #444;
-        background-color: var(--white);
+        background-color: var(--bg-light); 
     }
 
-    /* --- PAGE HEADER --- */
-    .page-header-custom {
-        padding-top: 2rem;
-        margin-bottom: 3rem;
+    
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding-top: 40px;
+        padding-bottom: 10px; 
+        border-bottom: 3px solid var(--theme-teal); 
+        margin-bottom: 0;
         text-align: center;
     }
 
     .page-title h1 {
         font-size: 32px;
         font-weight: 700;
-        color: var(--primary-teal); /* Title remains Dark Teal */
+        color: var(--theme-teal); 
         margin-bottom: 10px;
     }
 
@@ -44,16 +51,77 @@ include "../frontend/ownerheader.php";
         margin: 0 auto;
     }
 
-    /* --- BADGES & HEADINGS --- */
+        
+
+    .badge-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 25px;
+        padding-right: 10px;
+    }
+
+    .owner-badge {
+        background-color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(14, 92, 101, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid #eef2f2;
+    }
+
+    .owner-badge-icon {
+        width: 32px;
+        height: 32px;
+        background-color: var(--accent-teal);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .owner-badge-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+        text-align: left;
+    }
+
+    .owner-badge-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .owner-badge-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
+
+    
+    @media (max-width: 768px) {
+        .badge-container {
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
+
     .section-title-badge {
         font-size: 13px;
         font-weight: 700;
-        color: var(--accent-blue); /* Blue Text */
+        color: var(--accent-blue);
         text-transform: uppercase;
         letter-spacing: 1.5px;
         display: inline-block;
         margin-bottom: 10px;
-        background: var(--light-blue-bg); /* Light Blue BG */
+        background: var(--light-blue-bg);
         padding: 5px 15px;
         border-radius: 20px;
     }
@@ -61,14 +129,14 @@ include "../frontend/ownerheader.php";
     .section-heading {
         font-size: 32px;
         font-weight: 700;
-        color: var(--primary-teal); /* Heading remains Dark Teal */
+        color: var(--primary-teal);
         margin-bottom: 25px;
         line-height: 1.3;
     }
 
-    /* --- ABOUT SECTION --- */
     .about-section {
-        padding: 40px 0 80px;
+        padding: 80px 0;
+        background-color: var(--bg-light);
     }
 
     .lead-text {
@@ -76,7 +144,7 @@ include "../frontend/ownerheader.php";
         font-weight: 500;
         color: #333;
         margin-bottom: 20px;
-        border-left: 4px solid var(--accent-blue); /* Blue Border */
+        border-left: 4px solid var(--accent-blue);
         padding-left: 15px;
     }
 
@@ -88,7 +156,7 @@ include "../frontend/ownerheader.php";
 
     .stat-box h3 {
         font-weight: 700;
-        color: var(--accent-blue); /* Blue Numbers */
+        color: var(--accent-blue);
         margin-bottom: 0;
         font-size: 28px;
     }
@@ -123,34 +191,35 @@ include "../frontend/ownerheader.php";
         object-fit: cover;
     }
 
-    /* --- WHY US SECTION --- */
     .why-us {
         padding: 90px 0;
-        background-color: var(--bg-light);
+        background-color: var(--white); 
     }
 
     .feature-card {
-        background: var(--white);
+        background: var(--bg-light);
         padding: 25px;
         border-radius: 16px;
         margin-bottom: 20px;
         display: flex;
         align-items: flex-start;
         gap: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        box-shadow: none;
+        border: 1px solid #e0e0e0;
         transition: all 0.3s ease;
         border-left: 4px solid transparent;
     }
 
     .feature-card:hover {
         transform: translateX(10px);
-        box-shadow: 0 15px 30px rgba(0, 149, 196, 0.15); /* Blue Shadow */
-        border-left: 4px solid var(--accent-blue); /* Blue Border */
+        box-shadow: 0 15px 30px rgba(0, 149, 196, 0.15);
+        border-left: 4px solid var(--accent-blue);
+        background: white;
     }
 
     .feature-icon {
-        background-color: var(--light-blue-bg); /* Light Blue BG */
-        color: var(--accent-blue); /* Blue Icon */
+        background-color: var(--light-blue-bg);
+        color: var(--accent-blue);
         min-width: 55px;
         height: 55px;
         border-radius: 50%;
@@ -184,9 +253,9 @@ include "../frontend/ownerheader.php";
         min-height: 450px;
     }
 
-    /* --- MISSION VISION CARDS --- */
     .mv-section {
         padding: 90px 0;
+        background-color: var(--bg-light);
     }
 
     .mv-card {
@@ -197,20 +266,20 @@ include "../frontend/ownerheader.php";
         box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         height: 100%;
         transition: 0.3s;
-        border-top: 4px solid var(--bg-light); 
+        border-top: 4px solid transparent;
     }
 
     .mv-card:hover {
         transform: translateY(-10px);
-        border-top: 4px solid var(--accent-blue); /* Blue Top Border */
+        border-top: 4px solid var(--accent-blue);
         box-shadow: 0 15px 40px rgba(0, 149, 196, 0.15);
     }
 
     .mv-icon {
         width: 80px;
         height: 80px;
-        background: var(--bg-light);
-        color: var(--primary-teal); /* Icon starts dark */
+        background: var(--light-blue-bg);
+        color: var(--accent-blue);
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
@@ -221,7 +290,7 @@ include "../frontend/ownerheader.php";
     }
 
     .mv-card:hover .mv-icon {
-        background: var(--accent-blue); /* Icon BG becomes Blue */
+        background: var(--accent-blue);
         color: var(--white);
     }
 
@@ -238,14 +307,31 @@ include "../frontend/ownerheader.php";
     }
 </style>
 
-<main class="main">
 
-    <div class="page-header-custom">
-        <div class="title-wrapper page-title">
+<div class="hero-section">
+    <div class="container">
+        
+        <div class="page-title">
             <h1>About Us</h1>
             <p>From routine checkups to special care, we are dedicated to every paw that walks in</p>
         </div>
+
+        <div class="badge-container">
+            <div class="owner-badge">
+                <div class="owner-badge-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="owner-badge-text">
+                    <span class="owner-badge-label">Owner</span>
+                    <span class="owner-badge-name"><?= htmlspecialchars($_SESSION['ownername'] ?? 'Owner'); ?></span>
+                </div>
+            </div>
+        </div>
+
     </div>
+</div>
+
+<main class="main">
 
     <section class="about-section">
         <div class="container">
@@ -257,7 +343,7 @@ include "../frontend/ownerheader.php";
                         <h2 class="section-heading">Dedicated to Your Pet's Health & Happiness</h2>
                         
                         <p class="lead-text">
-                            At <strong>VetClinic</strong>, your pet’s health and well-being are our top priority 
+                            At <strong>VetClinic</strong>, your pet’s health and well-being are our top priority. 
                             We are committed to providing professional, ethical, and compassionate veterinary care
                         </p>
 

@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $color = "";       
     $pet_image = null;
 
-    /* VALIDATION */
+    //validation
     if (!$pet_name || !$species || !$gender || !$dob) {
         $formErrors[] = "All required fields must be filled";
     }
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         ($breed === "Other") ? $other_breed :
         (($breed === "None" || $breed === "") ? null : $breed);
 
-    /* IMAGE UPLOAD */
+    //image upload
     $upload_dir = "../uploads/pets/";
 
     if (!is_dir($upload_dir)) {
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             if (move_uploaded_file($file_tmp, $upload_dir . $file_name)) {
                 $pet_image = $file_name;
 
-                // AUTO-DETECT COLOR
+                // auto detect color
                 $detectedColor = detectDominantColor($upload_dir . $file_name);
                 if ($detectedColor !== null) {
                     $color = $detectedColor;
@@ -165,12 +165,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         }
     }
 
-    /* FINAL SAFETY FALLBACK */
+    //if not (other)
     if (empty($color)) {
         $color = "Other";
     }
 
-    /* INSERT */
+    //insert
     if (empty($formErrors)) {
         try {
             $sql = "

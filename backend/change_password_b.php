@@ -3,7 +3,7 @@
 session_start();
 require_once "../backend/connection.php";
 
-/* ===== USER ROLE ===== */
+//user role
 if (isset($_SESSION['adminID'])) {
     $table = "clinic_administrator";
     $idCol = "admin_id";
@@ -21,7 +21,7 @@ if (isset($_SESSION['adminID'])) {
     exit();
 }
 
-/* ===== FETCH CURRENT PASSWORD ===== */
+//fetch pass
 $stmt = $conn->prepare("SELECT password FROM $table WHERE $idCol = :id");
 $stmt->execute([':id' => $userID]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -39,14 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new = trim($_POST['new_password'] ?? '');
     $confirm = trim($_POST['confirm_password'] ?? '');
 
-    /* ===== REQUIRED ===== */
+    //required
     if (!$current || !$new || !$confirm) {
         $_SESSION['error_message'] = "All fields are required.";
         header("Location: ../frontend/change_password.php");
         exit();
     }
 
-    /* ===== PASSWORD RULES ===== */
+    //password
     if (strlen($new) < 6) {
         $_SESSION['error_message'] = "Password must be at least 6 characters.";
         header("Location: ../frontend/change_password.php");
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    /* ===== VERIFY CURRENT PASSWORD ===== */
+    //verifypass
     $storedPassword = $user['password'];
     $isValid = false;
 
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    /* ===== UPDATE PASSWORD ===== */
+    //updatepass
     $newHash = password_hash($new, PASSWORD_DEFAULT);
 
     $stmt = $conn->prepare(

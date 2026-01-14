@@ -1,5 +1,5 @@
 <?php
-// ../backend/myschedule_b.php
+// myschedule_b.php
 session_start();
 require_once "../backend/connection.php";
 

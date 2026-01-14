@@ -78,6 +78,26 @@ function getMariaDBConnection() {
 }
 
 
+//tya
+
+$pay_host = "10.48.74.197";
+$pay_port = "3306";
+$pay_dbname = "vetclinic";
+$pay_user = "tya";
+$pay_password = "1234";
+
+try {
+    $connPaymentMYSQL = new PDO(
+        "mysql:host=$pay_host;port=$pay_port;dbname=$pay_dbname;charset=utf8",
+        $pay_user,
+        $pay_password
+    );
+    $connPaymentMYSQL->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $connPaymentMYSQL->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Payment DB connection failed: " . $e->getMessage();
+    exit();
+}
 
 
 ?>

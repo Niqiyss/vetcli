@@ -49,9 +49,10 @@ if (isset($_SESSION['error_popup'])) {
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
+
+        --primary-teal: #137c85; 
         --accent-teal: #009d91;
-        --bg-light: #f4f7f6;
+        --bg-light: #f4f7f6;     
         --text-muted: #8898aa;
     }
 
@@ -70,7 +71,8 @@ if (isset($_SESSION['error_popup'])) {
     .page-title h1 {
         font-size: 28px;
         font-weight: 700;
-        color: var(--primary-teal);
+        color: var(--primary-teal); 
+        margin-bottom: 5px;
     }
 
     .page-title p {
@@ -81,7 +83,8 @@ if (isset($_SESSION['error_popup'])) {
     .custom-card {
         background: white;
         border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         padding: 35px;
     }
 
@@ -108,6 +111,14 @@ if (isset($_SESSION['error_popup'])) {
         border-radius: 10px;
         padding: 12px 15px;
         font-size: 14px;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: var(--accent-teal);
+        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
+        outline: none;
     }
 
     .btn-register {
@@ -117,6 +128,12 @@ if (isset($_SESSION['error_popup'])) {
         border-radius: 10px;
         font-weight: 600;
         color: white;
+        transition: 0.3s;
+    }
+
+    .btn-register:hover {
+        background-color: var(--primary-teal);
+        transform: translateY(-2px);
     }
 
     #addressDetails {
@@ -129,8 +146,44 @@ if (isset($_SESSION['error_popup'])) {
     .login-link {
         color: var(--primary-teal);
         text-decoration: none;
+        font-weight: 600;
+    }
+
+    .login-link:hover {
+        color: var(--accent-teal);
+    }
+
+
+    .pw-checklist {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 10px;
+    }
+
+    .pw-checklist li {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+
+    .pw-checklist li i {
+        margin-right: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+
+    .pw-checklist li.valid {
+        color: var(--accent-teal);
+        font-weight: 500;
     }
 </style>
+
+
+
 
 <main class="main py-5">
     <div class="container">
@@ -178,18 +231,24 @@ if (isset($_SESSION['error_popup'])) {
                                     <label class="form-label">Password</label>
                                     <input type="password" name="password" id="password" class="form-control" required>
 
-                                    <!-- ✅ PASSWORD RULES (NEW) -->
-                                    <ul id="pwRules" class="small mt-2" style="list-style:none;padding-left:0;">
-                                        <li id="pw-length" style="color:red;">✗ At least 6 characters</li>
-                                        <li id="pw-upper" style="color:red;">✗ At least 1 uppercase letter</li>
-                                        <li id="pw-symbol" style="color:red;">✗ At least 1 symbol</li>
+                                    <ul class="pw-checklist">
+                                        <li id="pw-length">
+                                            <i class="bi bi-circle" id="icon-length"></i> At least 6 characters
+                                        </li>
+                                        <li id="pw-upper">
+                                            <i class="bi bi-circle" id="icon-upper"></i> At least 1 uppercase letter
+                                        </li>
+                                        <li id="pw-symbol">
+                                            <i class="bi bi-circle" id="icon-symbol"></i> At least 1 symbol
+                                        </li>
                                     </ul>
                                 </div>
 
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="showPw"
-                                        onclick="togglePassword()">
-                                    <label class="form-check-label text-muted small" for="showPw">Show Password</label>
+                                    <input type="checkbox" class="form-check-input" id="showPw" onclick="togglePassword()">
+                                    <label class="form-check-label text-muted small" for="showPw" style="cursor:pointer;">
+                                        Show Password
+                                    </label>
                                 </div>
                             </div>
 
@@ -229,7 +288,7 @@ if (isset($_SESSION['error_popup'])) {
 
                             <div class="col-12 text-center mt-3">
                                 <span class="text-muted">Already have an account?</span>
-                                <a href="../frontend/userlogin.php" class="fw-bold login-link ms-1">Log in here</a>
+                                <a href="../frontend/userlogin.php" class="login-link ms-1">Log in here</a>
                             </div>
 
                         </div>
@@ -241,12 +300,15 @@ if (isset($_SESSION['error_popup'])) {
     </div>
 </main>
 
+
 <script>
+    // Toggle Password Visibility
     function togglePassword() {
         const pw = document.getElementById("password");
         pw.type = pw.type === "password" ? "text" : "password";
     }
 
+    // Address Slide Down Logic
     const street = document.getElementById("street");
     const details = document.getElementById("addressDetails");
 
@@ -256,23 +318,45 @@ if (isset($_SESSION['error_popup'])) {
         details.style.opacity = show ? "1" : "0";
     });
 
-    /* ✅ LIVE PASSWORD CHECK (NEW) */
+
+    // LIVE PASSWORD CHECK
     const passwordInput = document.getElementById("password");
-    const pwLength = document.getElementById("pw-length");
-    const pwUpper = document.getElementById("pw-upper");
-    const pwSymbol = document.getElementById("pw-symbol");
+
+    // Elements
+    const reqLength = document.getElementById("pw-length");
+    const iconLength = document.getElementById("icon-length");
+
+    const reqUpper = document.getElementById("pw-upper");
+    const iconUpper = document.getElementById("icon-upper");
+
+    const reqSymbol = document.getElementById("pw-symbol");
+    const iconSymbol = document.getElementById("icon-symbol");
+
+    function updateStatus(condition, element, icon) {
+        if (condition) {
+            // Valid State
+            element.classList.add("valid");
+            icon.classList.remove("bi-circle");
+            icon.classList.add("bi-check-circle-fill");
+        } else {
+            // Invalid/Default State
+            element.classList.remove("valid");
+            icon.classList.remove("bi-check-circle-fill");
+            icon.classList.add("bi-circle");
+        }
+    }
 
     passwordInput.addEventListener("input", () => {
         const val = passwordInput.value;
 
-        pwLength.style.color = val.length >= 6 ? "green" : "red";
-        pwLength.innerHTML = (val.length >= 6 ? "✓" : "✗") + " At least 6 characters";
+        // 1. Length Check
+        updateStatus(val.length >= 6, reqLength, iconLength);
 
-        pwUpper.style.color = /[A-Z]/.test(val) ? "green" : "red";
-        pwUpper.innerHTML = (/[A-Z]/.test(val) ? "✓" : "✗") + " At least 1 uppercase letter";
+        // 2. Uppercase Check
+        updateStatus(/[A-Z]/.test(val), reqUpper, iconUpper);
 
-        pwSymbol.style.color = /[\W_]/.test(val) ? "green" : "red";
-        pwSymbol.innerHTML = (/[\W_]/.test(val) ? "✓" : "✗") + " At least 1 symbol";
+        // 3. Symbol Check
+        updateStatus(/[\W_]/.test(val), reqSymbol, iconSymbol);
     });
 </script>
 

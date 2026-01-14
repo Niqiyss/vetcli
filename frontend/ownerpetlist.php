@@ -19,7 +19,7 @@ if (isset($_SESSION['success_popup'])) {
             icon: 'success',
             title: 'Success',
             text: $msg,
-            confirmButtonColor: '#009d91'
+            confirmButtonColor: '#00798C'
         });
     </script>";
     unset($_SESSION['success_popup']);
@@ -43,10 +43,12 @@ if (isset($_SESSION['error_popup'])) {
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
-        --accent-teal: #009d91;
+        --primary-teal: #00798C;
+        --accent-teal: #00798C;
+
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -54,19 +56,26 @@ if (isset($_SESSION['error_popup'])) {
         background-color: var(--bg-light);
     }
 
-    /* CENTERED HEADER */
-    .page-header-custom {
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding-top: 40px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--accent-teal);
         margin-bottom: 40px;
-        display: flex;
-        justify-content: center; 
-        text-align: center;      
+    }
+
+
+    .page-header-custom {
+        text-align: center;
+        margin-bottom: 10px;
     }
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
         color: var(--primary-teal);
-        margin-bottom: 5px;
+        margin-bottom: 15px;
     }
 
     .page-title p {
@@ -75,7 +84,61 @@ if (isset($_SESSION['error_popup'])) {
         font-size: 15px;
     }
 
-    /* PET CARD STYLING */
+
+
+    .badge-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 25px;
+        padding-right: 10px;
+    }
+
+    .owner-badge {
+        background-color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(14, 92, 101, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid #eef2f2;
+    }
+
+    .owner-badge-icon {
+        width: 32px;
+        height: 32px;
+        background-color: var(--accent-teal);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .owner-badge-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+        text-align: left;
+    }
+
+    .owner-badge-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .owner-badge-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
+
+
+
     .pet-card {
         background: white;
         border-radius: 16px;
@@ -90,7 +153,7 @@ if (isset($_SESSION['error_popup'])) {
 
     .pet-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(14, 92, 101, 0.15);
+        box-shadow: 0 8px 25px rgba(0, 121, 140, 0.15);
     }
 
     .pet-image-wrapper {
@@ -126,7 +189,7 @@ if (isset($_SESSION['error_popup'])) {
     }
 
     .pet-badge {
-        background-color: #e0f2f1;
+        background-color: #e0f7fa;
         color: var(--accent-teal);
         padding: 4px 12px;
         border-radius: 20px;
@@ -177,7 +240,7 @@ if (isset($_SESSION['error_popup'])) {
         color: white;
     }
 
-    /* MODAL STYLING */
+
     .modal-content {
         border-radius: 16px;
         border: none;
@@ -200,16 +263,18 @@ if (isset($_SESSION['error_popup'])) {
         margin-bottom: 8px;
     }
 
-    .form-control, .form-select {
+    .form-control,
+    .form-select {
         border-radius: 10px;
         padding: 10px 15px;
         border: 1px solid #e0e0e0;
         font-size: 14px;
     }
 
-    .form-control:focus, .form-select:focus {
+    .form-control:focus,
+    .form-select:focus {
         border-color: var(--accent-teal);
-        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 121, 140, 0.1);
         outline: none;
     }
 
@@ -229,11 +294,13 @@ if (isset($_SESSION['error_popup'])) {
     }
 
     .btn-save-modal:hover {
-        background-color: var(--primary-teal);
+        background-color: #006070;
     }
 </style>
 
-<main class="main py-5">
+
+
+<div class="hero-section">
     <div class="container">
 
         <div class="page-header-custom">
@@ -242,6 +309,26 @@ if (isset($_SESSION['error_popup'])) {
                 <p>These are All your Registered Pet</p>
             </div>
         </div>
+
+        <div class="badge-container">
+            <div class="owner-badge">
+                <div class="owner-badge-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="owner-badge-text">
+                    <span class="owner-badge-label">Owner</span>
+                    <span class="owner-badge-name"><?= htmlspecialchars($_SESSION['ownername'] ?? 'Owner'); ?></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<main class="main pb-5">
+    <div class="container">
 
         <section id="petlist">
             <div class="row justify-content-center">
@@ -257,16 +344,16 @@ if (isset($_SESSION['error_popup'])) {
 
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="pet-card">
-                                
+
                                 <div class="pet-image-wrapper">
                                     <img src="<?= $img ?>" alt="Pet Image">
                                 </div>
 
                                 <div class="pet-body">
                                     <h5 class="pet-name"><?= htmlspecialchars($pet['pet_name']); ?></h5>
-                                    
+
                                     <span class="pet-badge">
-                                        <?= htmlspecialchars($pet['species']); ?> 
+                                        <?= htmlspecialchars($pet['species']); ?>
                                         <?= !empty($pet['breed']) ? "• " . htmlspecialchars($pet['breed']) : "" ?>
                                     </span>
 
@@ -330,8 +417,10 @@ if (isset($_SESSION['error_popup'])) {
                                                 <div class="col-md-6">
                                                     <label class="form-label">Gender</label>
                                                     <select name="gender" class="form-select">
-                                                        <option value="Male" <?= $pet['gender'] == "Male" ? "selected" : "" ?>>Male</option>
-                                                        <option value="Female" <?= $pet['gender'] == "Female" ? "selected" : "" ?>>Female</option>
+                                                        <option value="Male" <?= $pet['gender'] == "Male" ? "selected" : "" ?>>Male
+                                                        </option>
+                                                        <option value="Female" <?= $pet['gender'] == "Female" ? "selected" : "" ?>>
+                                                            Female</option>
                                                     </select>
                                                 </div>
 
@@ -350,11 +439,12 @@ if (isset($_SESSION['error_popup'])) {
                                                 <div class="col-12">
                                                     <label class="form-label">Pet Image (Optional)</label>
                                                     <div class="d-flex align-items-center mt-2">
-                                                        <img src="<?= $img ?>" class="rounded-3 me-3" 
-                                                             style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #ddd;">
+                                                        <img src="<?= $img ?>" class="rounded-3 me-3"
+                                                            style="width: 80px; height: 80px; object-fit: cover; border: 1px solid #ddd;">
                                                         <div class="flex-grow-1">
                                                             <input type="file" name="pet_image" class="form-control mb-1">
-                                                            <small class="text-muted">Upload a new image to replace the current one.</small>
+                                                            <small class="text-muted">Upload a new image to replace the current
+                                                                one.</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -363,7 +453,8 @@ if (isset($_SESSION['error_popup'])) {
                                         </div>
 
                                         <div class="modal-footer bg-light">
-                                            <button type="button" class="btn btn-outline-secondary border-0" data-bs-dismiss="modal">
+                                            <button type="button" class="btn btn-outline-secondary border-0"
+                                                data-bs-dismiss="modal">
                                                 Cancel
                                             </button>
                                             <button class="btn btn-save-modal px-4">
@@ -374,7 +465,7 @@ if (isset($_SESSION['error_popup'])) {
                                 </div>
                             </div>
                         </div>
-                        <?php endforeach; ?>
+                    <?php endforeach; ?>
 
                 <?php else: ?>
                     <div class="col-12 text-center py-5">
@@ -393,6 +484,7 @@ if (isset($_SESSION['error_popup'])) {
         </section>
     </div>
 </main>
+
 
 <?php
 include "../frontend/footer.php";

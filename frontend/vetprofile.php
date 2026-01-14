@@ -39,7 +39,7 @@ if (isset($_SESSION['success_message'])) {
             text: " . json_encode($_SESSION['success_message']) . ",
             timer: 1800,
             showConfirmButton: false,
-            iconColor: '#009d91'
+            iconColor: '#00798C'
         });
     </script>";
     unset($_SESSION['success_message']);
@@ -48,10 +48,13 @@ if (isset($_SESSION['success_message'])) {
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
-        --accent-teal: #009d91;
+
+        --primary-teal: #00798C; 
+        --accent-teal: #00798C;  
+        
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -59,19 +62,26 @@ if (isset($_SESSION['success_message'])) {
         background-color: var(--bg-light);
     }
 
-    /* CENTERED HEADER MATCHING OTHER PAGES */
+
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding-top: 40px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--accent-teal); 
+        margin-bottom: 40px;
+    }
+
     .page-header-custom {
-        margin-bottom: 30px;
-        display: flex;
-        justify-content: center; 
-        text-align: center;      
+        text-align: center;
+        margin-bottom: 10px;
     }
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
         color: var(--primary-teal);
-        margin-bottom: 5px;
+        margin-bottom: 15px;
     }
 
     .page-title p {
@@ -80,7 +90,6 @@ if (isset($_SESSION['success_message'])) {
         font-size: 15px;
     }
 
-    /* CARD STYLING */
     .custom-card {
         background: white;
         border-radius: 16px;
@@ -90,7 +99,6 @@ if (isset($_SESSION['success_message'])) {
         width: 100%;
     }
 
-    /* PROFILE IMAGE SECTION */
     .profile-side {
         border-left: 1px solid #f0f0f0;
         padding-left: 30px;
@@ -100,7 +108,7 @@ if (isset($_SESSION['success_message'])) {
         width: 180px;
         height: 180px;
         object-fit: cover;
-        border-radius: 20px; /* Modern rounded square look */
+        border-radius: 20px; 
         border: 5px solid #fff;
         box-shadow: 0 8px 15px rgba(0,0,0,0.1);
     }
@@ -142,7 +150,7 @@ if (isset($_SESSION['success_message'])) {
 
     .form-control:focus {
         border-color: var(--accent-teal);
-        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 121, 140, 0.1);
         outline: none;
     }
 
@@ -174,9 +182,9 @@ if (isset($_SESSION['success_message'])) {
     }
 
     .btn-update:hover {
-        background-color: var(--primary-teal);
+        background-color: #006070;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 157, 145, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 121, 140, 0.2);
         color: white;
     }
 
@@ -194,15 +202,23 @@ if (isset($_SESSION['success_message'])) {
     }
 </style>
 
-<main class="main py-5">
-    <div class="container">
 
+
+<div class="hero-section">
+    <div class="container">
+        
         <div class="page-header-custom">
             <div class="page-title">
                 <h1>Veterinarian Profile</h1>
                 <p>Manage Your Personal and Account Information</p>
             </div>
         </div>
+
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="row justify-content-center">
             <div class="col-lg-11">
@@ -271,7 +287,10 @@ if (isset($_SESSION['success_message'])) {
                             <div class="col-md-4 profile-side text-center d-flex flex-column align-items-center justify-content-center">
                                 <img src="../uploads/vets/<?= htmlspecialchars($vet['vet_image'] ?? 'default.png'); ?>"
                                     class="profile-img mb-3">
+                                    
                                 <h5 class="fw-bold text-dark mb-1"><?= htmlspecialchars($vet['vet_name']); ?></h5>
+
+                                <br>
                                 <span class="badge bg-light text-success border px-3 py-2 rounded-pill">
                                     <?= htmlspecialchars($vet['specialization']); ?>
                                 </span>

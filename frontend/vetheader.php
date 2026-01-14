@@ -9,15 +9,12 @@ if (!isset($_SESSION['vetID'])) {
 
 require_once "../backend/connection.php";
 
-/* =========================
-   SSO CONFIG
-========================= */
+//ssoverify
 define('SSO_SECRET', 'VETCLINIC_SSO_2026_SECRET');
 define('SSO_EXPIRE', 300);
 
-/* =========================
-   TOKEN HELPERS
-========================= */
+
+//token helper
 function createSSOToken($id, $name, $type) {
     $payload = [
         'id' => $id,
@@ -38,9 +35,7 @@ function decodeSSOToken($token) {
     return json_decode(base64_decode($payload_b64), true);
 }
 
-/* =========================
-   AUTO-REFRESH TOKEN
-========================= */
+//auto refresh token
 if (isset($_SESSION['sso_token'])) {
     $payload = decodeSSOToken($_SESSION['sso_token']);
     if ($payload && ($payload['exp'] - time()) < 60) {

@@ -16,7 +16,6 @@ $stmt_name->execute([':oid' => $ownerID]);
 $owner_data = $stmt_name->fetch(PDO::FETCH_ASSOC);
 $owner = $owner_data['owner_name'] ?? 'Owner';
 
-//conn
 require_once __DIR__ . "/connection.php";
 
 $connPG    = $conn;                   // PostgreSQL
@@ -56,7 +55,7 @@ foreach ($appointments as $a) {
     $appointmentIDs[] = $a['appointment_id'];
 }
 
-//treatment
+//treatment from rukai
 if (!empty($appointmentIDs)) {
 
     $appointmentIDs = array_values($appointmentIDs);
@@ -163,7 +162,7 @@ foreach ($treatments as &$t) {
         ? $vets[$appt['vet_id']]
         : 'Vet';
 
-    /* Appointment time (SAFE) */
+    /* Appointment time */
     $t['time'] = $appt['time'] ?? null;
 }
 unset($t);

@@ -8,16 +8,30 @@ include "../backend/myschedule_b.php";
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
-        --accent-teal: #009d91;
+        /* UPDATED: Theme Color (#00798C) */
+        --primary-teal: #00798C;
+        --accent-teal: #00798C;
+        
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
         font-family: 'Poppins', sans-serif;
         background-color: var(--bg-light);
         color: #333;
+    }
+
+    /* --- HERO HEADER SECTION (White BG + Green Line) --- */
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding-top: 40px;
+        padding-bottom: 10px;
+        /* The Green Line */
+        border-bottom: 3px solid var(--accent-teal); 
+        margin-bottom: 40px;
     }
 
     .page-header-custom {
@@ -38,10 +52,11 @@ include "../backend/myschedule_b.php";
         font-size: 15px;
     }
 
+    /* --- ORIGINAL BADGE POSITIONING (Flex End) --- */
     .badge-container {
         display: flex;
         justify-content: flex-end;
-        margin-bottom: 25px;
+        margin-bottom: 10px;
         padding-right: 10px;
     }
 
@@ -49,11 +64,11 @@ include "../backend/myschedule_b.php";
         background-color: white;
         padding: 8px 20px;
         border-radius: 50px;
-        box-shadow: 0 4px 15px rgba(14, 92, 101, 0.08);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Softer shadow for white bg */
         display: flex;
         align-items: center;
         gap: 12px;
-        border: 1px solid #eef2f2;
+        border: 1px solid #e0e0e0;
     }
 
     .vet-badge-icon {
@@ -89,6 +104,15 @@ include "../backend/myschedule_b.php";
         color: var(--primary-teal);
     }
 
+    /* Responsive Badge */
+    @media (max-width: 768px) {
+        .badge-container {
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
+    /* --- SCHEDULE GRID --- */
     .week-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -188,9 +212,9 @@ include "../backend/myschedule_b.php";
     }
 </style>
 
-<main class="main py-5">
+<div class="hero-section">
     <div class="container">
-
+        
         <div class="page-header-custom">
             <div class="page-title">
                 <h1>My Schedule</h1>
@@ -209,6 +233,12 @@ include "../backend/myschedule_b.php";
                 </div>
             </div>
         </div>
+
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="week-grid">
             <?php foreach ($days_of_week as $day): 

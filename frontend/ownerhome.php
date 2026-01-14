@@ -12,7 +12,7 @@ require_once "../backend/connection.php";
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-    /* --- THEME VARIABLES --- */
+    
     :root {
         --primary-teal: #0e5c65;
         --accent-blue: #0095c4;
@@ -20,7 +20,6 @@ require_once "../backend/connection.php";
         --white: #ffffff;
         --text-muted: #6c757d;
         --bg-light: #f4f7f6;
-        /* Hero & About Section Background */
         --bg-gradient: linear-gradient(120deg, #f8fcfd 0%, #eef7f9 100%);
     }
 
@@ -34,7 +33,7 @@ require_once "../backend/connection.php";
         background-color: var(--white);
     }
 
-    /* --- 1. HERO SECTION (COLOR) --- */
+
     .hero-modern {
         padding: 120px 0 80px; 
         background: var(--bg-gradient);
@@ -42,7 +41,6 @@ require_once "../backend/connection.php";
         overflow: hidden;
     }
 
-    /* Decorative Circle Background */
     .hero-modern::before {
         content: '';
         position: absolute;
@@ -61,7 +59,7 @@ require_once "../backend/connection.php";
         padding-right: 20px;
     }
 
-    /* Badge Style */
+
     .hero-badge {
         display: inline-flex;
         align-items: center;
@@ -80,7 +78,7 @@ require_once "../backend/connection.php";
         color: var(--accent-blue);
     }
 
-    /* Typography */
+
     .hero-title {
         font-size: 3.5rem;
         font-weight: 800;
@@ -101,14 +99,14 @@ require_once "../backend/connection.php";
         max-width: 500px;
     }
 
-    /* Buttons */
+
     .hero-btns {
         display: flex;
         gap: 15px;
         margin-bottom: 50px;
     }
 
-    /* --- HERO IMAGE CAROUSEL STYLES --- */
+
     .hero-img-wrapper {
         position: relative;
         z-index: 1;
@@ -125,7 +123,7 @@ require_once "../backend/connection.php";
         box-shadow: 0 20px 40px rgba(0, 149, 196, 0.15);
     }
 
-    /* Fixed Height for Rectangle Look */
+ 
     .hero-carousel-img {
         width: 100%;
         height: 350px;
@@ -133,7 +131,7 @@ require_once "../backend/connection.php";
         object-position: center;
     }
 
-    /* --- DOT INDICATORS OVERLAY --- */
+
     .carousel-indicators {
         position: absolute;
         bottom: 15px;
@@ -160,22 +158,21 @@ require_once "../backend/connection.php";
         background-color: #fff;
     }
 
-    /* --- NEW: CUSTOM ARROW STYLING --- */
-    /* This makes the arrows look like visible buttons */
+
     .carousel-control-prev, 
     .carousel-control-next {
         width: 45px;
         height: 45px;
-        background-color: rgba(0,0,0,0.4); /* Semi-transparent black background */
-        border-radius: 50%; /* Circle shape */
-        top: 50%; /* Center vertically */
+        background-color: rgba(0,0,0,0.4); 
+        border-radius: 50%; 
+        top: 50%; 
         transform: translateY(-50%);
-        opacity: 0; /* Hidden by default, shown on hover of wrapper */
+        opacity: 0; 
         transition: all 0.3s ease;
         border: 2px solid rgba(255,255,255,0.5);
     }
 
-    /* Show arrows when hovering over the image */
+    
     .hero-img-wrapper:hover .carousel-control-prev,
     .hero-img-wrapper:hover .carousel-control-next {
         opacity: 1;
@@ -186,13 +183,13 @@ require_once "../backend/connection.php";
 
     .carousel-control-prev:hover, 
     .carousel-control-next:hover {
-        background-color: var(--accent-blue); /* Blue on hover */
+        background-color: var(--accent-blue); 
         border-color: var(--accent-blue);
         opacity: 1;
     }
 
 
-    /* --- INFO CARDS --- */
+   
     .hero-info-grid {
         display: flex;
         gap: 20px;
@@ -240,7 +237,7 @@ require_once "../backend/connection.php";
         color: #777;
     }
 
-    /* Specific Colors */
+
     .info-card-box.hours .icon-box-sm {
         background: #e1f5fe;
         color: var(--accent-blue);
@@ -276,7 +273,7 @@ require_once "../backend/connection.php";
     }
 
 
-    /* --- SERVICES SECTION (UPDATED FOR SOLID ICONS) --- */
+    
     .our-services {
         padding: 80px 0;
         background-color: var(--white);
@@ -311,14 +308,14 @@ require_once "../backend/connection.php";
         border-color: transparent;
     }
 
-    /* UPDATED: Solid Square Icon Style */
+   
     .service-icon {
         width: 80px;
         height: 80px;
         margin: 0 auto 20px;
-        border-radius: 20px; /* Rounded Square */
-        background: var(--accent-blue); /* Solid Blue BG */
-        color: #fff; /* White Icon */
+        border-radius: 20px; 
+        background: var(--accent-blue); 
+        color: #fff; 
         display: flex;
         align-items: center;
         justify-content: center;
@@ -329,7 +326,7 @@ require_once "../backend/connection.php";
 
     .our-service-box:hover .service-icon {
         transform: scale(1.1);
-        background: var(--primary-teal); /* Darker on hover */
+        background: var(--primary-teal);
     }
 
     .our-service-box h4 {
@@ -345,7 +342,7 @@ require_once "../backend/connection.php";
         margin-bottom: 0;
     }
 
-    /* Emergency Card Specifics */
+    
     .our-service-box.emergency {
         border: 2px solid #dc3545;
     }
@@ -355,7 +352,7 @@ require_once "../backend/connection.php";
         box-shadow: 0 18px 40px rgba(220, 53, 69, 0.15);
     }
 
-    /* Emergency Icon (Solid Red) */
+
     .service-icon.emergency-icon {
         background: #dc3545 !important;
         color: #fff !important;
@@ -363,7 +360,7 @@ require_once "../backend/connection.php";
     }
     
 
-    /* --- 3. ABOUT SECTION (COLOR) --- */
+
     .home-about {
         padding: 80px 0;
         background: var(--bg-gradient); 
@@ -400,7 +397,7 @@ require_once "../backend/connection.php";
         margin-bottom: 5px;
     }
 
-    /* --- 4. VETS SECTION (WHITE) --- */
+
     .our-vets {
         padding: 80px 0;
         background-color: var(--white);
@@ -512,7 +509,7 @@ require_once "../backend/connection.php";
         right: 0;
     }
 
-    /* --- BUTTONS --- */
+
     .btn-blue {
         background-color: var(--accent-blue);
         color: white;
@@ -551,7 +548,7 @@ require_once "../backend/connection.php";
         color: white;
     }
     
-    /* Responsive Adjustments */
+
     @media (max-width: 991px) {
         .hero-modern {
             padding: 80px 0 40px; 
@@ -586,10 +583,12 @@ require_once "../backend/connection.php";
         }
         
         .hero-carousel-img {
-            height: 280px; /* Smaller height for mobile */
+            height: 280px; 
         }
     }
 </style>
+
+
 
 <main class="main">
 
@@ -888,6 +887,7 @@ require_once "../backend/connection.php";
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 
 <?php
 include "../frontend/footer.php";

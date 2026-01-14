@@ -38,7 +38,7 @@ if (isset($_SESSION['success_message'])) {
             text: $msg,
             timer: 1800,
             showConfirmButton: false,
-            iconColor: '#009d91'
+            iconColor: '#00798C'
         });
     </script>";
 
@@ -48,10 +48,13 @@ if (isset($_SESSION['success_message'])) {
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
-        --accent-teal: #009d91;
+
+        --primary-teal: #00798C;
+        --accent-teal: #00798C;
+
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -59,19 +62,26 @@ if (isset($_SESSION['success_message'])) {
         background-color: var(--bg-light);
     }
 
-    /* CENTERED HEADER */
+
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding-top: 40px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--accent-teal);
+        margin-bottom: 40px;
+    }
+
     .page-header-custom {
-        margin-bottom: 30px;
-        display: flex;
-        justify-content: center;
         text-align: center;
+        margin-bottom: 10px;
     }
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
         color: var(--primary-teal);
-        margin-bottom: 5px;
+        margin-bottom: 15px;
     }
 
     .page-title p {
@@ -80,7 +90,7 @@ if (isset($_SESSION['success_message'])) {
         font-size: 15px;
     }
 
-    /* CARD STYLING */
+
     .custom-card {
         background: white;
         border-radius: 16px;
@@ -127,7 +137,7 @@ if (isset($_SESSION['success_message'])) {
 
     .form-control:focus {
         border-color: var(--accent-teal);
-        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 121, 140, 0.1);
         outline: none;
     }
 
@@ -154,9 +164,9 @@ if (isset($_SESSION['success_message'])) {
     }
 
     .btn-update:hover {
-        background-color: var(--primary-teal);
+        background-color: #006070;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 157, 145, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 121, 140, 0.2);
         color: white;
     }
 
@@ -173,13 +183,10 @@ if (isset($_SESSION['success_message'])) {
         text-decoration: underline;
     }
 
-    /* =========================
-       NEW DANGER ZONE STYLES
-    ========================= */
+
     .danger-zone {
         margin-top: 50px;
         border: 1px solid #fee2e2;
-        /* Very light red border */
         border-radius: 12px;
         background: #fff;
         overflow: hidden;
@@ -187,7 +194,6 @@ if (isset($_SESSION['success_message'])) {
 
     .danger-zone-header {
         background: #fff5f5;
-        /* Light red background */
         padding: 15px 25px;
         border-bottom: 1px solid #fee2e2;
         color: #dc3545;
@@ -244,9 +250,6 @@ if (isset($_SESSION['success_message'])) {
         transform: translateY(-1px);
     }
 
-    /* =========================
-    DELETE ACCOUNT MODAL
-    ========================= */
 
     .delete-popup {
         border-radius: 18px !important;
@@ -319,7 +322,7 @@ if (isset($_SESSION['success_message'])) {
         box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
     }
 
-    /* Buttons */
+
     .delete-confirm-btn {
         background: #dc3545 !important;
         border-radius: 10px !important;
@@ -335,7 +338,9 @@ if (isset($_SESSION['success_message'])) {
     }
 </style>
 
-<main class="main py-5">
+
+
+<div class="hero-section">
     <div class="container">
 
         <div class="page-header-custom">
@@ -344,6 +349,12 @@ if (isset($_SESSION['success_message'])) {
                 <p>Manage Your Personal Information</p>
             </div>
         </div>
+
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="row justify-content-center">
             <div class="col-lg-12">
@@ -532,14 +543,14 @@ if (isset($_SESSION['success_message'])) {
 
                 if (!checked) {
                     Swal.showValidationMessage(
-                        'Please confirm before continuing.'
+                        'Please confirm before continuing'
                     );
                     return false;
                 }
 
                 if (!password) {
                     Swal.showValidationMessage(
-                        'Password is required.'
+                        'Password is required'
                     );
                     return false;
                 }
@@ -550,7 +561,7 @@ if (isset($_SESSION['success_message'])) {
             if (result.isConfirmed) {
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '../backend/delete_owner_account.php';
+                form.action = '../backend/deleteaccount.php';
 
                 const passInput = document.createElement('input');
                 passInput.type = 'hidden';
@@ -564,6 +575,7 @@ if (isset($_SESSION['success_message'])) {
         });
     }
 </script>
+
 
 <?php
 include "../frontend/footer.php";

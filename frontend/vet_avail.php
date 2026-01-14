@@ -21,7 +21,7 @@ if (isset($_SESSION['success_popup'])) {
             icon: 'success',
             title: 'Success',
             text: '{$_SESSION['success_popup']}',
-            confirmButtonColor: '#009d91'
+            confirmButtonColor: '#00798C'
         });
     </script>";
     unset($_SESSION['success_popup']);
@@ -41,12 +41,14 @@ if (isset($_SESSION['error_popup'])) {
 ?>
 
 <style>
-   
     :root {
-        --primary-teal: #0e5c65; 
-        --accent-teal: #009d91;  
+        
+        --primary-teal: #00798C;
+        --accent-teal: #00798C;
+
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -55,16 +57,29 @@ if (isset($_SESSION['error_popup'])) {
         color: #333;
     }
 
-    /* Page Header */
-    .page-header-custom {
-        margin-bottom: 30px;
-        display: center;
-        justify-content: space-between;
-        align-items: flex-end;
+    
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding: 40px 0;
+        border-bottom: 3px solid var(--accent-teal);
+        margin-bottom: 40px;
+    }
+
+    .header-content-wrapper {
+        display: flex;
+        flex-direction: column; 
+        align-items: center;    
+        position: relative;
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 20px; 
     }
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
         color: var(--primary-teal);
         margin-bottom: 5px;
@@ -77,7 +92,65 @@ if (isset($_SESSION['error_popup'])) {
     }
 
 
-    /* Main Card */
+    .admin-badge {
+
+        position: absolute;
+        right: 0;
+        bottom: 0; 
+        
+        background-color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .admin-badge-icon {
+        width: 32px;
+        height: 32px;
+        background-color: var(--accent-teal);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .admin-badge-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+        text-align: left;
+    }
+
+    .admin-badge-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .admin-badge-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--primary-teal);
+    }
+
+
+    @media (max-width: 768px) {
+        .admin-badge {
+            position: static; 
+            margin-top: 15px;
+            transform: none;
+        }
+    }
+
+
     .custom-card {
         background: white;
         border-radius: 16px;
@@ -116,22 +189,23 @@ if (isset($_SESSION['error_popup'])) {
         font-size: 14px;
     }
 
-    /* Filters */
+
     .filter-wrapper {
         background-color: #fff;
         border-radius: 12px;
         margin-bottom: 20px;
     }
 
-    .form-select, .btn {
+    .form-select,
+    .btn {
         border-radius: 8px;
         font-size: 14px;
         height: 45px;
     }
-    
+
     .form-select:focus {
         border-color: var(--accent-teal);
-        box-shadow: 0 0 0 0.2rem rgba(0, 157, 145, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(0, 121, 140, 0.25);
     }
 
     .btn-primary {
@@ -141,14 +215,14 @@ if (isset($_SESSION['error_popup'])) {
     }
 
     .btn-primary:hover {
-        background-color: #007d73;
+        background-color: #006070;
     }
 
-    /* Table Styling */
+
     .table-custom {
         width: 100%;
         border-collapse: separate;
-        border-spacing: 0 10px; 
+        border-spacing: 0 10px;
     }
 
     .table-custom thead th {
@@ -169,7 +243,7 @@ if (isset($_SESSION['error_popup'])) {
 
     .table-custom tbody tr:hover {
         transform: translateY(-2px);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .table-custom td {
@@ -193,10 +267,10 @@ if (isset($_SESSION['error_popup'])) {
         border-bottom-right-radius: 10px;
     }
 
-    /* Time Badges */
+
     .time-badge {
-        background-color: #e3f2fd;
-        color: #1976d2;
+        background-color: #e0f7fa;
+        color: var(--accent-teal);
         padding: 6px 12px;
         border-radius: 6px;
         font-size: 13px;
@@ -207,42 +281,65 @@ if (isset($_SESSION['error_popup'])) {
         color: var(--primary-teal);
         font-weight: 600;
     }
-    
-    /* Modal Styling */
+
+
     .modal-content {
         border-radius: 16px;
         border: none;
     }
+
     .modal-header {
         border-bottom: 1px solid #eee;
         padding: 20px 25px;
     }
+
     .modal-title {
         font-weight: 700;
         color: var(--primary-teal);
     }
+
     .modal-body {
         padding: 25px;
     }
+
     .modal-footer {
         border-top: none;
         padding: 20px 25px;
     }
-
 </style>
 
-<main class="main py-5">
-    <div class="container">
 
-        <div class="page-header-custom">
+
+<div class="hero-section">
+    <div class="container">
+        <div class="header-content-wrapper">
+            
             <div class="page-title">
                 <h1>Veterinarian Availability</h1>
                 <p>Schedule Availability of Vet Staff</p>
             </div>
+
+            <div class="admin-badge">
+                <div class="admin-badge-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="admin-badge-text">
+                    <span class="admin-badge-label">Admin</span>
+                    <span class="admin-badge-name"><?= htmlspecialchars($_SESSION['adminname'] ?? 'Admin'); ?></span>
+                </div>
+            </div>
+
         </div>
+    </div>
+</div>
+
+<!-- list -->
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="custom-card">
-            
+
             <div class="card-header-custom">
                 <div class="card-title-custom">
                     <div class="card-title-icon">
@@ -250,7 +347,7 @@ if (isset($_SESSION['error_popup'])) {
                     </div>
                     Vets Schedule List
                 </div>
-                
+
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAvailModal">
                     <i class="fas fa-plus me-2"></i> Add Availability
                 </button>
@@ -260,7 +357,8 @@ if (isset($_SESSION['error_popup'])) {
                 <form method="GET" action="vet_avail.php" class="row g-3 align-items-center">
                     <div class="col-md-5">
                         <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-user-md"></i></span>
+                            <span class="input-group-text bg-white border-end-0 text-muted"><i
+                                    class="fas fa-user-md"></i></span>
                             <select name="vet_id" class="form-select border-start-0 ps-0" onchange="this.form.submit()">
                                 <option value="">Filter by Veterinarian (All)</option>
                                 <?php
@@ -279,7 +377,8 @@ if (isset($_SESSION['error_popup'])) {
 
                     <div class="col-md-5">
                         <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-calendar-day"></i></span>
+                            <span class="input-group-text bg-white border-end-0 text-muted"><i
+                                    class="fas fa-calendar-day"></i></span>
                             <select name="day" class="form-select border-start-0 ps-0" onchange="this.form.submit()">
                                 <option value="">Filter by Day (All)</option>
                                 <?php
@@ -294,7 +393,7 @@ if (isset($_SESSION['error_popup'])) {
                     </div>
 
                     <div class="col-md-2">
-                         <?php if ($filterVet || $filterDay): ?>
+                        <?php if ($filterVet || $filterDay): ?>
                             <a href="vet_avail.php" class="btn btn-outline-secondary w-100">
                                 <i class="fas fa-times me-1"></i> Clear
                             </a>
@@ -393,7 +492,8 @@ if (isset($_SESSION['error_popup'])) {
                                         </button>
 
                                         <button class="btn btn-sm btn-light text-danger mx-1"
-                                            onclick="confirmDelete('<?= $r['availability_id'] ?>','<?= $r['vet_id'] ?>')" title="Delete">
+                                            onclick="confirmDelete('<?= $r['availability_id'] ?>','<?= $r['vet_id'] ?>')"
+                                            title="Delete">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -410,8 +510,12 @@ if (isset($_SESSION['error_popup'])) {
                 </table>
             </div>
 
-        </div> </div>
+        </div>
+    </div>
 </main>
+
+
+<!-- add -->
 
 <div class="modal fade" id="addAvailModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -449,10 +553,12 @@ if (isset($_SESSION['error_popup'])) {
 
                     <div class="col-md-6">
                         <label class="form-label fw-bold text-muted small">START TIME</label>
-                        <input type="time" name="start_time" class="form-control" min="09:00" max="18:00" step="900" required>
+                        <input type="time" name="start_time" class="form-control" min="09:00" max="18:00" step="900"
+                            required>
 
                         <label class="form-label fw-bold text-muted small mt-4">END TIME</label>
-                        <input type="time" name="end_time" class="form-control" min="09:00" max="18:00" step="900" required>
+                        <input type="time" name="end_time" class="form-control" min="09:00" max="18:00" step="900"
+                            required>
 
                         <div class="alert alert-light mt-3 mb-0 small text-center">
                             <i class="fas fa-info-circle me-1"></i> Clinic Hours: 9:00 AM – 6:00 PM
@@ -467,6 +573,10 @@ if (isset($_SESSION['error_popup'])) {
         </div>
     </div>
 </div>
+
+
+
+<!-- edit -->
 
 <div class="modal fade" id="editAvailModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -487,11 +597,13 @@ if (isset($_SESSION['error_popup'])) {
 
                     <div class="col-md-6">
                         <label class="form-label fw-bold text-muted small">START TIME</label>
-                        <input type="time" name="start_time" id="edit_start" class="form-control" min="09:00" max="18:00" step="900" required>
+                        <input type="time" name="start_time" id="edit_start" class="form-control" min="09:00" max="18:00"
+                            step="900" required>
 
                         <label class="form-label fw-bold text-muted small mt-4">END TIME</label>
-                        <input type="time" name="end_time" id="edit_end" class="form-control" min="09:00" max="18:00" step="900" required>
-                        
+                        <input type="time" name="end_time" id="edit_end" class="form-control" min="09:00" max="18:00"
+                            step="900" required>
+
                         <div class="alert alert-light mt-3 mb-0 small text-center">
                             <i class="fas fa-info-circle me-1"></i> Clinic Hours: 9:00 AM – 6:00 PM
                         </div>
@@ -506,6 +618,8 @@ if (isset($_SESSION['error_popup'])) {
         </div>
     </div>
 </div>
+
+
 
 <script>
     /* EDIT MODAL DATA */
@@ -548,6 +662,6 @@ if (isset($_SESSION['error_popup'])) {
     }
 </script>
 
-<?php 
-include "../frontend/footer.php"; 
+<?php
+include "../frontend/footer.php";
 ?>

@@ -39,7 +39,7 @@ if (isset($_SESSION['success_message'])) {
             text: " . json_encode($_SESSION['success_message']) . ",
             timer: 1800,
             showConfirmButton: false,
-            iconColor: '#009d91'
+            iconColor: '#00798C'
         });
     </script>";
     unset($_SESSION['success_message']);
@@ -48,10 +48,13 @@ if (isset($_SESSION['success_message'])) {
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
-        --accent-teal: #009d91;
+       
+        --primary-teal: #00798C; 
+        --accent-teal: #00798C;  
+        
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -59,19 +62,27 @@ if (isset($_SESSION['success_message'])) {
         background-color: var(--bg-light);
     }
 
-    /* CENTERED HEADER */
+
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding: 40px 0;
+        border-bottom: 3px solid var(--accent-teal); 
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
     .page-header-custom {
-        margin-bottom: 30px;
         display: flex;
-        justify-content: center; 
-        text-align: center;      
+        justify-content: center;
+        align-items: center;
     }
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 700;
         color: var(--primary-teal);
-        margin-bottom: 5px;
+        margin-bottom: 15px;
     }
 
     .page-title p {
@@ -80,7 +91,7 @@ if (isset($_SESSION['success_message'])) {
         font-size: 15px;
     }
 
-    /* CARD STYLING */
+
     .custom-card {
         background: white;
         border-radius: 16px;
@@ -124,7 +135,7 @@ if (isset($_SESSION['success_message'])) {
 
     .form-control:focus {
         border-color: var(--accent-teal);
-        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 121, 140, 0.1);
         outline: none;
     }
 
@@ -144,9 +155,9 @@ if (isset($_SESSION['success_message'])) {
     }
 
     .btn-update:hover {
-        background-color: var(--primary-teal);
+        background-color: #006070;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 157, 145, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 121, 140, 0.2);
         color: white;
     }
 
@@ -164,15 +175,19 @@ if (isset($_SESSION['success_message'])) {
     }
 </style>
 
-<main class="main py-5">
-    <div class="container">
 
-        <div class="page-header-custom">
-            <div class="page-title">
-                <h1>Admin Profile</h1>
-                <p>Manage Your Account Information</p>
-            </div>
+
+<div class="hero-section">
+    <div class="container">
+        <div class="page-title">
+            <h1>Admin Profile</h1>
+            <p>Manage Your Account Information</p>
         </div>
+    </div>
+</div>
+
+<main class="main pb-5">
+    <div class="container">
 
         <div class="row justify-content-center">
             <div class="col-lg-12">

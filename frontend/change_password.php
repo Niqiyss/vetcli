@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-/* ===== DETECT ROLE ===== */
+//role detect
 if (isset($_SESSION['adminID'])) {
     include "../frontend/adminheader.php";
     $cancelUrl = "adminprofile.php";
@@ -25,10 +25,13 @@ if (isset($_SESSION['adminID'])) {
 
 <style>
     :root {
-        --primary-teal: #0e5c65;
-        --accent-teal: #009d91;
+        
+        --primary-teal: #00798C; 
+        --accent-teal: #00798C;  
+        
         --bg-light: #f4f7f6;
         --text-muted: #8898aa;
+        --white: #ffffff;
     }
 
     body {
@@ -36,7 +39,17 @@ if (isset($_SESSION['adminID'])) {
         background-color: var(--bg-light);
     }
 
-    /* CENTERED HEADER */
+    
+    .hero-section {
+        background-color: var(--white);
+        width: 100%;
+        padding: 40px 0;
+        
+        border-bottom: 3px solid var(--accent-teal); 
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
     .page-header-custom {
         margin-bottom: 30px;
         display: flex;
@@ -57,7 +70,7 @@ if (isset($_SESSION['adminID'])) {
         font-size: 15px;
     }
 
-    /* CARD STYLING */
+    
     .custom-card {
         background: white;
         border-radius: 16px;
@@ -65,7 +78,7 @@ if (isset($_SESSION['adminID'])) {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         padding: 40px;
         width: 100%;
-        position: relative; /* Helps anchor contents */
+        position: relative; 
     }
 
     .form-label {
@@ -85,11 +98,11 @@ if (isset($_SESSION['adminID'])) {
 
     .form-control:focus {
         border-color: var(--accent-teal);
-        box-shadow: 0 0 0 3px rgba(0, 157, 145, 0.1);
+        box-shadow: 0 0 0 3px rgba(0, 121, 140, 0.1);
         outline: none;
     }
 
-    /* BUTTONS */
+    
     .btn-update {
         background-color: var(--accent-teal);
         border: none;
@@ -101,9 +114,9 @@ if (isset($_SESSION['adminID'])) {
     }
 
     .btn-update:hover {
-        background-color: var(--primary-teal);
+        background-color: #006070; 
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 157, 145, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 121, 140, 0.2);
         color: white;
     }
 
@@ -129,14 +142,14 @@ if (isset($_SESSION['adminID'])) {
     .bi-info-circle-fill {
         color: var(--accent-teal) !important;
         cursor: help;
-        display: inline-block; /* Ensures correct positioning calculation */
+        display: inline-block; 
     }
     
     .lock-icon {
         font-size: 40px;
         color: var(--accent-teal);
         margin-bottom: 20px;
-        background: #e0f2f1;
+        background: #e0f7fa; 
         width: 80px;
         height: 80px;
         display: flex;
@@ -148,14 +161,19 @@ if (isset($_SESSION['adminID'])) {
     }
 </style>
 
-<main class="main py-5">
 
-    <div class="page-header-custom">
+
+<div class="hero-section">
+    <div class="container">
         <div class="page-title">
             <h1>Change Password</h1>
             <p>Change new password</p>
         </div>
     </div>
+</div>
+
+
+<main class="main pb-5">
 
     <div class="container">
         <div class="row justify-content-center">
@@ -187,7 +205,7 @@ if (isset($_SESSION['adminID'])) {
                                 text: <?= json_encode($_SESSION['success_message']); ?>,
                                 timer: 2000,
                                 showConfirmButton: false,
-                                iconColor: '#009d91'
+                                iconColor: '#00798C'
                             });
                         </script>
                         <?php unset($_SESSION['success_message']); ?>
@@ -238,7 +256,7 @@ if (isset($_SESSION['adminID'])) {
 </main>
 
 <script>
-    // Standard initialization matches the working 'ownerregister.php' file
+    
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)

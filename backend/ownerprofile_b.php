@@ -49,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $city = trim($_POST['city'] ?? '');
     $state = trim($_POST['state'] ?? '');
 
+    $phone_num = preg_replace('/\s+/', '', $phone_num);
+
     //validation
     if (!$owner_name || !$phone_num || !$email || !$username) {
         $formErrors[] = "All required fields must be filled.";
@@ -58,9 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $formErrors[] = "Full name may contain letters and spaces only.";
     }
 
-    if (!preg_match("/^[0-9]+$/", $phone_num)) {
-        $formErrors[] = "Phone number must contain digits only.";
+    if (!preg_match('/^([0-9]{10,11}|[0-9]{3}-[0-9]{8})$/', $phone_num)) {
+        $formErrors[] = "Phone number must be 10 or 11 digits";
     }
+
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $formErrors[] = "Invalid email format.";
